@@ -2,6 +2,7 @@ package tdt4240.A25;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 public class AirHockeyActivity extends Activity
 {
@@ -11,5 +12,8 @@ public class AirHockeyActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+		TextView tv = new TextView(this);
+		tv.setText("Hoang er homo!");
+		setContentView(tv);
     }
 }
