@@ -1,8 +1,10 @@
 package tdt4240.A25;
 
+import sheep.game.Game;
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.view.Window;
 
 public class AirHockeyActivity extends Activity
 {
@@ -10,10 +12,13 @@ public class AirHockeyActivity extends Activity
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-		TextView tv = new TextView(this);
-		tv.setText("Hoang er homo!");
-		setContentView(tv);
+        super.onCreate(savedInstanceState);requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		Game game = new Game(this, null);
+		
+		game.pushState(new AirHockeyState());
+		
+		setContentView(game);
     }
+    
 }
