@@ -1,6 +1,7 @@
 package org.andengine.opengl.texture.atlas;
 
-import org.andengine.BuildConfig;
+import ntnu.a25.airhockey.BuildConfig;
+
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.ITextureStateListener;
 import org.andengine.opengl.texture.atlas.source.ITextureAtlasSource;

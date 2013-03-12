@@ -1,6 +1,7 @@
 package org.andengine.entity.util;
 
-import org.andengine.BuildConfig;
+import ntnu.a25.airhockey.BuildConfig;
+
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.util.debug.Debug;
 

@@ -5,7 +5,8 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import org.andengine.BuildConfig;
+import ntnu.a25.airhockey.BuildConfig;
+
 import org.andengine.opengl.texture.ITextureStateListener;
 import org.andengine.opengl.texture.PixelFormat;
 import org.andengine.opengl.texture.Texture;

@@ -27,8 +27,8 @@ public interface DataConstants {
 	public static final int BYTE_TO_MEGABYTE_SHIFT = 20;
 	public static final int BYTE_TO_GIGABYTE_SHIFT = 30;
 
-	public static final short UNSIGNED_BYTE_MAX_VALUE = (short)Byte.MAX_VALUE - (short)Byte.MIN_VALUE;
-	public static final int UNSIGNED_SHORT_MAX_VALUE = (int)Short.MAX_VALUE - (int)Short.MIN_VALUE;
+	public static final short UNSIGNED_BYTE_MAX_VALUE = Byte.MAX_VALUE - Byte.MIN_VALUE;
+	public static final int UNSIGNED_SHORT_MAX_VALUE = Short.MAX_VALUE - Short.MIN_VALUE;
 	public static final long UNSIGNED_INT_MAX_VALUE = (long)Integer.MAX_VALUE - (long)Integer.MIN_VALUE;
 
 	public static final int BITS_PER_BYTE = 8;
