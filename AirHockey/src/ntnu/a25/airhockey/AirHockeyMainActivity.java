@@ -1,4 +1,4 @@
-package ntnu;
+package ntnu.a25.airhockey;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
