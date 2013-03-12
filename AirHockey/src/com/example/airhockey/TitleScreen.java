@@ -9,7 +9,7 @@ import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
-public class MenuScreen extends SimpleBaseGameActivity implements IOnMenuItemClickListener {
+public class TitleScreen extends SimpleBaseGameActivity implements IOnMenuItemClickListener {
 
 	Scene mainMenu;
 	@Override
@@ -33,7 +33,7 @@ public class MenuScreen extends SimpleBaseGameActivity implements IOnMenuItemCli
 		this.mainMenu = new Scene();
 		this.mainMenu.setBackground(new Background(0.09804f, 0.62722f, 0.87642f));
 		
-		// DO MORE
+		// DO MORE?!?!?!
 		return this.mainMenu;
 	}
 
@@ -44,6 +44,14 @@ public class MenuScreen extends SimpleBaseGameActivity implements IOnMenuItemCli
 		return false;
 	}
 	
+	/**
+	 * Method for adding graphical menu items to the menu.
+	 * - Main title
+	 * - New game
+	 * - Highscores
+	 * - Settings
+	 * - Quit
+	 */
 	protected void createMenu(){
 		
 	}
