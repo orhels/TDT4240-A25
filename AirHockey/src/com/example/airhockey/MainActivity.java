@@ -4,9 +4,8 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
-import android.os.Bundle;
-import android.app.Activity;
 import android.view.Menu;
+
 
 public class MainActivity extends SimpleBaseGameActivity {
 
