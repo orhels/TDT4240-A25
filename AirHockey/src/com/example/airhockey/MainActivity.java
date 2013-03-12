@@ -1,37 +1,42 @@
 package com.example.airhockey;
 
+import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
+import org.andengine.engine.options.ScreenOrientation;
+import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
+import org.andengine.entity.scene.background.Background;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.view.Menu;
 
-
 public class MainActivity extends SimpleBaseGameActivity {
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
 
-	@Override
-	public EngineOptions onCreateEngineOptions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	static final int CAMERA_WIDTH = 800;
 
-	@Override
-	protected void onCreateResources() {
-		// TODO Auto-generated method stub
-		
-	}
+    static final int CAMERA_HEIGHT = 480;
 
-	@Override
-	protected Scene onCreateScene() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+
+    public EngineOptions onCreateEngineOptions() {
+    	Camera mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+    	return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR,
+    			new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), mCamera);
+
+    }
+
+    @Override
+    protected void onCreateResources() {
+    	// TODO Auto-generated method stub
+    }
+
+    @Override
+    protected Scene onCreateScene() {
+    	Scene scene = new Scene();
+    	scene.setBackground(new Background(0.09804f, 0.6274f, 0));
+    	return scene;
+    }
+
 
 }
