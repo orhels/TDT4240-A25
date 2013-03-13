@@ -9,17 +9,22 @@ import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.andengine.entity.scene.menu.item.IMenuItem;
+import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.andengine.util.color.Color;
+
+import android.opengl.GLES20;
+import android.os.Bundle;
 
 public class TitleScreen extends SimpleBaseGameActivity implements IOnMenuItemClickListener {
 
-	Scene mainMenu;
+	Scene mainScene;
 	
-	private static final int CAMERA_WIDTH = 720;
+	private static final int CAMERA_WIDTH = 800;
 	private static final int CAMERA_HEIGHT = 480;
 	
 	protected static final int MENU_NEWGAME = 0;
@@ -29,6 +34,8 @@ public class TitleScreen extends SimpleBaseGameActivity implements IOnMenuItemCl
 	
 	protected Camera camera;
 	
+	private MenuScene menuScene;
+	
 	private BitmapTextureAtlas menuTexture;
 	protected ITextureRegion titleTexture;
 	protected ITextureRegion newgameTexture;
@@ -36,6 +43,15 @@ public class TitleScreen extends SimpleBaseGameActivity implements IOnMenuItemCl
 	protected ITextureRegion settingsTexture;
 	protected ITextureRegion quitTexture;
 	
+	/**
+	 * If we want to use standard Android layout.
+	 */
+//	@Override
+//	protected void onCreate(Bundle pSavedInstanceState) {
+//		// TODO Auto-generated method stub
+//		super.onCreate(pSavedInstanceState);
+//		setContentView(R.layout.title_view);
+//	}
 	
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -46,13 +62,14 @@ public class TitleScreen extends SimpleBaseGameActivity implements IOnMenuItemCl
 
 	@Override
 	protected void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("res/");
-		this.menuTexture = new BitmapTextureAtlas(this.getTextureManager(), 64, 64);
-		this.titleTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.menuTexture, this, ".png", 0,0);
-		this.newgameTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.menuTexture, this, ".png", 0,50);
-		this.highscoreTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.menuTexture, this, ".png", 0,100);
-		this.settingsTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.menuTexture, this, ".png", 0,150);
-		this.quitTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.menuTexture, this, ".png", 0,200);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+		
+		this.menuTexture = new BitmapTextureAtlas(this.getTextureManager(), 200, 400);
+		this.titleTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.menuTexture, this, "airhockey_title.png", 0,0);
+		this.newgameTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.menuTexture, this, "new_game.png", 0,50);
+		this.highscoreTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.menuTexture, this, "highscores.png", 0,100);
+		this.settingsTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.menuTexture, this, "settings.png", 0,150);
+		this.quitTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.menuTexture, this, "quit.png", 0,200);
 		this.menuTexture.load();
 		
 	}
@@ -63,17 +80,18 @@ public class TitleScreen extends SimpleBaseGameActivity implements IOnMenuItemCl
 		
 		this.createMenu();
 		
-		this.mainMenu = new Scene();
-		this.mainMenu.setBackground(new Background(0.09804f, 0.62722f, 0.87642f));
+		this.mainScene = new Scene();
+		this.mainScene.setBackground(new Background(Color.BLUE));
+		
 		
 		// DO MORE?!?!?!
-		return this.mainMenu;
+		return this.mainScene;
 	}
 
 	@Override
 	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem,
 			float pMenuItemLocalX, float pMenuItemLocalY) {
-		// TODO Auto-generated method stub
+		System.out.println("CLICKED ON THE SCREEN! "+pMenuItem.getID());
 		return false;
 	}
 	
@@ -86,7 +104,28 @@ public class TitleScreen extends SimpleBaseGameActivity implements IOnMenuItemCl
 	 * - Quit
 	 */
 	protected void createMenu(){
+		this.menuScene = new MenuScene(this.camera);
+
+		final SpriteMenuItem newgameMenuItem = new SpriteMenuItem(MENU_NEWGAME, this.newgameTexture, this.getVertexBufferObjectManager());
+		newgameMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+		this.menuScene.addMenuItem(newgameMenuItem);
 		
+		final SpriteMenuItem highscoreMenuItem = new SpriteMenuItem(MENU_HIGHSCORES, this.highscoreTexture, this.getVertexBufferObjectManager());
+		highscoreMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+		this.menuScene.addMenuItem(highscoreMenuItem);
+		
+		final SpriteMenuItem settingsMenuItem = new SpriteMenuItem(MENU_SETTINGS, this.settingsTexture, this.getVertexBufferObjectManager());
+		settingsMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+		this.menuScene.addMenuItem(settingsMenuItem);
+		
+		final SpriteMenuItem quitMenuItem = new SpriteMenuItem(MENU_QUIT, this.quitTexture, this.getVertexBufferObjectManager());
+		quitMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+		this.menuScene.addMenuItem(quitMenuItem);
+		
+		this.menuScene.buildAnimations();
+		this.menuScene.setBackgroundEnabled(false);
+		this.menuScene.setOnMenuItemClickListener(this);
+
 	}
 	
 }
