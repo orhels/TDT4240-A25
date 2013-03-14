@@ -68,7 +68,9 @@ public class TitleScreen extends MenuScene implements IOnMenuItemClickListener {
 		menuTexture = new BitmapTextureAtlas(instance.getTextureManager(), 512, 256);
 		newgameTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "airhockey_title.png", 0, 0);
 		IMenuItem newgameMenuItem = new SpriteMenuItem(MENU_NEWGAME, newgameTexture, instance.getVertexBufferObjectManager());
+		newgameMenuItem.setPosition( mCamera.getWidth()/2 - newgameMenuItem.getWidth()/2, mCamera.getHeight()/2 - newgameMenuItem.getHeight()/2 );
 		addMenuItem(newgameMenuItem);
+		setOnMenuItemClickListener(this);
 	}
 	
 //	@Override
