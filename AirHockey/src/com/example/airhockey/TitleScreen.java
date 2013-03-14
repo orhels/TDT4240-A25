@@ -36,12 +36,10 @@ public class TitleScreen extends MenuScene implements IOnMenuItemClickListener {
 	protected static final int MENU_SETTINGS = 2;
 	protected static final int MENU_QUIT = 3;
 	
-	protected Camera camera;
-	
-	private MenuScene menuScene;
+	private BitmapTextureAtlas titleMenuTexture;
+	protected ITextureRegion titleTexture;
 	
 	private BitmapTextureAtlas menuTexture;
-	protected ITextureRegion titleTexture;
 	protected ITextureRegion newgameTexture;
 	protected ITextureRegion highscoreTexture;
 	protected ITextureRegion settingsTexture;
@@ -63,13 +61,26 @@ public class TitleScreen extends MenuScene implements IOnMenuItemClickListener {
 		
 		instance = MainActivity.getInstance();
 		
-		setBackground(new Background(Color.BLUE));
+		setBackground(new Background(Color.BLACK));
 		
-		menuTexture = new BitmapTextureAtlas(instance.getTextureManager(), 512, 256);
-		newgameTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "airhockey_title.png", 0, 0);
-		IMenuItem newgameMenuItem = new SpriteMenuItem(MENU_NEWGAME, newgameTexture, instance.getVertexBufferObjectManager());
-		newgameMenuItem.setPosition( mCamera.getWidth()/2 - newgameMenuItem.getWidth()/2, mCamera.getHeight()/2 - newgameMenuItem.getHeight()/2 );
-		addMenuItem(newgameMenuItem);
+		//Title
+		titleMenuTexture = new BitmapTextureAtlas(instance.getTextureManager(), 1024, 512);
+		titleTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(titleMenuTexture, instance, "airhockey_title.png", 0, 0);
+		IMenuItem titleMenuItem = new SpriteMenuItem(10, titleTexture, instance.getVertexBufferObjectManager());
+		titleMenuItem.setPosition( mCamera.getWidth()/2 - titleMenuItem.getWidth()/2, 0);
+		addMenuItem(titleMenuItem);
+		titleMenuTexture.load();
+		
+		//Menu buttons
+		menuTexture = new BitmapTextureAtlas(instance.getTextureManager(), 1024, 512);
+		newgameTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "new_game.png", 0, 0);
+		highscoreTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "highscores.png", 0, 0);
+		settingsTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "settings.png", 0, 0);
+		quitTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "quit.png", 0, 0);
+		
+		createMenu();
+		
+		menuTexture.load();
 		setOnMenuItemClickListener(this);
 	}
 	
@@ -136,27 +147,23 @@ public class TitleScreen extends MenuScene implements IOnMenuItemClickListener {
 	 */
 	protected void createMenu(){
 		System.out.println("CREATING MENU ITEMS");
-		this.menuScene = new MenuScene(this.camera);
 		
 		final SpriteMenuItem newgameMenuItem = new SpriteMenuItem(MENU_NEWGAME, this.newgameTexture, instance.getVertexBufferObjectManager());
-		newgameMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		this.menuScene.addMenuItem(newgameMenuItem);
+		newgameMenuItem.setPosition( mCamera.getWidth()/2 - newgameMenuItem.getWidth()/2, 120 );
+		addMenuItem(newgameMenuItem);
 		
 		final SpriteMenuItem highscoreMenuItem = new SpriteMenuItem(MENU_HIGHSCORES, this.highscoreTexture, instance.getVertexBufferObjectManager());
-		highscoreMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		this.menuScene.addMenuItem(highscoreMenuItem);
+		highscoreMenuItem.setPosition( mCamera.getWidth()/2 - highscoreMenuItem.getWidth()/2, 200 );
+		addMenuItem(highscoreMenuItem);
 		
 		final SpriteMenuItem settingsMenuItem = new SpriteMenuItem(MENU_SETTINGS, this.settingsTexture, instance.getVertexBufferObjectManager());
-		settingsMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		this.menuScene.addMenuItem(settingsMenuItem);
+		settingsMenuItem.setPosition( mCamera.getWidth()/2 - settingsMenuItem.getWidth()/2, 280 );
+		addMenuItem(settingsMenuItem);
 		
 		final SpriteMenuItem quitMenuItem = new SpriteMenuItem(MENU_QUIT, this.quitTexture, instance.getVertexBufferObjectManager());
-		quitMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		this.menuScene.addMenuItem(quitMenuItem);
+		quitMenuItem.setPosition( mCamera.getWidth()/2 - quitMenuItem.getWidth()/2, 360 );
+		addMenuItem(quitMenuItem);
 		
-		this.menuScene.buildAnimations();
-		this.menuScene.setBackgroundEnabled(false);
-		this.menuScene.setOnMenuItemClickListener(this);
 
 	}
 //	
