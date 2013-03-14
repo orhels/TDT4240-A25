@@ -3,12 +3,13 @@ package com.example.airhockey;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 
 public class Mallet {
-	public Rectangle sprite;
+	public Sprite sprite;
 	public static Mallet instance;
 	Camera mCamera;
 	boolean moveable;
@@ -22,8 +23,9 @@ public class Mallet {
 	}
 	
 	public Mallet(int size) {
-		sprite = new Rectangle(0, 0, size, size,
-				MainActivity.getInstance().getVertexBufferObjectManager());
+		//size må settes et sted :)
+		//null skal være en TiledTextureRegion. 
+		sprite = new Sprite(0, 0, null, MainActivity.getInstance().getVertexBufferObjectManager());
 		moveable = true;
 		
 		mCamera = MainActivity.getInstance().mCamera;
@@ -31,6 +33,7 @@ public class Mallet {
 		
 		//Må gjøre noe slik at det blir laget en mallet på player 1 sin side, og en på player 2 sin side.
 		sprite.setPosition((mCamera.getWidth() / 2), mCamera.getHeight() / 4);
+
 		
 	}
 	
@@ -68,9 +71,7 @@ public class Mallet {
 	            newY = sprite.getY() + speedY;
 	        else
 	            newY = rightWall;
-  
 
-	        
 	        sprite.setPosition(newX, newY);
 			
 		}
