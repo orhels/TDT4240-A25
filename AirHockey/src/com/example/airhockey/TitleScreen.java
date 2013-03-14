@@ -8,6 +8,7 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
+import org.andengine.entity.scene.menu.item.AnimatedSpriteMenuItem;
 import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.scene.menu.item.TextMenuItem;
@@ -16,6 +17,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
@@ -23,6 +25,7 @@ import org.andengine.util.color.Color;
 
 import android.opengl.GLES20;
 import android.os.Bundle;
+import android.widget.Toast;
 
 public class TitleScreen extends MenuScene implements IOnMenuItemClickListener {
 
@@ -38,6 +41,7 @@ public class TitleScreen extends MenuScene implements IOnMenuItemClickListener {
 	
 	private BitmapTextureAtlas titleMenuTexture;
 	protected ITextureRegion titleTexture;
+	protected ITextureRegion backgroundTexture;
 	
 	private BitmapTextureAtlas menuTexture;
 	protected ITextureRegion newgameTexture;
@@ -46,6 +50,8 @@ public class TitleScreen extends MenuScene implements IOnMenuItemClickListener {
 	protected ITextureRegion quitTexture;
 	
 	private static SimpleBaseGameActivity instance;
+	
+	private AnimatedSpriteMenuItem newgameMenuItem;
 	/**
 	 * If we want to use standard Android layout.
 	 */
@@ -60,23 +66,30 @@ public class TitleScreen extends MenuScene implements IOnMenuItemClickListener {
 		super(MainActivity.getInstance().mCamera);
 		
 		instance = MainActivity.getInstance();
+		setBackground(new Background(Color.WHITE));
 		
-		setBackground(new Background(Color.BLACK));
-		
-		//Title
-		titleMenuTexture = new BitmapTextureAtlas(instance.getTextureManager(), 1024, 512);
-		titleTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(titleMenuTexture, instance, "airhockey_title.png", 0, 0);
+		//Background
+		BitmapTextureAtlas backgroundAtlas = new BitmapTextureAtlas(instance.getTextureManager(), 2048, 1024);
+		backgroundTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundAtlas, instance, "menu_background.png", 0, 0);
+		IMenuItem backgroundMenuItem = new SpriteMenuItem(11, backgroundTexture, instance.getVertexBufferObjectManager());
+		backgroundMenuItem.setPosition(mCamera.getWidth()/2 - backgroundMenuItem.getWidth()/2, mCamera.getHeight()/2 - backgroundMenuItem.getHeight()/2);
+		addMenuItem(backgroundMenuItem);
+		backgroundAtlas.load();
+		//Title texture and item
+		titleMenuTexture = new BitmapTextureAtlas(instance.getTextureManager(), 2048, 1024);
+		titleTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(titleMenuTexture, instance, "airhockey_title2.png", 0, 0);
 		IMenuItem titleMenuItem = new SpriteMenuItem(10, titleTexture, instance.getVertexBufferObjectManager());
 		titleMenuItem.setPosition( mCamera.getWidth()/2 - titleMenuItem.getWidth()/2, 0);
 		addMenuItem(titleMenuItem);
 		titleMenuTexture.load();
 		
-		//Menu buttons
+		
+		//Menu button textures
 		menuTexture = new BitmapTextureAtlas(instance.getTextureManager(), 1024, 512);
-		newgameTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "new_game.png", 0, 0);
-		highscoreTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "highscores.png", 0, 0);
-		settingsTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "settings.png", 0, 0);
-		quitTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "quit.png", 0, 0);
+		newgameTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "new_game.png", 0, 1);
+		highscoreTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "highscores.png", 0, 230);
+		settingsTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "settings.png", 0, 310);
+		quitTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "quit.png", 0, 390);
 		
 		createMenu();
 		
@@ -124,12 +137,16 @@ public class TitleScreen extends MenuScene implements IOnMenuItemClickListener {
 		System.out.println("CLICKED ON THE SCREEN! "+pMenuItem.getID());
 		switch (pMenuItem.getID()) {
 		case MENU_NEWGAME:
+			System.out.println("Pressed newgame");
 			return true;
 		case MENU_HIGHSCORES:
+			System.out.println("Pressed highscores");
 			return true;
 		case MENU_SETTINGS:
+			System.out.println("Pressed settings");
 			return true;
 		case MENU_QUIT:
+			instance.finish();
 			return true;
 		default:
 			break;
@@ -149,19 +166,19 @@ public class TitleScreen extends MenuScene implements IOnMenuItemClickListener {
 		System.out.println("CREATING MENU ITEMS");
 		
 		final SpriteMenuItem newgameMenuItem = new SpriteMenuItem(MENU_NEWGAME, this.newgameTexture, instance.getVertexBufferObjectManager());
-		newgameMenuItem.setPosition( mCamera.getWidth()/2 - newgameMenuItem.getWidth()/2, 120 );
+		newgameMenuItem.setPosition( mCamera.getWidth()/2 - newgameMenuItem.getWidth()/2, 150 );
 		addMenuItem(newgameMenuItem);
 		
 		final SpriteMenuItem highscoreMenuItem = new SpriteMenuItem(MENU_HIGHSCORES, this.highscoreTexture, instance.getVertexBufferObjectManager());
-		highscoreMenuItem.setPosition( mCamera.getWidth()/2 - highscoreMenuItem.getWidth()/2, 200 );
+		highscoreMenuItem.setPosition( mCamera.getWidth()/2 - highscoreMenuItem.getWidth()/2, 230 );
 		addMenuItem(highscoreMenuItem);
 		
 		final SpriteMenuItem settingsMenuItem = new SpriteMenuItem(MENU_SETTINGS, this.settingsTexture, instance.getVertexBufferObjectManager());
-		settingsMenuItem.setPosition( mCamera.getWidth()/2 - settingsMenuItem.getWidth()/2, 280 );
+		settingsMenuItem.setPosition( mCamera.getWidth()/2 - settingsMenuItem.getWidth()/2, 310 );
 		addMenuItem(settingsMenuItem);
 		
 		final SpriteMenuItem quitMenuItem = new SpriteMenuItem(MENU_QUIT, this.quitTexture, instance.getVertexBufferObjectManager());
-		quitMenuItem.setPosition( mCamera.getWidth()/2 - quitMenuItem.getWidth()/2, 360 );
+		quitMenuItem.setPosition( mCamera.getWidth()/2 - quitMenuItem.getWidth()/2, 390 );
 		addMenuItem(quitMenuItem);
 		
 
