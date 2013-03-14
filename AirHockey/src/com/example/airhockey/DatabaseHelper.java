@@ -57,7 +57,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 
 	}
-
+	/**
+	 * The returned hashmap is mapped using <Score, Name>.
+	 * NB: The hash map is sorted on the scores from lowest to highest.
+	 * @return Returns a sorted hash map with highscores. 
+	 */
 	public SortedMap<Integer, String> getHighScores() {
 		if (cachedHighScores == null) {
 			initializeCachedScores();
@@ -92,42 +96,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 		db.close();
 	}
-	
-	private void removeHighScore(String name, int score) {
-		SQLiteDatabase db = getWritableDatabase();
+
+	private void removeHighScore(String name, int score, SQLiteDatabase db) {
 		db.delete(highscoreTableName, "name = ? AND score = ?", new String[] {name, String.valueOf(score)});
 	}
-	
+
 	private void updateHighScores() {
 		removeLowestScores();
 		findLowestScore();
 	}
 
 	private void findLowestScore() {
-		Set<Integer> keys = cachedHighScores.keySet();
-		int lowest = Integer.MAX_VALUE;
-		for (Integer i : keys) {
-			if (i < lowest) {
-				lowest = i;
-			}
-		}
-		lowestScore = lowest;
+		lowestScore = cachedHighScores.keySet().iterator().next();
 	}
 
 	private void removeLowestScores() {
 		Iterator<Integer> iterator = cachedHighScores.keySet().iterator();
-		int counter = 0;
+		int counter = cachedHighScores.keySet().size() - noHighScores;
+		if (counter <= 0) {
+			return;
+		}
+		SQLiteDatabase db = getWritableDatabase();
 		Integer score = 0;
 		while (iterator.hasNext()) {
 			score = iterator.next();
-			if (counter < noHighScores) {
-				counter++;
-			} else {
+			if (counter > 0) {
 				String name = cachedHighScores.get(score);
-				removeHighScore(name, score);
+				removeHighScore(name, score, db);
 				iterator.remove();
-			}
+			} 
+			counter--;
 		}
+		
+		db.close();
 	}
 
 	public int getNoHighScores() {
