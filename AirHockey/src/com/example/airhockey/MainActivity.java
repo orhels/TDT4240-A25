@@ -6,8 +6,11 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
+import org.andengine.opengl.font.Font;
+import org.andengine.opengl.font.FontFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
+import android.graphics.Typeface;
 import android.view.Menu;
 
 public class MainActivity extends SimpleBaseGameActivity {
@@ -19,6 +22,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 
     private Scene scene;
     public Camera mCamera;
+    public Font mFont;
     
     private static MainActivity instance;
     @Override
@@ -32,7 +36,8 @@ public class MainActivity extends SimpleBaseGameActivity {
 
     @Override
     protected void onCreateResources() {
-    	// TODO Auto-generated method stub
+    	mFont = FontFactory.create(getFontManager(), getTextureManager(), 256, 256, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32);
+    	mFont.load();
     }
 
     @Override
@@ -49,5 +54,4 @@ public class MainActivity extends SimpleBaseGameActivity {
     	this.scene = scene;
     	mEngine.setScene(this.scene);
     }
-
 }
