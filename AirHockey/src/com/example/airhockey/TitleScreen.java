@@ -53,17 +53,16 @@ public class TitleScreen extends MenuScene implements IOnMenuItemClickListener {
 		instance = MainActivity.getInstance();
 		setBackground(new Background(Color.WHITE));
 		
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("titlescreen/");
 		//Background
 		BitmapTextureAtlas backgroundAtlas = new BitmapTextureAtlas(instance.getTextureManager(), 2048, 1024);
-		backgroundTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundAtlas, instance, "menu_background.png", 0, 0);
+		backgroundTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundAtlas, instance, "titlescreen/menu_background.png", 0, 0);
 		IMenuItem backgroundMenuItem = new SpriteMenuItem(11, backgroundTexture, instance.getVertexBufferObjectManager());
 		backgroundMenuItem.setPosition(mCamera.getWidth()/2 - backgroundMenuItem.getWidth()/2, mCamera.getHeight()/2 - backgroundMenuItem.getHeight()/2);
 		addMenuItem(backgroundMenuItem);
 		backgroundAtlas.load();
 		//Title texture and item
 		titleMenuTexture = new BitmapTextureAtlas(instance.getTextureManager(), 2048, 1024);
-		titleTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(titleMenuTexture, instance, "airhockey_title2.png", 0, 0);
+		titleTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(titleMenuTexture, instance, "titlescreen/airhockey_title2.png", 0, 0);
 		IMenuItem titleMenuItem = new SpriteMenuItem(10, titleTexture, instance.getVertexBufferObjectManager());
 		titleMenuItem.setPosition( mCamera.getWidth()/2 - titleMenuItem.getWidth()/2, 0);
 		addMenuItem(titleMenuItem);
@@ -83,22 +82,18 @@ public class TitleScreen extends MenuScene implements IOnMenuItemClickListener {
 		System.out.println("CLICKED ON THE SCREEN! "+pMenuItem.getID());
 		switch (pMenuItem.getID()) {
 		case MENU_NEWGAME:
-			newgameMenuItem.setColor(Color.BLACK);
 			System.out.println("Pressed newgame");
 			instance.startActivity(new Intent(instance, GameActivity.class));
 			return true;	
 		case MENU_HIGHSCORES:
-			highscoreMenuItem.setColor(Color.BLACK);
 			System.out.println("Pressed highscores");
 			instance.setScene(new HighscoreScene());
 			return true;	
 		case MENU_SETTINGS:
-			settingsMenuItem.setColor(Color.BLACK);
 			System.out.println("Pressed settings");
 			instance.setScene(new SettingsScene());
 			return true;
 		case MENU_QUIT:
-			quitMenuItem.setColor(Color.BLACK);
 			instance.finish();
 			return true;
 		default:
@@ -118,10 +113,10 @@ public class TitleScreen extends MenuScene implements IOnMenuItemClickListener {
 	protected void createMenu(){
 		//Menu button textures
 		menuTexture = new BitmapTextureAtlas(instance.getTextureManager(), 1024, 512);
-		newgameTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "new_game.png", 0, 1);
-		highscoreTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "highscores.png", 0, 230);
-		settingsTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "settings.png", 0, 310);
-		quitTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "quit.png", 0, 390);
+		newgameTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "titlescreen/new_game.png", 0, 1);
+		highscoreTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "titlescreen/highscores.png", 0, 230);
+		settingsTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "titlescreen/settings.png", 0, 310);
+		quitTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTexture, instance, "titlescreen/quit.png", 0, 390);
 		
 		System.out.println("CREATING MENU ITEMS");
 		

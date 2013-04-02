@@ -9,6 +9,7 @@ import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.text.Text;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -28,6 +29,7 @@ public class SettingsScene extends MenuScene{
 	
 	private BitmapTextureAtlas backButtonAtlas;
 	private ITextureRegion backButtonTexture;
+	private ITextureRegion backButtonPressedTexture;
 	private ButtonSprite backButton;
 
 	public SettingsScene(){
@@ -41,15 +43,25 @@ public class SettingsScene extends MenuScene{
 		settingsText1.setPosition(CAMERA_WIDTH/2 - settingsText1.getWidth()/2, 10);
 		attachChild(settingsText1);
 		
-		//Create Back button
-		backButtonAtlas = new BitmapTextureAtlas(instance.getTextureManager(), 128, 128);
-		backButtonTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backButtonAtlas, instance, "back-icon.png", 10, 400);
-		backButton = new ButtonSprite(10, 400, backButtonTexture, instance.getVertexBufferObjectManager());
 		
 		createMenu();
 	}
 	
 	private void createMenu(){
+		//Create Back button
+		backButtonAtlas = new BitmapTextureAtlas(instance.getTextureManager(), 1024, 1024);
+		backButtonTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backButtonAtlas, instance, "back-icon.png", 10, 400);
+		backButtonPressedTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backButtonAtlas, instance, "back-icon-pressed.png", 10, 400);
+		backButton = new ButtonSprite(10, 350, backButtonTexture, backButtonPressedTexture, instance.getVertexBufferObjectManager());
+		attachChild(backButton);
+		backButton.setOnClickListener(new OnClickListener() {
+			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				// TODO Auto-generated method stub
+				instance.setScene(new TitleScreen());
+			}
+		});
+		
+		backButtonAtlas.load();
 	}
 	
 }
