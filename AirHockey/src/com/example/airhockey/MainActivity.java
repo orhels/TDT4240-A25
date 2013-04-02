@@ -54,4 +54,14 @@ public class MainActivity extends SimpleBaseGameActivity {
     	this.scene = scene;
     	mEngine.setScene(this.scene);
     }
+    
+    @Override
+    public void onBackPressed() {
+    	if(scene instanceof TitleScreen){
+    		super.onBackPressed();
+    	}
+    	else if ((scene instanceof HighscoreScene) || (scene instanceof SettingsScene)) {
+    		setScene(new TitleScreen());
+    	}
+    }
 }
