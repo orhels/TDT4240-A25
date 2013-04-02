@@ -21,7 +21,7 @@ public class TitleScreen extends MenuScene implements OnClickListener {
 
 	Scene currentScene;
 	
-	
+	 
 	protected static final int MENU_NEWGAME = 0;
 	protected static final int MENU_HIGHSCORES = 1;
 	protected static final int MENU_SETTINGS = 2;
