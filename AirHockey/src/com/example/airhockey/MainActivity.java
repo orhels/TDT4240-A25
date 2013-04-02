@@ -22,7 +22,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 
     private Scene scene;
     public Camera mCamera;
-    public Font mFont;
+    protected Font mFont;
     
     private static MainActivity instance;
     @Override
