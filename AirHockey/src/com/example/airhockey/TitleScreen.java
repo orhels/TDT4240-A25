@@ -83,33 +83,6 @@ public class TitleScreen extends MenuScene implements OnClickListener {
 	}
 	
 
-
-//	@Override
-//	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem,
-//			float pMenuItemLocalX, float pMenuItemLocalY) {
-//		System.out.println("CLICKED ON THE SCREEN! "+pMenuItem.getID());
-//		switch (pMenuItem.getID()) {
-//		case MENU_NEWGAME:
-//			System.out.println("Pressed newgame");
-//			instance.startActivity(new Intent(instance, GameActivity.class));
-//			return true;	
-//		case MENU_HIGHSCORES:
-//			System.out.println("Pressed highscores");
-//			instance.setScene(new HighscoreScene());
-//			return true;	
-//		case MENU_SETTINGS:
-//			System.out.println("Pressed settings");
-//			instance.setScene(new SettingsScene());
-//			return true;
-//		case MENU_QUIT:
-//			instance.finish();
-//			return true;
-//		default:
-//			break;
-//		}
-//		return false;
-//	}
-//	
 	/**
 	 * Method for adding graphical menu items to the menu.
 	 * - Main title
