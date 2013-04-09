@@ -5,9 +5,8 @@ import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.sprite.ButtonSprite;
-import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.text.Text;
+import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
@@ -17,42 +16,37 @@ import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.util.color.Color;
 
-
-public class MatchHistoryScene extends MenuScene implements OnClickListener{
-
-	static final int CAMERA_WIDTH = 800;
-	static final int CAMERA_HEIGHT = 480;
+public class NewGameScene extends MenuScene implements OnClickListener
+{
+	
 	private static MainActivity instance;
 	
 	private BitmapTextureAtlas titleAtlas;
 	private ITextureRegion titleTexture;
 	
-	private ITextureRegion backgroundTexture;
+	protected ITextureRegion backgroundTexture;
 	
 	private BuildableBitmapTextureAtlas backButtonAtlas;
 	private ITextureRegion backButtonTexture;
 	private ITextureRegion backButtonPressedTexture;
 	private ButtonSprite backButton;
 	
-	private Text highscoresText1;
-
-	public MatchHistoryScene(){
+	/*
+	 * 1. 2 PlayerName input field
+	 * 2. Slider for goal to win
+	 * 4. Start button
+	 */
+	
+	
+	public NewGameScene() 
+	{
 		super(MainActivity.getInstance().mCamera);
-		
 		instance = MainActivity.getInstance();
-		setBackground(new Background(Color.WHITE));
 		
-		//Main title
-		titleAtlas = new BitmapTextureAtlas(instance.getTextureManager(), 2048, 1024);
-		titleTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(titleAtlas, instance, "highscores/highscores_title.png", 0, 0);
-		Sprite titleItem = new Sprite(mCamera.getWidth()/2 - titleTexture.getWidth()/2, 2, titleTexture, instance.getVertexBufferObjectManager());
-		attachChild(titleItem);
-		titleAtlas.load();
-		
-		createMenu();
+		createUI();
 	}
 	
-	private void createMenu()
+	public void createUI()
 	{
 		// BACKGROUND
 		setBackground(new Background(Color.WHITE));
@@ -63,13 +57,21 @@ public class MatchHistoryScene extends MenuScene implements OnClickListener{
 		attachChild(backgroundMenuItem);
 		backgroundAtlas.load();
 		
+		// TITLE
+		titleAtlas = new BitmapTextureAtlas(instance.getTextureManager(), 2048, 1024);
+		titleTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(titleAtlas, instance, "titlescreen/new_game.png", 0, 0);
+		Sprite titleItem = new Sprite(mCamera.getWidth()/2 - titleTexture.getWidth()/2, 2, titleTexture, instance.getVertexBufferObjectManager());
+		attachChild(titleItem);
+		titleAtlas.load();
 		
-		//SETTINGS!
-		highscoresText1 = new Text(0, 0, instance.mFont, "There be no highscores? ... WHY U SUCK SO MUCH?", instance.getVertexBufferObjectManager());
-		highscoresText1.setPosition(CAMERA_WIDTH/2 - highscoresText1.getWidth()/2, CAMERA_HEIGHT/2 - highscoresText1.getHeight()/2);
-		attachChild(highscoresText1);
+		// PLAYER1 NAME FIELD
 		
-		//Create back button
+		// PLAYER2 NAME FIELD
+		
+		// START BUTTON
+		
+		
+		// BACK BUTTON
 		backButtonAtlas = new BuildableBitmapTextureAtlas(instance.getTextureManager(), 512, 512);
 		backButtonPressedTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backButtonAtlas, instance, "back-icon-pressed.png");
 		backButtonTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backButtonAtlas, instance, "back-icon.png");
@@ -80,12 +82,10 @@ public class MatchHistoryScene extends MenuScene implements OnClickListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		backButton = new ButtonSprite(10, 365, backButtonTexture, backButtonPressedTexture, backButtonTexture, instance.getVertexBufferObjectManager(), this);
 		registerTouchArea(backButton);
 		attachChild(backButton);
 		setTouchAreaBindingOnActionDownEnabled(true);
-		
 	}
 
 	@Override
@@ -95,6 +95,5 @@ public class MatchHistoryScene extends MenuScene implements OnClickListener{
 			instance.setScene(new TitleScene());
 		}
 	}
-	
-	
+
 }

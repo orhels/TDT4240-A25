@@ -39,7 +39,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 
     @Override
     protected Scene onCreateScene() {
-    	scene = new TitleScreen();
+    	scene = new TitleScene();
     	return scene;
     }
 
@@ -54,11 +54,11 @@ public class MainActivity extends SimpleBaseGameActivity {
     
     @Override
     public void onBackPressed() {
-    	if(scene instanceof TitleScreen){
+    	if(scene instanceof TitleScene){
     		super.onBackPressed();
     	}
     	else if ((scene instanceof MatchHistoryScene) || (scene instanceof SettingsScene)) {
-    		setScene(new TitleScreen());
+    		setScene(new TitleScene());
     	}
     }
 }

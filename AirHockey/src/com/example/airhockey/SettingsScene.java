@@ -2,6 +2,8 @@ package com.example.airhockey;
 
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
+import org.andengine.entity.scene.menu.item.IMenuItem;
+import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
@@ -13,6 +15,7 @@ import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSourc
 import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
 import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.util.color.Color;
 
 public class SettingsScene extends MenuScene implements OnClickListener{
@@ -30,6 +33,7 @@ public class SettingsScene extends MenuScene implements OnClickListener{
 	private ButtonSprite backButton;
 	
 	private Text settingsText1;
+	private ITextureRegion backgroundTexture;
 
 	public SettingsScene(){
 		super(MainActivity.getInstance().mCamera);
@@ -47,7 +51,18 @@ public class SettingsScene extends MenuScene implements OnClickListener{
 		createMenu();
 	}
 	
-	private void createMenu(){
+	private void createMenu()
+	{
+		
+		// BACKGROUND
+		setBackground(new Background(Color.WHITE));
+		BitmapTextureAtlas backgroundAtlas = new BitmapTextureAtlas(instance.getTextureManager(), 2048, 1024);
+		backgroundTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundAtlas, instance, "titlescreen/menu_background.png", 0, 0);
+		IMenuItem backgroundMenuItem = new SpriteMenuItem(11, backgroundTexture, instance.getVertexBufferObjectManager());
+		backgroundMenuItem.setPosition(mCamera.getWidth()/2 - backgroundMenuItem.getWidth()/2, mCamera.getHeight()/2 - backgroundMenuItem.getHeight()/2);
+		attachChild(backgroundMenuItem);
+		backgroundAtlas.load();
+		
 		//SETTINGS!
 		settingsText1 = new Text(0, 0, instance.mFont, "U change settings? ... Why u change settings?", instance.getVertexBufferObjectManager());
 		settingsText1.setPosition(CAMERA_WIDTH/2 - settingsText1.getWidth()/2, CAMERA_HEIGHT/2 - settingsText1.getHeight()/2);
@@ -75,7 +90,7 @@ public class SettingsScene extends MenuScene implements OnClickListener{
 			float pTouchAreaLocalY) {
 		// TODO Auto-generated method stub
 		if(pButtonSprite.equals(backButton)){
-			instance.setScene(new TitleScreen());
+			instance.setScene(new TitleScene());
 		}
 	}
 	
