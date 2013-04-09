@@ -8,7 +8,7 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
-import android.graphics.Typeface;
+import android.graphics.Typeface; 
 
 public class MainActivity extends SimpleBaseGameActivity {
 
@@ -39,7 +39,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 
     @Override
     protected Scene onCreateScene() {
-    	scene = new TitleScreen();
+    	scene = new TitleScene();
     	return scene;
     }
 
@@ -54,11 +54,11 @@ public class MainActivity extends SimpleBaseGameActivity {
     
     @Override
     public void onBackPressed() {
-    	if(scene instanceof TitleScreen){
+    	if(scene instanceof TitleScene){
     		super.onBackPressed();
     	}
-    	else if ((scene instanceof HighscoreScene) || (scene instanceof SettingsScene)) {
-    		setScene(new TitleScreen());
+    	else if ((scene instanceof MatchHistoryScene) || (scene instanceof SettingsScene)) {
+    		setScene(new TitleScene());
     	}
     }
 }

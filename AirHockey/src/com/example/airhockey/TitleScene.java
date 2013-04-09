@@ -17,7 +17,7 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.util.color.Color;
 import android.content.Intent;
 
-public class TitleScreen extends MenuScene implements OnClickListener {
+public class TitleScene extends MenuScene implements OnClickListener {
 
 	Scene currentScene;
 	
@@ -53,7 +53,7 @@ public class TitleScreen extends MenuScene implements OnClickListener {
 	 * If we want to use standard Android layout.
 	 */
 	
-	public TitleScreen(){
+	public TitleScene(){
 		super(MainActivity.getInstance().mCamera);
 		
 		instance = MainActivity.getInstance();
@@ -135,19 +135,23 @@ public class TitleScreen extends MenuScene implements OnClickListener {
 	public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX,
 			float pTouchAreaLocalY) {
 		System.out.println("CLICKED");
-		if(pButtonSprite.equals(newgameMenuItem)){
+		if(pButtonSprite.equals(newgameMenuItem))
+		{
 			System.out.println("Pressed newgame");
-			instance.startActivity(new Intent(instance, GameActivity.class));
+			instance.setScene(new NewGameScene());
 		}
-		else if(pButtonSprite.equals(highscoreMenuItem)){
+		else if(pButtonSprite.equals(highscoreMenuItem))
+		{
 			System.out.println("Pressed Highscores");
-			instance.setScene(new HighscoreScene());
+			instance.setScene(new MatchHistoryScene());
 		}
-		else if(pButtonSprite.equals(settingsMenuItem)){
+		else if(pButtonSprite.equals(settingsMenuItem))
+		{
 			System.out.println("Pressed settngs");
 			instance.setScene(new SettingsScene());
 		}
-		else if(pButtonSprite.equals(quitMenuItem)){
+		else if(pButtonSprite.equals(quitMenuItem))
+		{
 			instance.finish();
 		}
 	}

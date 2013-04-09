@@ -2,6 +2,8 @@ package com.example.airhockey;
 
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
+import org.andengine.entity.scene.menu.item.IMenuItem;
+import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
@@ -16,7 +18,7 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.util.color.Color;
 
 
-public class HighscoreScene extends MenuScene implements OnClickListener{
+public class MatchHistoryScene extends MenuScene implements OnClickListener{
 
 	static final int CAMERA_WIDTH = 800;
 	static final int CAMERA_HEIGHT = 480;
@@ -25,6 +27,8 @@ public class HighscoreScene extends MenuScene implements OnClickListener{
 	private BitmapTextureAtlas titleAtlas;
 	private ITextureRegion titleTexture;
 	
+	private ITextureRegion backgroundTexture;
+	
 	private BuildableBitmapTextureAtlas backButtonAtlas;
 	private ITextureRegion backButtonTexture;
 	private ITextureRegion backButtonPressedTexture;
@@ -32,7 +36,7 @@ public class HighscoreScene extends MenuScene implements OnClickListener{
 	
 	private Text highscoresText1;
 
-	public HighscoreScene(){
+	public MatchHistoryScene(){
 		super(MainActivity.getInstance().mCamera);
 		
 		instance = MainActivity.getInstance();
@@ -48,7 +52,18 @@ public class HighscoreScene extends MenuScene implements OnClickListener{
 		createMenu();
 	}
 	
-	private void createMenu(){
+	private void createMenu()
+	{
+		// BACKGROUND
+		setBackground(new Background(Color.WHITE));
+		BitmapTextureAtlas backgroundAtlas = new BitmapTextureAtlas(instance.getTextureManager(), 2048, 1024);
+		backgroundTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundAtlas, instance, "titlescreen/menu_background.png", 0, 0);
+		IMenuItem backgroundMenuItem = new SpriteMenuItem(11, backgroundTexture, instance.getVertexBufferObjectManager());
+		backgroundMenuItem.setPosition(mCamera.getWidth()/2 - backgroundMenuItem.getWidth()/2, mCamera.getHeight()/2 - backgroundMenuItem.getHeight()/2);
+		attachChild(backgroundMenuItem);
+		backgroundAtlas.load();
+		
+		
 		//SETTINGS!
 		highscoresText1 = new Text(0, 0, instance.mFont, "There be no highscores? ... WHY U SUCK SO MUCH?", instance.getVertexBufferObjectManager());
 		highscoresText1.setPosition(CAMERA_WIDTH/2 - highscoresText1.getWidth()/2, CAMERA_HEIGHT/2 - highscoresText1.getHeight()/2);
@@ -77,7 +92,7 @@ public class HighscoreScene extends MenuScene implements OnClickListener{
 	public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX,
 			float pTouchAreaLocalY) {
 		if(pButtonSprite.equals(backButton)){
-			instance.setScene(new TitleScreen());
+			instance.setScene(new TitleScene());
 		}
 	}
 	

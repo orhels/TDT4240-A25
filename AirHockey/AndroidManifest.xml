@@ -29,7 +29,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.example.airhockey.TitleScreen"
+            android:name="com.example.airhockey.TitleScene"
             android:label="@string/app_name" >
         </activity>
         <activity
