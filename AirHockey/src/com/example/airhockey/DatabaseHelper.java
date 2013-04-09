@@ -15,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private final String createHighScoreSQL = "CREATE TABLE IF NOT EXISTS highscores(_id INTEGER PRIMARY KEY ASC, "
 			+ "player1name TEXT, player2name, score INTEGER)";
-	private String matchhistoryTableName = "highscores";
+	private String matchhistoryTableName = "matchhistory";
 	private static int version = 1;
 	private int noHighScores = 10;
 	private int lowestScore = Integer.MAX_VALUE;
