@@ -16,8 +16,8 @@ public class GameActivity extends SimpleBaseGameActivity {
 	GameActivity instance;
 	public Camera mCamera;
 	private Scene scene;
-	static final int CAMERA_WIDTH = 800;
-	static final int CAMERA_HEIGHT = 480;
+//	static final int CAMERA_WIDTH = 800;
+//	static final int CAMERA_HEIGHT = 480;
 	
 	public void moveMallet() {
 		//mallet.moveMallet(speedX, speedY);
@@ -26,9 +26,9 @@ public class GameActivity extends SimpleBaseGameActivity {
 	@Override
 	public EngineOptions onCreateEngineOptions() {
 		instance = this;
-    	mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+    	mCamera = new Camera(0, 0, Constants.CAMERA_WIDTH, Constants.CAMERA_HEIGHT);
     	return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR,
-    			new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), mCamera);
+    			new RatioResolutionPolicy(Constants.CAMERA_WIDTH, Constants.CAMERA_HEIGHT), mCamera);
 
 
 	}
