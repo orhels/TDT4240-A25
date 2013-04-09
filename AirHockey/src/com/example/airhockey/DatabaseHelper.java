@@ -14,7 +14,7 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private final String createHighScoreSQL = "CREATE TABLE IF NOT EXISTS highscores(_id INTEGER PRIMARY KEY ASC, "
-			+ "player1name TEXT, player2name TEXT, score2 INTEGER, score1 INTEGER)";
+			+ "player1name TEXT, player2name TEXT, score2 INTEGER, score1 INTEGER, date DATE)";
 	private String matchhistoryTableName = "matchhistory";
 	private static int version = 1;
 	private int noHighScores = 10;
@@ -98,12 +98,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	private void updateHighScores() {
-		//Remove the oldest match in the history
+		//Remove the oldest match in the history, add date to entries?
 		
 //		removeLowestScores();
 //		findLowestScore();
 	}
 
+	
 //	private void findLowestScore() {
 //		lowestScore = cachedMatches.keySet().iterator().next();
 //	}
