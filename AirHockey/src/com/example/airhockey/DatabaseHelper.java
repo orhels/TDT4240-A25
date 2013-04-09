@@ -14,8 +14,8 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private final String createHighScoreSQL = "CREATE TABLE IF NOT EXISTS highscores(_id INTEGER PRIMARY KEY ASC, "
-			+ "name TEXT, score INTEGER)";
-	private String highscoreTableName = "highscores";
+			+ "player1name TEXT, player2name, score INTEGER)";
+	private String matchhistoryTableName = "highscores";
 	private static int version = 1;
 	private int noHighScores = 10;
 	private int lowestScore = Integer.MAX_VALUE;
@@ -34,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		Log.d("DatabaseHelper", "Upgrading from version " + oldVersion + " to version " + newVersion);
-		db.execSQL("DROP TABLE " + highscoreTableName + ";");
+		db.execSQL("DROP TABLE " + matchhistoryTableName + ";");
 		initializeDB(db);
 
 	}
@@ -71,7 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private void initializeCachedScores() {
 		SQLiteDatabase db = getWritableDatabase();
 		cachedHighScores = new TreeMap<Integer, String>();
-		Cursor cursor = db.rawQuery("SELECT name, score FROM " + highscoreTableName + " ORDER BY score DESC LIMIT " + noHighScores, null);
+		Cursor cursor = db.rawQuery("SELECT name, score FROM " + matchhistoryTableName + " ORDER BY score DESC LIMIT " + noHighScores, null);
 		cursor.moveToFirst();
 		while (cursor.moveToNext()) {
 			String name = cursor.getString(cursor.getColumnIndex("name"));
@@ -90,14 +90,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put("name", name);
 		values.put("score", score);
-		if (db.insert(highscoreTableName, null, values) > 0) {
+		if (db.insert(matchhistoryTableName, null, values) > 0) {
 			Log.d("DatabaseHelper", "Successfully inserted new highscore (" + name + ", " + score + ")");
 		}
 		db.close();
 	}
 
 	private void removeHighScore(String name, int score, SQLiteDatabase db) {
-		db.delete(highscoreTableName, "name = ? AND score = ?", new String[] {name, String.valueOf(score)});
+		db.delete(matchhistoryTableName, "name = ? AND score = ?", new String[] {name, String.valueOf(score)});
 	}
 
 	private void updateHighScores() {
