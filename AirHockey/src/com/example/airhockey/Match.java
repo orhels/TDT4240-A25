@@ -36,4 +36,10 @@ public class Match {
 	public int getPlayer2score() {
 		return player2score;
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
+	}
 }
