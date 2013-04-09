@@ -141,7 +141,7 @@ public class TitleScreen extends MenuScene implements OnClickListener {
 		}
 		else if(pButtonSprite.equals(highscoreMenuItem)){
 			System.out.println("Pressed Highscores");
-			instance.setScene(new HighscoreScene());
+			instance.setScene(new MatchHistoryScene());
 		}
 		else if(pButtonSprite.equals(settingsMenuItem)){
 			System.out.println("Pressed settngs");

@@ -16,7 +16,7 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.util.color.Color;
 
 
-public class HighscoreScene extends MenuScene implements OnClickListener{
+public class MatchHistoryScene extends MenuScene implements OnClickListener{
 
 	static final int CAMERA_WIDTH = 800;
 	static final int CAMERA_HEIGHT = 480;
@@ -32,7 +32,7 @@ public class HighscoreScene extends MenuScene implements OnClickListener{
 	
 	private Text highscoresText1;
 
-	public HighscoreScene(){
+	public MatchHistoryScene(){
 		super(MainActivity.getInstance().mCamera);
 		
 		instance = MainActivity.getInstance();

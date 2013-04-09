@@ -8,7 +8,7 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
-import android.graphics.Typeface;
+import android.graphics.Typeface; 
 
 public class MainActivity extends SimpleBaseGameActivity {
 
@@ -57,7 +57,7 @@ public class MainActivity extends SimpleBaseGameActivity {
     	if(scene instanceof TitleScreen){
     		super.onBackPressed();
     	}
-    	else if ((scene instanceof HighscoreScene) || (scene instanceof SettingsScene)) {
+    	else if ((scene instanceof MatchHistoryScene) || (scene instanceof SettingsScene)) {
     		setScene(new TitleScreen());
     	}
     }
