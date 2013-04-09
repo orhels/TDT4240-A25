@@ -37,9 +37,4 @@ public class Match {
 		return player2score;
 	}
 	
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
-	}
 }
