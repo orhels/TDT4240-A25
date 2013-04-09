@@ -1,5 +1,7 @@
 package com.example.airhockey;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -9,12 +11,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.format.DateFormat;
 import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-	private final String createHighScoreSQL = "CREATE TABLE IF NOT EXISTS highscores(_id INTEGER PRIMARY KEY ASC, "
-			+ "player1name TEXT, player2name TEXT, score2 INTEGER, score1 INTEGER, date DATE)";
+	private final String createMatchHistorySQL = "CREATE TABLE IF NOT EXISTS highscores(_id INTEGER PRIMARY KEY ASC, "
+			+ "player1name TEXT, player2name TEXT, score2 INTEGER, score1 INTEGER, date TEXT)";
 	private String matchhistoryTableName = "matchhistory";
 	private static int version = 1;
 	private int noHighScores = 10;
@@ -25,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		super(context, name, null, version);
 		initializeCachedScores();
 	}
-
+	
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		initializeDB(db);
@@ -40,7 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	private void initializeDB(SQLiteDatabase db) {
-		db.execSQL(createHighScoreSQL);
+		db.execSQL(createMatchHistorySQL);
 	}
 
 	public void insertNewMatch(String name1, String name2, int score1, int score2) {
@@ -67,7 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private void initializeCachedScores() {
 		SQLiteDatabase db = getWritableDatabase();
 		cachedMatches = new TreeMap<String, String>();
-		Cursor cursor = db.rawQuery("SELECT name, score FROM " + matchhistoryTableName + " ORDER BY score DESC LIMIT " + noHighScores, null);
+		Cursor cursor = db.rawQuery("SELECT name, score FROM " + matchhistoryTableName + " ORDER BY date DESC LIMIT " + noHighScores, null);
 		cursor.moveToFirst();
 		while (cursor.moveToNext()) {
 			String name1 = cursor.getString(cursor.getColumnIndex("player1name"));
@@ -87,6 +90,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		values.put("score1", score1);
 		values.put("player2name", score2);
 		values.put("score2", score2);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		Date date = new Date();
+		values.put("date", dateFormat.format(date));
+		
 		if (db.insert(matchhistoryTableName, null, values) > 0) {
 			Log.d("DatabaseHelper", "Successfully inserted new match (" + name1+"-"+name2 + ", " + score1+"-"+score2 + ")");
 		}
