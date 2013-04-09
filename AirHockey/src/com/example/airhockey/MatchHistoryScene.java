@@ -1,5 +1,8 @@
 package com.example.airhockey;
 
+import java.util.ArrayList;
+import java.util.SortedMap;
+
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.item.IMenuItem;
@@ -35,6 +38,8 @@ public class MatchHistoryScene extends MenuScene implements OnClickListener{
 	private ButtonSprite backButton;
 	
 	private Text highscoresText1;
+	
+	private DatabaseHelper dbh;
 
 	public MatchHistoryScene(){
 		super(MainActivity.getInstance().mCamera);
@@ -50,8 +55,13 @@ public class MatchHistoryScene extends MenuScene implements OnClickListener{
 		titleAtlas.load();
 		
 		createMenu();
+		
+		getMatchHistory();
 	}
 	
+	/**
+	 * Creates and displays the items for the screen
+	 */
 	private void createMenu()
 	{
 		// BACKGROUND
@@ -62,12 +72,6 @@ public class MatchHistoryScene extends MenuScene implements OnClickListener{
 		backgroundMenuItem.setPosition(mCamera.getWidth()/2 - backgroundMenuItem.getWidth()/2, mCamera.getHeight()/2 - backgroundMenuItem.getHeight()/2);
 		attachChild(backgroundMenuItem);
 		backgroundAtlas.load();
-		
-		
-		//SETTINGS!
-		highscoresText1 = new Text(0, 0, instance.mFont, "There be no highscores? ... WHY U SUCK SO MUCH?", instance.getVertexBufferObjectManager());
-		highscoresText1.setPosition(CAMERA_WIDTH/2 - highscoresText1.getWidth()/2, CAMERA_HEIGHT/2 - highscoresText1.getHeight()/2);
-		attachChild(highscoresText1);
 		
 		//Create back button
 		backButtonAtlas = new BuildableBitmapTextureAtlas(instance.getTextureManager(), 512, 512);
@@ -86,6 +90,26 @@ public class MatchHistoryScene extends MenuScene implements OnClickListener{
 		attachChild(backButton);
 		setTouchAreaBindingOnActionDownEnabled(true);
 		
+	}
+	
+	/**
+	 * Fetch the match history from the database.
+	 * Display them on the screen.
+	 */
+	public void getMatchHistory(){
+		dbh = new DatabaseHelper(instance, "MatchHistory");
+		ArrayList<Match> matches = dbh.getHighScores();
+		
+		//TODO: Get match history from db, then make a string
+		
+		String matchesString = "";
+		
+		if(matchesString.length()==0){
+			matchesString = "There are no mathces in history";
+		}
+		highscoresText1 = new Text(0, 0, instance.mFont, matchesString, instance.getVertexBufferObjectManager());
+		highscoresText1.setPosition(CAMERA_WIDTH/2 - highscoresText1.getWidth()/2, CAMERA_HEIGHT/2 - highscoresText1.getHeight()/2);
+		attachChild(highscoresText1);
 	}
 
 	@Override

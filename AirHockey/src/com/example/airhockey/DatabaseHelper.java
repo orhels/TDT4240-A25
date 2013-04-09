@@ -1,6 +1,7 @@
 package com.example.airhockey;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.SortedMap;
@@ -11,7 +12,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.text.format.DateFormat;
 import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static int version = 1;
 	private int noHighScores = 10;
 	private int lowestScore = Integer.MAX_VALUE;
-	private SortedMap<String, String> cachedMatches;
+	private ArrayList<Match> cachedMatches;
 
 	public DatabaseHelper(Context context, String name) {
 		super(context, name, null, version);
@@ -50,9 +50,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		if (cachedMatches == null) {
 			initializeCachedScores();
 		} 
-		cachedMatches.put(score1+"-"+score2, name1+"-"+name2);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		String date = dateFormat.format(new Date());
+		cachedMatches.add(new Match(name1, name2, score1, score2, date));
 		updateHighScores();
-		saveMatch(name1, name2, score1, score2);
+		saveMatch(name1, name2, score1, score2, date);
 
 	}
 	/**
@@ -60,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 * NB: The hash map is sorted on the scores from lowest to highest.
 	 * @return Returns a sorted hash map with highscores. 
 	 */
-	public SortedMap<String, String> getHighScores() {
+	public ArrayList<Match> getHighScores() {
 		if (cachedMatches == null) {
 			initializeCachedScores();
 		} 
@@ -69,31 +71,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private void initializeCachedScores() {
 		SQLiteDatabase db = getWritableDatabase();
-		cachedMatches = new TreeMap<String, String>();
+		cachedMatches = new ArrayList<Match>();
 		Cursor cursor = db.rawQuery("SELECT name, score FROM " + matchhistoryTableName + " ORDER BY date DESC LIMIT " + noHighScores, null);
 		cursor.moveToFirst();
 		while (cursor.moveToNext()) {
-			String name1 = cursor.getString(cursor.getColumnIndex("player1name"));
-			int score1 = cursor.getInt(cursor.getColumnIndex("score1"));
-			String name2 = cursor.getString(cursor.getColumnIndex("player2name"));
-			String score2 = cursor.getString(cursor.getColumnIndex("score2")); 
-			cachedMatches.put(score1+"-"+score2, name1+"-"+name2);
+			Match match = new Match(
+					cursor.getString(cursor.getColumnIndex("player1name")), 
+					cursor.getString(cursor.getColumnIndex("player2name")), 
+					cursor.getInt(cursor.getColumnIndex("score1")), 
+					cursor.getInt(cursor.getColumnIndex("score2")), 
+					cursor.getString(cursor.getColumnIndex("date"))
+					);
+			
+			cachedMatches.add(match);
 		}
 		cursor.close();
 		db.close();
 	}
 
-	private void saveMatch(String name1, String name2, int score1, int score2) {
+	private void saveMatch(String name1, String name2, int score1, int score2, String date) {
 		SQLiteDatabase db = getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put("player1name", name1);
 		values.put("score1", score1);
 		values.put("player2name", score2);
 		values.put("score2", score2);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-		Date date = new Date();
-		values.put("date", dateFormat.format(date));
-		
+		values.put("date", date);
 		if (db.insert(matchhistoryTableName, null, values) > 0) {
 			Log.d("DatabaseHelper", "Successfully inserted new match (" + name1+"-"+name2 + ", " + score1+"-"+score2 + ")");
 		}
@@ -105,7 +108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	private void updateHighScores() {
-		//Remove the oldest match in the history, add date to entries?
+		//Remove the oldest match in the history
 		
 //		removeLowestScores();
 //		findLowestScore();
