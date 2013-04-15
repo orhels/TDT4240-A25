@@ -1,11 +1,16 @@
 package com.example.airhockey;
 
+import java.util.Iterator;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +20,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-public class NewGameActivity extends Activity implements OnClickListener, OnSeekBarChangeListener
+public class NewGameActivity extends Activity implements OnClickListener, OnSeekBarChangeListener, TextWatcher
 {
 	
 	private EditText player1NameInput;
@@ -23,6 +28,8 @@ public class NewGameActivity extends Activity implements OnClickListener, OnSeek
 	private TextView goalTextView;
 	private SeekBar goalSeekBar;
 	private SharedPreferences preferences;
+	
+	public static final String player1Name = "player1Name", player2Name = "player2Name", goalsToWin = "goalsToWin";
 	
 	
 	public void onCreate(Bundle bundle)
@@ -38,7 +45,9 @@ public class NewGameActivity extends Activity implements OnClickListener, OnSeek
 	private void initializeUI() {
 		// TODO Auto-generated method stub
 		player1NameInput = (EditText) findViewById(R.id.player1NameInput);
+		player1NameInput.addTextChangedListener(this);
 		player2NameInput = (EditText) findViewById(R.id.player2NameInput);
+		player2NameInput.addTextChangedListener(this);
 		goalTextView = (TextView) findViewById(R.id.goalTextView);
 		goalSeekBar = (SeekBar) findViewById(R.id.goalSeekBar);
 		goalSeekBar.setOnSeekBarChangeListener(this);
@@ -50,11 +59,19 @@ public class NewGameActivity extends Activity implements OnClickListener, OnSeek
 		preferences = PreferenceManager.getDefaultSharedPreferences(this);
 	}
 
+	private void writePreference(String key, String value) 
+	{
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putString(key, value);
+		editor.commit();
+	}
+
 	private void configureActionBar() {
 		ActionBar ab = getActionBar();
 		ab.setTitle("New Game");
 		ab.setDisplayHomeAsUpEnabled(true);
 	}
+	
 	
 	public boolean onOptionsItemSelected (MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
@@ -81,6 +98,7 @@ public class NewGameActivity extends Activity implements OnClickListener, OnSeek
 			boolean fromUser) {
 		// TODO Auto-generated method stub
 		goalTextView.setText("" + (progress+5));
+		writePreference(goalsToWin, ""+(progress+5));
 	}
 
 
@@ -93,6 +111,29 @@ public class NewGameActivity extends Activity implements OnClickListener, OnSeek
 
 	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void afterTextChanged(Editable s) 
+	{
+		writePreference(player1Name, this.player1NameInput.getText().toString());
+		writePreference(player2Name, this.player2NameInput.getText().toString());
+	}
+
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
 		// TODO Auto-generated method stub
 		
 	}
