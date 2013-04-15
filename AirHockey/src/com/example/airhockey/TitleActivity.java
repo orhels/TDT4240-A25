@@ -1,5 +1,6 @@
 package com.example.airhockey;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ public class TitleActivity extends Activity implements OnClickListener {
 		super.onCreate(bundle);
 		setContentView(R.layout.title_view);
 		initializeUI();
+		configureActionBar();
 	}
 	
 	private void initializeUI() {
@@ -22,21 +24,33 @@ public class TitleActivity extends Activity implements OnClickListener {
 		((Button) findViewById(R.id.title_settings_button)).setOnClickListener(this);
 		((Button) findViewById(R.id.title_quit_button)).setOnClickListener(this);
 	}
+	
+	private void configureActionBar() {
+		ActionBar ab = getActionBar();
+		ab.setTitle("Air Hockey!");
+	}
 
 	@Override
 	public void onClick(View v) {
 		
+		Intent intent;
+		
 		switch (v.getId()) {
 		
 		case R.id.title_new_game_button:
-			Intent intent = new Intent(this, MainActivity.class);
+			intent = new Intent(this, MainActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.title_match_history_button:
+			intent = new Intent(this, HistoryActivity.class);
+			startActivity(intent);
 			break;
 		case R.id.title_settings_button:
+			intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
 			break;
 		case R.id.title_quit_button:
+			this.finish();
 			break;
 		
 		}
