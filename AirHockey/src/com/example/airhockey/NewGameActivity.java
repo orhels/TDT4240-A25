@@ -3,7 +3,9 @@ package com.example.airhockey;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,12 +22,14 @@ public class NewGameActivity extends Activity implements OnClickListener, OnSeek
 	private EditText player2NameInput;
 	private TextView goalTextView;
 	private SeekBar goalSeekBar;
+	private SharedPreferences preferences;
 	
 	
 	public void onCreate(Bundle bundle)
 	{
 		super.onCreate(bundle);
 		setContentView(R.layout.new_game_view);
+		fetchPreferences();
 		initializeUI();
 		configureActionBar();
 	}
@@ -39,6 +43,11 @@ public class NewGameActivity extends Activity implements OnClickListener, OnSeek
 		goalSeekBar = (SeekBar) findViewById(R.id.goalSeekBar);
 		goalSeekBar.setOnSeekBarChangeListener(this);
 		((Button) findViewById(R.id.startButton)).setOnClickListener(this);
+	}
+	
+	private void fetchPreferences() 
+	{
+		preferences = PreferenceManager.getDefaultSharedPreferences(this);
 	}
 
 	private void configureActionBar() {

@@ -14,9 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:hint="@string/player_1_name_input"
         android:inputType="textCapWords"
-        android:maxLength="12"
-        android:text="@string/player_1_name_input" />
+        android:maxLength="12" />
 
     <TextView
         android:id="@+id/player2NameView"
@@ -29,9 +29,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:hint="@string/player_2_name_input"
         android:inputType="textCapWords"
-        android:maxLength="12"
-        android:text="@string/player_2_name_input" >
+        android:maxLength="12" >
 
     </EditText>
 
