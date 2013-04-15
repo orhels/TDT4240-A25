@@ -2,10 +2,7 @@ package com.example.airhockey;
 
 
 import org.andengine.engine.camera.Camera;
-import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.opengl.texture.region.TiledTextureRegion;
-import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 
 public class Mallet {

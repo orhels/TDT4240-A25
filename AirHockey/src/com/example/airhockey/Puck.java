@@ -5,11 +5,9 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.andengine.entity.primitive.Rectangle;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
-import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 public class Puck {
 

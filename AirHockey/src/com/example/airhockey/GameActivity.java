@@ -10,7 +10,6 @@ import org.andengine.input.touch.controller.MultiTouch;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.color.Color;
 
-import android.app.Activity;
 import android.widget.Toast;
 
 public class GameActivity extends SimpleBaseGameActivity {
