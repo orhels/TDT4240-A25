@@ -16,7 +16,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 
 	static GameActivity instance;
 	public Camera mCamera;
-	private Scene scene;
+	private GameScene scene;
 //	static final int CAMERA_WIDTH = 800;
 //	static final int CAMERA_HEIGHT = 480;
 	
@@ -28,7 +28,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 	public EngineOptions onCreateEngineOptions() {
 		instance = this;
     	mCamera = new Camera(0, 0, Constants.CAMERA_WIDTH, Constants.CAMERA_HEIGHT);
-    	EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED,
+    	EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED,
     			new RatioResolutionPolicy(Constants.CAMERA_WIDTH, Constants.CAMERA_HEIGHT), mCamera);
     	engineOptions.getTouchOptions().setNeedsMultiTouch(true);
     	
@@ -47,7 +47,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 
 	@Override
 	protected void onCreateResources() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 	
@@ -57,8 +57,15 @@ public class GameActivity extends SimpleBaseGameActivity {
 
 	@Override
 	protected Scene onCreateScene() {
-		scene = new Scene();
-		scene.setBackground(new Background(Color.WHITE));
+		scene = new GameScene();
 		return scene;
+	}
+	
+	public void setCurrentScene(GameScene scene){
+		this.scene = scene;
+	}
+	
+	public GameScene getCurrentScene(){
+		return this.scene;
 	}
 }
