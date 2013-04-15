@@ -8,6 +8,12 @@
     <string name="new_game">New Game</string>
     <string name="settings">Settings</string>
     <string name="match_history">Match History</string>
+    <string name="size_mallet">Size of the mallets</string>
+    <string name="speed">Speed</string>
+    <string name="size_ball">Size of the ball</string>
+    <string name="small">Small</string>
+    <string name="medium">Medium</string>
+    <string name="large">Large</string>
     <string name="title_header_description">Header for the title screen</string>
 
 </resources>
