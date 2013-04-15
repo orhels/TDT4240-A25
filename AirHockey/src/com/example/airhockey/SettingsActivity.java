@@ -43,20 +43,20 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 		checkBallSize();
 		mBallSize.setOnCheckedChangeListener(this);
 	}
-	
+
 	private void configureActionBar() {
 		ActionBar ab = getActionBar();
 		ab.setDisplayHomeAsUpEnabled(true);
 		ab.setTitle("Settings");
 	}
-	
+
 	public boolean onOptionsItemSelected (MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
 			this.finish();
 		}
 		return true;
 	}
-	
+
 	private void checkMalletSize() {
 		String checked = preferences.getString(malletSize, small);
 		if (checked.equals(small)) {
@@ -67,7 +67,7 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 			mMalletSize.check(R.id.settings_mallet_large);
 		}
 	}
-	
+
 	private void checkBallSize() {
 		String checked = preferences.getString(ballSize, small);
 		if (checked.equals(small)) {
@@ -125,17 +125,17 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 			writePreference(ballSize, large);
 		}
 	}
-	
+
 	private void updateHeader() {
 		int progress = mBallSpeed.getProgress();
 		String descriptor = "Normal";
-		
+
 		if (progress < 3) {
 			descriptor = "Slow";
 		} else if (progress > 7) {
 			descriptor = "Fast";
 		}
-		
+
 		speedHeader.setText("Speed: " + descriptor + " (" + progress + ")");
 
 	}

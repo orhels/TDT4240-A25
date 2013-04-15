@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/history_menu_clear"
+        android:showAsAction="ifRoom|withText"
+        android:icon="@drawable/discard"
+        android:title="Clear history"/>
+
+</menu>

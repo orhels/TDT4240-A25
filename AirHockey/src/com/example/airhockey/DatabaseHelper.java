@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private final String createMatchHistorySQL = "CREATE TABLE IF NOT EXISTS highscores(_id INTEGER PRIMARY KEY ASC, "
 			+ "player1name TEXT, player2name TEXT, score2 INTEGER, score1 INTEGER, date TEXT)";
 	private String matchhistoryTableName = "highscores";
-	private static int version = 1;
+	private static int version = 2;
 	private int noHighScores = 10;
 	private ArrayList<Match> cachedMatches;
 
@@ -46,16 +46,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		if (cachedMatches == null) {
 			initializeCachedScores();
 		} 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-		String date = dateFormat.format(new Date());
+		String date = String.valueOf(System.currentTimeMillis());
 		cachedMatches.add(new Match(name1, name2, score1, score2, date));
-		updateHighScores();
 		saveMatch(name1, name2, score1, score2, date);
 
 	}
 	/**
-	 * The returned hashmap is mapped using <Score, Name>.
-	 * NB: The hash map is sorted on the scores from lowest to highest.
+	 * The returned array list is mapped using <Match>.
+	 * NB: The array is not sorted on the scores from lowest to highest.
 	 * @return Returns a sorted hash map with highscores. 
 	 */
 	public ArrayList<Match> getHighScores() {
@@ -94,47 +92,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		values.put("score2", score2);
 		values.put("date", date);
 		if (db.insert(matchhistoryTableName, null, values) > 0) {
-			Log.d("DatabaseHelper", "Successfully inserted new match (" + name1+"-"+name2 + ", " + score1+"-"+score2 + ")");
+			debug("Successfully inserted new match (" + name1+" vs. "+name2 + ", (" + score1+"-"+score2 + "))");
 		}
 		db.close();
 	}
 
-	private void removeHighScore(String name1, String name2, int score1, int score2, SQLiteDatabase db) {
-		db.delete(matchhistoryTableName, "player1name = ? AND player2name = ? score1 = ? AND score2 = ?", new String[] {name1, String.valueOf(score1), name2, String.valueOf(score2)});
-	}
-
-	private void updateHighScores() {
-		//Remove the oldest match in the history
-		
-//		removeLowestScores();
-//		findLowestScore();
-	}
-
-	
-//	private void findLowestScore() {
-//		lowestScore = cachedMatches.keySet().iterator().next();
-//	}
-//
-//	private void removeLowestScores() {
-//		Iterator<Integer> iterator = cachedMatches.keySet().iterator();
-//		int counter = cachedMatches.keySet().size() - noHighScores;
-//		if (counter <= 0) {
-//			return;
-//		}
-//		SQLiteDatabase db = getWritableDatabase();
-//		Integer score = 0;
-//		while (iterator.hasNext()) {
-//			score = iterator.next();
-//			if (counter > 0) {
-//				String name = cachedMatches.get(score);
-//				removeHighScore(name, score, db);
-//				iterator.remove();
-//			} 
-//			counter--;
-//		}
-//		
-//		db.close();
-//	}
+	//private void removeHighScore(String name1, String name2, int score1, int score2, SQLiteDatabase db) {
+	//	db.delete(matchhistoryTableName, "player1name = ? AND score1 AND player2name = ? AND score2 = ?", new String[] {name1, String.valueOf(score1), name2, String.valueOf(score2)});
+	//}
 
 	public int getNoHighScores() {
 		return noHighScores;
@@ -142,6 +107,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	public void setNoHighScores(int noHighScores) {
 		this.noHighScores = noHighScores;
+	}
+
+	public void clearHistory() {
+		debug("Deleting the entire " + matchhistoryTableName + " table");
+		SQLiteDatabase db = getWritableDatabase();
+		db.delete(matchhistoryTableName, "date=?", new String[] {"*"});
+		db.close();
+	}
+	
+	private void debug(String msg) {
+		Log.d("DatabaseHelper", msg);
 	}
 
 
