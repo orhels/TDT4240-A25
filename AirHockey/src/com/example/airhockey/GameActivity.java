@@ -7,6 +7,8 @@ import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.input.touch.controller.MultiTouch;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.color.Color;
 
@@ -17,12 +19,10 @@ public class GameActivity extends SimpleBaseGameActivity {
 	static GameActivity instance;
 	public Camera mCamera;
 	private GameScene scene;
-//	static final int CAMERA_WIDTH = 800;
-//	static final int CAMERA_HEIGHT = 480;
+	static final int CAMERA_WIDTH = 800;
+	static final int CAMERA_HEIGHT = 480;
 	
-	public void moveMallet() {
-		//mallet.moveMallet(speedX, speedY);
-	}
+
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
