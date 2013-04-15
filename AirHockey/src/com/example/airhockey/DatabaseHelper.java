@@ -3,9 +3,6 @@ package com.example.airhockey;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -18,10 +15,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private final String createMatchHistorySQL = "CREATE TABLE IF NOT EXISTS highscores(_id INTEGER PRIMARY KEY ASC, "
 			+ "player1name TEXT, player2name TEXT, score2 INTEGER, score1 INTEGER, date TEXT)";
-	private String matchhistoryTableName = "matchhistory";
+	private String matchhistoryTableName = "highscores";
 	private static int version = 1;
 	private int noHighScores = 10;
-	private int lowestScore = Integer.MAX_VALUE;
 	private ArrayList<Match> cachedMatches;
 
 	public DatabaseHelper(Context context, String name) {
@@ -72,7 +68,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private void initializeCachedScores() {
 		SQLiteDatabase db = getWritableDatabase();
 		cachedMatches = new ArrayList<Match>();
-		Cursor cursor = db.rawQuery("SELECT name, score FROM " + matchhistoryTableName + " ORDER BY date DESC LIMIT " + noHighScores, null);
+		Cursor cursor = db.rawQuery("SELECT player1name, player2name, score1, score2, date FROM " + matchhistoryTableName + " ORDER BY date DESC LIMIT " + noHighScores, null);
 		cursor.moveToFirst();
 		while (cursor.moveToNext()) {
 			Match match = new Match(
