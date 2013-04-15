@@ -6,6 +6,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 public class HistoryActivity extends Activity {
@@ -41,6 +42,14 @@ public class HistoryActivity extends Activity {
 	private void configureActionBar() {
 		ActionBar ab = getActionBar();
 		ab.setTitle("Match History");
+		ab.setDisplayHomeAsUpEnabled(true);
+	}
+	
+	public boolean onOptionsItemSelected (MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			this.finish();
+		}
+		return true;
 	}
 	
 	private void debug(String msg) {

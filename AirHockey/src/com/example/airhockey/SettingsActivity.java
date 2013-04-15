@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.MenuItem;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.SeekBar;
@@ -45,7 +46,15 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 	
 	private void configureActionBar() {
 		ActionBar ab = getActionBar();
+		ab.setDisplayHomeAsUpEnabled(true);
 		ab.setTitle("Settings");
+	}
+	
+	public boolean onOptionsItemSelected (MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			this.finish();
+		}
+		return true;
 	}
 	
 	private void checkMalletSize() {

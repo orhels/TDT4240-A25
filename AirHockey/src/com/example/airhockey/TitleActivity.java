@@ -30,6 +30,7 @@ public class TitleActivity extends Activity implements OnClickListener {
 		ab.setTitle("Air Hockey!");
 	}
 
+
 	@Override
 	public void onClick(View v) {
 		
