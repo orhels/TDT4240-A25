@@ -27,7 +27,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 	public EngineOptions onCreateEngineOptions() {
 		instance = this;
     	mCamera = new Camera(0, 0, Constants.CAMERA_WIDTH, Constants.CAMERA_HEIGHT);
-    	return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR,
+    	return new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED,
     			new RatioResolutionPolicy(Constants.CAMERA_WIDTH, Constants.CAMERA_HEIGHT), mCamera);
 
 

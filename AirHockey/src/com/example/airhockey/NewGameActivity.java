@@ -24,6 +24,7 @@ public class NewGameActivity extends Activity implements OnClickListener, OnSeek
 	{
 		super.onCreate(bundle);
 		setContentView(R.layout.new_game_view);
+		getActionBar().setTitle("New Game");
 		initializeUI();
 	}
 	
