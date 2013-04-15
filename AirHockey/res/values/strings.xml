@@ -22,5 +22,8 @@
     <string name="medium">Medium</string>
     <string name="large">Large</string>
     <string name="title_header_description">Header for the title screen</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
+    <string name="history_dialog_prompt">Delete this match?</string>
 
 </resources>

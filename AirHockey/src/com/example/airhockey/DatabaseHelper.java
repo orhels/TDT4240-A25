@@ -97,9 +97,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.close();
 	}
 
-	//private void removeHighScore(String name1, String name2, int score1, int score2, SQLiteDatabase db) {
-	//	db.delete(matchhistoryTableName, "player1name = ? AND score1 AND player2name = ? AND score2 = ?", new String[] {name1, String.valueOf(score1), name2, String.valueOf(score2)});
-	//}
+	public void removeHighScore(Match match) {
+		String name1 = match.getPlayer1name();
+		String name2 = match.getPlayer2name();
+		int score1 = match.getPlayer1score();
+		int score2 = match.getPlayer2score();
+		
+		SQLiteDatabase db = getWritableDatabase();
+		db.delete(matchhistoryTableName, "player1name = ? AND score1 = ? AND player2name = ? AND score2 = ?", new String[] {name1, String.valueOf(score1), name2, String.valueOf(score2)});
+		db.close();
+	}
 
 	public int getNoHighScores() {
 		return noHighScores;
