@@ -22,7 +22,7 @@
         android:id="@+id/player2NameView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/player_1_name_view" />
+        android:text="@string/player_2_name_view" />
 
     <EditText
         android:id="@+id/player2NameInput"
