@@ -45,8 +45,10 @@ public class NewGameActivity extends Activity implements OnClickListener, OnSeek
 	private void initializeUI() {
 		// TODO Auto-generated method stub
 		player1NameInput = (EditText) findViewById(R.id.player1NameInput);
+		player1NameInput.setText(preferences.getString(player1Name, ""));
 		player1NameInput.addTextChangedListener(this);
 		player2NameInput = (EditText) findViewById(R.id.player2NameInput);
+		player1NameInput.setText(preferences.getString(player2Name, ""));
 		player2NameInput.addTextChangedListener(this);
 		goalTextView = (TextView) findViewById(R.id.goalTextView);
 		goalSeekBar = (SeekBar) findViewById(R.id.goalSeekBar);
