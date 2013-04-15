@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 public class GameActivity extends SimpleBaseGameActivity {
 
-	GameActivity instance;
+	static GameActivity instance;
 	public Camera mCamera;
 	private Scene scene;
 //	static final int CAMERA_WIDTH = 800;
@@ -50,6 +50,10 @@ public class GameActivity extends SimpleBaseGameActivity {
 	protected void onCreateResources() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public static GameActivity getInstance(){
+		return instance;
 	}
 
 	@Override
