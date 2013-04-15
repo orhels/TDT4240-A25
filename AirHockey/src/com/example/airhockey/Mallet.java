@@ -25,10 +25,10 @@ public class Mallet {
 	public Mallet(int size) {
 		//size må settes et sted :)
 		//null skal være en TiledTextureRegion. 
-		sprite = new Sprite(0, 0, null, MainActivity.getInstance().getVertexBufferObjectManager());
+		sprite = new Sprite(0, 0, null, GameActivity.getInstance().getVertexBufferObjectManager());
 		moveable = true;
 		
-		mCamera = MainActivity.getInstance().mCamera;
+		mCamera = GameActivity.getInstance().mCamera;
 		
 		
 		//Må gjøre noe slik at det blir laget en mallet på player 1 sin side, og en på player 2 sin side.
