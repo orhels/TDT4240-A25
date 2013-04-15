@@ -38,7 +38,7 @@ public class TitleActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		
 		case R.id.title_new_game_button:
-			intent = new Intent(this, MainActivity.class);
+			intent = new Intent(this, NewGameActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.title_match_history_button:

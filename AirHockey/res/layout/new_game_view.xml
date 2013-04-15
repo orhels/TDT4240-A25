@@ -1,0 +1,67 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/player1NameView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/player_1_name_view" />
+
+    <EditText
+        android:id="@+id/player1NameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textCapWords"
+        android:maxLength="12"
+        android:text="@string/player_1_name_input" />
+
+    <TextView
+        android:id="@+id/player2NameView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/player_1_name_view" />
+
+    <EditText
+        android:id="@+id/player2NameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textCapWords"
+        android:maxLength="12"
+        android:text="@string/player_2_name_input" >
+
+    </EditText>
+
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal" >
+
+	    <TextView
+	        android:id="@+id/goalsToWinTextView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/goals_to_win" />
+	    <TextView
+	        android:id="@+id/goalTextView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/goal_view" />
+	</LinearLayout>
+
+	<SeekBar
+	    android:id="@+id/goalSeekBar"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:max="25" />
+
+	<Button
+	    android:id="@+id/startButton"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="@string/start_button" />
+
+</LinearLayout>
