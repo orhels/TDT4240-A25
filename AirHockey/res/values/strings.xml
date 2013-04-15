@@ -4,5 +4,10 @@
     <string name="app_name">AirHockey</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="quit">Quit</string>
+    <string name="new_game">New Game</string>
+    <string name="settings">Settings</string>
+    <string name="match_history">Match History</string>
+    <string name="title_header_description">Header for the title screen</string>
 
 </resources>

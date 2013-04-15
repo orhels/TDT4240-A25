@@ -2,7 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFF"
+    android:gravity="center_horizontal"
     android:orientation="vertical" >
-    
+
+    <ImageView
+        android:id="@+id/title_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/title_header_description"
+        android:src="@drawable/airhockey_title" />
+
+    <Button
+        android:id="@+id/title_new_game_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_game" />
+
+    <Button
+        android:id="@+id/title_match_history_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/match_history" />
+
+    <Button
+        android:id="@+id/title_settings_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings" />
+
+    <Button
+        android:id="@+id/title_quit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/quit" />
 
 </LinearLayout>

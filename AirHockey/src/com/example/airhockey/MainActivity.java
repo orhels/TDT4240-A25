@@ -39,7 +39,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 
     @Override
     protected Scene onCreateScene() {
-    	scene = new TitleScene();
+    	scene = new NewGameScene();
     	return scene;
     }
 
