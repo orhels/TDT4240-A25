@@ -25,7 +25,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	/* Player two mallet */
 	private Mallet playerTwoMallet;
 	/* The Puck */
-	private Puck puck;
+	private Puck puck = Puck.PUCK;
 	
 	// BACKGROUND
 	private BitmapTextureAtlas backgroundTextureAtlas;
