@@ -1,9 +1,11 @@
 package com.example.airhockey;
 
 import org.andengine.engine.camera.Camera;
+import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.TextureRegion;
@@ -12,7 +14,7 @@ import org.andengine.util.color.Color;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-public class GameScene extends Scene{
+public class GameScene extends Scene implements IOnSceneTouchListener {
 	
 	
 	private Camera mCamera;
@@ -33,29 +35,25 @@ public class GameScene extends Scene{
 	/* The container for the game preferences */
 	private SharedPreferences preference;
 	/* Preference keys */
-	public static final String ballSpeed = "Speed", malletSize = "Mallet", ballSize = "Ball"; 
 
 	/**
 	 * Constructor
 	 */
 	public GameScene(){
 		this.instance = GameActivity.getInstance();
-		this.mCamera = this.instance.mCamera;
-		
+		this.mCamera = instance.mCamera;
 		this.createBackground();
-		
 		this.preference = PreferenceManager.getDefaultSharedPreferences(instance);
-		
-		//Create mallets
-		String size = preference.getString(this.malletSize, "Medium");
+		initializePlayers();
+		this.registerUpdateHandler(new GameUpdateHandler());
+	}
+	
+	private void initializePlayers() {
+		String size = preference.getString(SettingsActivity.malletSize, SettingsActivity.medium);
 		this.playerOneMallet = new Mallet(size, 1);
 		this.playerTwoMallet = new Mallet(size, 2);
-		this.playerOneMallet.setPosition(10, 10);
-		this.playerTwoMallet.setPosition(GameActivity.CAMERA_HEIGHT-10, GameActivity.CAMERA_WIDTH-10);
 		this.attachChild(this.playerOneMallet.getSprite());
 		this.attachChild(this.playerTwoMallet.getSprite());
-		
-		this.registerUpdateHandler(new GameUpdateHandler());
 	}
 	
 	/**
@@ -74,6 +72,14 @@ public class GameScene extends Scene{
 		this.backgroundSprite = new Sprite(0, (this.instance.mCamera.getHeight()/2) - (this.backgroundTextureRegion.getHeight()/2), this.backgroundTextureRegion, this.instance.getVertexBufferObjectManager());
 		this.attachChild(this.backgroundSprite);
 		this.backgroundTextureAtlas.load();
+	}
+
+	@Override
+	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
+		if (pSceneTouchEvent.isActionMove()) {
+			playerOneMallet.setPosition(pSceneTouchEvent);
+		}
+		return false;
 	}
 
 }

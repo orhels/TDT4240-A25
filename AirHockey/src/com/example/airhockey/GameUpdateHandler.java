@@ -12,7 +12,6 @@ public class GameUpdateHandler implements IUpdateHandler{
 
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
 		
 	}
 

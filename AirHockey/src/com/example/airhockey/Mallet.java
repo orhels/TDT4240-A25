@@ -3,6 +3,7 @@ package com.example.airhockey;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
@@ -26,6 +27,26 @@ public class Mallet {
 	 */
 	public Mallet(String size, int player) 
 	{
+		setSize(size);
+		malletAtlas = new BitmapTextureAtlas(GameActivity.getInstance().getTextureManager(), 256, 256);
+		malletTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(malletAtlas, GameActivity.getInstance(), "game/Mallet.png", 10, 10);
+		sprite = new Sprite(0, 0, malletTexture, GameActivity.getInstance().getVertexBufferObjectManager());
+		malletAtlas.load();
+		moveable = true;
+		mCamera = GameActivity.getInstance().mCamera;
+		float spriteWidth = sprite.getWidth() / 2;
+		float spriteHeight = sprite.getHeight() / 2;
+		if(player == 1) {
+			setPosition(mCamera.getWidth() * 0.5f - spriteWidth, mCamera.getHeight() * 0.15f - spriteHeight);
+		}
+		else if (player == 2) {
+			setPosition(mCamera.getWidth() * 0.5f - spriteWidth, mCamera.getHeight() * 0.85f - spriteHeight);
+		}
+		
+	}
+	
+	private void setSize(String size) {
+		
 		if(size.equals("Small"))
 		{
 			this.size = 0.5;
@@ -38,17 +59,6 @@ public class Mallet {
 		{
 			this.size = 1.5;
 		}
-		
-		this.malletAtlas = new BitmapTextureAtlas(GameActivity.getInstance().getTextureManager(), 256, 256);
-		this.malletTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(malletAtlas, GameActivity.getInstance(), "game/mallet.png", 10, 10);
-		this.sprite = new Sprite(0, 0, malletTexture, GameActivity.getInstance().getVertexBufferObjectManager());
-		
-		this.moveable = true;
-		this.mCamera = GameActivity.getInstance().mCamera;
-		
-		if(player == 1) setPosition(mCamera.getWidth() * 0.5f, mCamera.getHeight() * 0.25f);
-		else if (player == 2) setPosition(mCamera.getWidth() * 0.5f, mCamera.getHeight() * 0.75f);
-		
 	}
 	
 	/**
@@ -58,6 +68,10 @@ public class Mallet {
 	 */
 	public void setPosition(float x, float y){
 		sprite.setPosition(x, y);
+	}
+	
+	public void setPosition(TouchEvent event) {
+		setPosition(event.getX() - sprite.getWidth() / 2, event.getY() - sprite.getHeight() / 2);
 	}
 	
 	/**
