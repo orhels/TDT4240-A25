@@ -75,22 +75,15 @@ public class Mallet {
 	public void setPosition(TouchEvent event) {
 		
 		float radius = sprite.getHeight() / 2; 
-		float x = getDifference(event.getX(), sprite.getX() + radius);
-		float y = getDifference(event.getY(), sprite.getY() + radius);
+		float x = event.getX() - (sprite.getX() + radius);
+		float y = event.getY() - (sprite.getY() + radius);
 		double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // Pythagoras' theorem
 		debug("Distance: " + distance);
 		debug("Radius: " + radius);
 		debug("X: " + x + ". Y: " + y);
 		if (distance <= radius) {
-			setPosition(event.getX() + radius, event.getY() + radius);
+			setPosition(sprite.getX() + x, sprite.getY() + y);
 		}
-	}
-	
-	private float getDifference(float x, float y) {
-		if (x > y) {
-			return x - y;
-		}
-		return y - x;
 	}
 	
 	/**
