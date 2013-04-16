@@ -88,7 +88,7 @@ public class NewGameActivity extends Activity implements OnClickListener, OnSeek
 		switch (v.getId())
 		{
 		case R.id.startButton:
-			Intent intent = new Intent(this, GameActivity.class);
+			Intent intent = new Intent(this, TheGameActivity.class);
 			startActivity(intent);
 			break;
 		}

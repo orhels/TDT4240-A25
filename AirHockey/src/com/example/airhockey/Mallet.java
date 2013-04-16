@@ -2,14 +2,14 @@ package com.example.airhockey;
 
 
 import org.andengine.engine.camera.Camera;
-import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.opengl.texture.region.TiledTextureRegion;
-import org.andengine.opengl.vbo.VertexBufferObjectManager;
+
+import android.graphics.Point;
 
 
 public class Mallet {
 	public Sprite sprite;
+	private Point position;
 	public static Mallet instance;
 	Camera mCamera;
 	boolean moveable;
@@ -23,16 +23,16 @@ public class Mallet {
 	}
 	
 	public Mallet(int size) {
-		//size må settes et sted :)
-		//null skal være en TiledTextureRegion. 
-		sprite = new Sprite(0, 0, null, MainActivity.getInstance().getVertexBufferObjectManager());
+		//size mï¿½ settes et sted :)
+		//null skal vï¿½re en TiledTextureRegion. 
+		//sprite = new Sprite(0, 0, null, MainActivity.getInstance().getVertexBufferObjectManager());
 		moveable = true;
+		position = new Point(0, 0);
+		//mCamera = MainActivity.getInstance().mCamera;
 		
-		mCamera = MainActivity.getInstance().mCamera;
 		
-		
-		//Må gjøre noe slik at det blir laget en mallet på player 1 sin side, og en på player 2 sin side.
-		sprite.setPosition((mCamera.getWidth() / 2), mCamera.getHeight() / 4);
+		//Mï¿½ gjï¿½re noe slik at det blir laget en mallet pï¿½ player 1 sin side, og en pï¿½ player 2 sin side.
+		//sprite.setPosition((mCamera.getWidth() / 2), mCamera.getHeight() / 4);
 
 		
 	}
@@ -41,7 +41,7 @@ public class Mallet {
 		if(!moveable)
 			return;
 		
-		//også her må veggene begrenses til om det er player 1 eller 2, slik at de kun kan bevege seg på sin egen side.
+		//ogsï¿½ her mï¿½ veggene begrenses til om det er player 1 eller 2, slik at de kun kan bevege seg pï¿½ sin egen side.
 		if(speedX != 0 || speedY != 0) {
 			int leftWall = 0;
 	        int rightWall = (int) (mCamera.getWidth() - (int) sprite.getWidth());
@@ -75,6 +75,22 @@ public class Mallet {
 	        sprite.setPosition(newX, newY);
 			
 		}
+	}
+	
+	public int getX() {
+		return position.x;
+	}
+	
+	public int getY() {
+		return position.y;
+	}
+	
+	public void setX(int x) {
+		position.x = x;
+	}
+	
+	public void setY(int y) {
+		position.y = y;
 	}
 
 	

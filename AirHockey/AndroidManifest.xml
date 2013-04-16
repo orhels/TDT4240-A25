@@ -52,7 +52,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.example.airhockey.GameActivity"
+            android:name="com.example.airhockey.TheGameActivity"
             android:label="@string/app_name" >
         </activity>
     </application>
