@@ -28,8 +28,8 @@ public class Mallet {
 	public Mallet(String size, int player) 
 	{
 		setSize(size);
-		malletAtlas = new BitmapTextureAtlas(GameActivity.getInstance().getTextureManager(), 256, 256);
-		malletTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(malletAtlas, GameActivity.getInstance(), "game/Mallet.png", 10, 10);
+		malletAtlas = new BitmapTextureAtlas(GameActivity.getInstance().getTextureManager(), 125, 125);
+		malletTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(malletAtlas, GameActivity.getInstance(), "game/mallet.png", 0, 0);
 		sprite = new Sprite(0, 0, malletTexture, GameActivity.getInstance().getVertexBufferObjectManager());
 		malletAtlas.load();
 		moveable = true;
