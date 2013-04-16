@@ -8,6 +8,8 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 
+import android.util.Log;
+
 
 public class Mallet {
 	
@@ -71,7 +73,24 @@ public class Mallet {
 	}
 	
 	public void setPosition(TouchEvent event) {
-		setPosition(event.getX() - sprite.getWidth() / 2, event.getY() - sprite.getHeight() / 2);
+		
+		float radius = sprite.getHeight() / 2; 
+		float x = getDifference(event.getX(), sprite.getX() + radius);
+		float y = getDifference(event.getY(), sprite.getY() + radius);
+		double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // Pythagoras' theorem
+		debug("Distance: " + distance);
+		debug("Radius: " + radius);
+		debug("X: " + x + ". Y: " + y);
+		if (distance <= radius) {
+			setPosition(event.getX() + radius, event.getY() + radius);
+		}
+	}
+	
+	private float getDifference(float x, float y) {
+		if (x > y) {
+			return x - y;
+		}
+		return y - x;
 	}
 	
 	/**
@@ -119,5 +138,9 @@ public class Mallet {
 
 	public Sprite getSprite() {
 		return this.sprite;
+	}
+	
+	private void debug(String msg) {
+		Log.d("Mallet", msg);
 	}
 }

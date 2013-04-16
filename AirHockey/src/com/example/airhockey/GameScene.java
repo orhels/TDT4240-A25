@@ -76,8 +76,16 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 
 	@Override
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
-		if (pSceneTouchEvent.isActionMove()) {
-			playerOneMallet.setPosition(pSceneTouchEvent);
+		float yPos = pSceneTouchEvent.getY();
+		if (yPos < mCamera.getHeight() / 2) {
+			if (pSceneTouchEvent.isActionMove()) {
+				playerOneMallet.setPosition(pSceneTouchEvent);
+			}
+			
+		} else if (yPos > mCamera.getHeight() / 2) {
+			if (pSceneTouchEvent.isActionMove()) {
+				playerTwoMallet.setPosition(pSceneTouchEvent);
+			}			
 		}
 		return false;
 	}
