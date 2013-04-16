@@ -20,7 +20,7 @@ public class Mallet {
 	private Camera mCamera;
 	private boolean moveable;
 	
-	private double size;
+	private float size;
 	
 	
 	/**
@@ -33,6 +33,7 @@ public class Mallet {
 		malletAtlas = new BitmapTextureAtlas(GameActivity.getInstance().getTextureManager(), 125, 125);
 		malletTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(malletAtlas, GameActivity.getInstance(), "game/mallet.png", 0, 0);
 		sprite = new Sprite(0, 0, malletTexture, GameActivity.getInstance().getVertexBufferObjectManager());
+		sprite.setScale(this.size);
 		malletAtlas.load();
 		moveable = true;
 		mCamera = GameActivity.getInstance().mCamera;
@@ -51,15 +52,15 @@ public class Mallet {
 		
 		if(size.equals("Small"))
 		{
-			this.size = 0.5;
+			this.size = 0.5f;
 		}
 		else if(size.equals("Medium"))
 		{
-			this.size = 1.0;
+			this.size = 1.0f;
 		}
 		else if(size.equals("Large"))
 		{
-			this.size = 1.5;
+			this.size = 1.5f;
 		}
 	}
 	
