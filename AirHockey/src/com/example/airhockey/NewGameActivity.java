@@ -1,7 +1,5 @@
 package com.example.airhockey;
 
-import java.util.Iterator;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -10,7 +8,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,16 +39,19 @@ public class NewGameActivity extends Activity implements OnClickListener, OnSeek
 	}
 	
 	
-	private void initializeUI() {
+	private void initializeUI() 
+	{
 		// TODO Auto-generated method stub
 		player1NameInput = (EditText) findViewById(R.id.player1NameInput);
 		player1NameInput.setText(preferences.getString(player1Name, ""));
 		player1NameInput.addTextChangedListener(this);
 		player2NameInput = (EditText) findViewById(R.id.player2NameInput);
-		player1NameInput.setText(preferences.getString(player2Name, ""));
+		player2NameInput.setText(preferences.getString(player2Name, ""));
 		player2NameInput.addTextChangedListener(this);
 		goalTextView = (TextView) findViewById(R.id.goalTextView);
 		goalSeekBar = (SeekBar) findViewById(R.id.goalSeekBar);
+		goalSeekBar.setProgress(Integer.parseInt(preferences.getString(goalsToWin, "5"))-5);
+		goalTextView.setText("" + (goalSeekBar.getProgress() + 5));
 		goalSeekBar.setOnSeekBarChangeListener(this);
 		((Button) findViewById(R.id.startButton)).setOnClickListener(this);
 	}
@@ -88,7 +88,7 @@ public class NewGameActivity extends Activity implements OnClickListener, OnSeek
 		switch (v.getId())
 		{
 		case R.id.startButton:
-			Intent intent = new Intent(this, TheGameActivity.class);
+			Intent intent = new Intent(this, GameActivity.class);
 			startActivity(intent);
 			break;
 		}

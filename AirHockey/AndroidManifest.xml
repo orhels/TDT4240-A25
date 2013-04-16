@@ -28,10 +28,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.airhockey.MainActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
             android:name="com.example.airhockey.SettingsActivity"
             android:label="@string/app_name" >
         </activity>
@@ -44,17 +40,14 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.example.airhockey.SettingsScene"
+            android:name="com.example.airhockey.GameActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.example.airhockey.TitleScene"
+            android:name="com.example.airhockey.EndOfGameActivity"
             android:label="@string/app_name" >
         </activity>
-        <activity
-            android:name="com.example.airhockey.TheGameActivity"
-            android:label="@string/app_name" >
-        </activity>
+        
     </application>
 
 </manifest>

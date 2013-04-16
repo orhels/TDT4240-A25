@@ -3,95 +3,107 @@ package com.example.airhockey;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.entity.sprite.Sprite;
-
-import android.graphics.Point;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.region.ITextureRegion;
 
 
 public class Mallet {
-	public Sprite sprite;
-	private Point position;
-	public static Mallet instance;
-	Camera mCamera;
-	boolean moveable;
+	
+	private BitmapTextureAtlas malletAtlas;
+	private ITextureRegion malletTexture;
+	private Sprite sprite;
+	
+	private Camera mCamera;
+	private boolean moveable;
+	
+	private double size;
 	
 	
-	public static Mallet getSharedInstance(int size) {
-		if( instance == null) {
-			instance = new Mallet(size);
+	/**
+	 * Constructor
+	 * @param size The size of the mallet
+	 */
+	public Mallet(String size, int player) 
+	{
+		if(size.equals("Small"))
+		{
+			this.size = 0.5;
 		}
-		return instance;
+		else if(size.equals("Medium"))
+		{
+			this.size = 1.0;
+		}
+		else if(size.equals("Large"))
+		{
+			this.size = 1.5;
+		}
+		
+		this.malletAtlas = new BitmapTextureAtlas(GameActivity.getInstance().getTextureManager(), 256, 256);
+		this.malletTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(malletAtlas, GameActivity.getInstance(), "game/mallet.png", 10, 10);
+		this.sprite = new Sprite(0, 0, malletTexture, GameActivity.getInstance().getVertexBufferObjectManager());
+		
+		this.moveable = true;
+		this.mCamera = GameActivity.getInstance().mCamera;
+		
+		if(player == 1) setPosition(mCamera.getWidth() * 0.5f, mCamera.getHeight() * 0.25f);
+		else if (player == 2) setPosition(mCamera.getWidth() * 0.5f, mCamera.getHeight() * 0.75f);
+		
 	}
 	
-	public Mallet(int size) {
-		//size m� settes et sted :)
-		//null skal v�re en TiledTextureRegion. 
-		//sprite = new Sprite(0, 0, null, MainActivity.getInstance().getVertexBufferObjectManager());
-		moveable = true;
-		position = new Point(0, 0);
-		//mCamera = MainActivity.getInstance().mCamera;
-		
-		
-		//M� gj�re noe slik at det blir laget en mallet p� player 1 sin side, og en p� player 2 sin side.
-		//sprite.setPosition((mCamera.getWidth() / 2), mCamera.getHeight() / 4);
-
-		
+	/**
+	 * Sets the position of the Mallet sprite
+	 * @param x
+	 * @param y
+	 */
+	public void setPosition(float x, float y){
+		sprite.setPosition(x, y);
 	}
 	
-	public void moveMallet(float speedX, float speedY) {
+	/**
+	 * Moves the mallet to the position, considers the wall bounds of the field
+	 * @param x
+	 * @param y
+	 */
+	public void moveMallet(float x, float y) {
 		if(!moveable)
 			return;
 		
-		//ogs� her m� veggene begrenses til om det er player 1 eller 2, slik at de kun kan bevege seg p� sin egen side.
-		if(speedX != 0 || speedY != 0) {
-			int leftWall = 0;
-	        int rightWall = (int) (mCamera.getWidth() - (int) sprite.getWidth());
-	        int lowerWall = (int) (mCamera.getHeight() - (int) sprite.getHeight());
-	        int upperWall = 0;
-	        
-	        float newX;
-	        float newY;
+		//også her må veggene begrenses til om det er player 1 eller 2, slik at de kun kan bevege seg på sin egen side.
+		int leftWall = 0;
+        int rightWall = (int) (mCamera.getWidth() - (int) sprite.getWidth());
+        int lowerWall = (int) (mCamera.getHeight() - (int) sprite.getHeight());
+        int upperWall = 0;
+        
+        float newX;
+        float newY;
 
-	        // Calculate New X,Y Coordinates within Limits
-	        if (sprite.getX() >= leftWall)
-	            newX = sprite.getX() + speedX;
-	        else
-	            newX = leftWall;
-	        
-	        if (sprite.getY() >= upperWall)
-	            newY = sprite.getY() + speedY;
-	        else
-	            newY = upperWall;
-	        
-	        if (newX <= rightWall)
-	            newX = sprite.getX() + speedX;
-	        else
-	            newX = rightWall;
-	        
-	        if (newY <= lowerWall)
-	            newY = sprite.getY() + speedY;
-	        else
-	            newY = rightWall;
+        // Set New X,Y Coordinates within Limits
+        if (sprite.getX() >= leftWall)
+            newX = x;
+        else
+            newX = leftWall;
+        
+        if (sprite.getY() >= upperWall)
+            newY = y;
+        else
+            newY = upperWall;
+        
+        if (newX <= rightWall)
+            newX = x;
+        else
+            newX = rightWall;
+        
+        if (newY <= lowerWall)
+            newY = y;
+        else
+            newY = rightWall;
 
-	        sprite.setPosition(newX, newY);
+        setPosition(newX, newY);
 			
-		}
-	}
-	
-	public int getX() {
-		return position.x;
-	}
-	
-	public int getY() {
-		return position.y;
-	}
-	
-	public void setX(int x) {
-		position.x = x;
-	}
-	
-	public void setY(int y) {
-		position.y = y;
 	}
 
-	
+	public Sprite getSprite() {
+		return this.sprite;
+	}
 }
