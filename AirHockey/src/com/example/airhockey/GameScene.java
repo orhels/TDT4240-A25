@@ -1,9 +1,12 @@
 package com.example.airhockey;
 
 import org.andengine.engine.camera.Camera;
-import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
+import org.andengine.entity.sprite.Sprite;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.util.color.Color;
 
 import android.content.SharedPreferences;
@@ -13,7 +16,7 @@ public class GameScene extends Scene{
 	
 	
 	private Camera mCamera;
-	private GameActivity gameInstance;
+	private GameActivity instance;
 	
 	/* Player one mallet */
 	private Mallet playerOneMallet;
@@ -22,8 +25,13 @@ public class GameScene extends Scene{
 	/* The Puck */
 	private Puck puck;
 	
+	// BACKGROUND
+	private BitmapTextureAtlas backgroundTextureAtlas;
+	private TextureRegion backgroundTextureRegion;
+	private Sprite backgroundSprite;
+	
 	/* The container for the game preferences */
-	private SharedPreferences pref;
+	private SharedPreferences preference;
 	/* Preference keys */
 	public static final String ballSpeed = "Speed", malletSize = "Mallet", ballSize = "Ball"; 
 
@@ -31,29 +39,41 @@ public class GameScene extends Scene{
 	 * Constructor
 	 */
 	public GameScene(){
-		gameInstance = GameActivity.getInstance();
-		setBackground(new Background(Color.WHITE));
-		mCamera = gameInstance.mCamera;
+		this.instance = GameActivity.getInstance();
+		this.mCamera = this.instance.mCamera;
 		
-		pref = PreferenceManager.getDefaultSharedPreferences(gameInstance);
+		this.createBackground();
+		
+		this.preference = PreferenceManager.getDefaultSharedPreferences(instance);
 		
 		//Create mallets
-		int size = Integer.parseInt(pref.getString(malletSize, "Medium"));
-		playerOneMallet = new Mallet(size);
-		playerTwoMallet = new Mallet(size);
-		playerOneMallet.setPosition(10, 10);
-		playerTwoMallet.setPosition(gameInstance.CAMERA_HEIGHT-10, gameInstance.CAMERA_WIDTH-10);
-		attachChild(playerOneMallet.sprite);
-		attachChild(playerTwoMallet.sprite);
+		String size = preference.getString(this.malletSize, "Medium");
+		this.playerOneMallet = new Mallet(size, 1);
+		this.playerTwoMallet = new Mallet(size, 2);
+		this.playerOneMallet.setPosition(10, 10);
+		this.playerTwoMallet.setPosition(GameActivity.CAMERA_HEIGHT-10, GameActivity.CAMERA_WIDTH-10);
+		this.attachChild(this.playerOneMallet.getSprite());
+		this.attachChild(this.playerTwoMallet.getSprite());
 		
-		registerUpdateHandler(new GameUpdateHandler());
+		this.registerUpdateHandler(new GameUpdateHandler());
 	}
 	
 	/**
-	 * Method for mocing the puck. Called on every update 
+	 * Method for moving the puck. Called on every update 
 	 */
 	public void movePuck(){
-		puck.updatePuck();
+		//puck.updatePuck();
 	}
 	
+	private void createBackground()
+	{
+		this.setBackground(new Background(Color.WHITE));
+		this.setBackgroundEnabled(true);
+		this.backgroundTextureAtlas = new BitmapTextureAtlas(this.instance.getTextureManager(), 1048, 1048);
+		this.backgroundTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.backgroundTextureAtlas, this.instance, "game/background.png", 0, 0);
+		this.backgroundSprite = new Sprite(0, (this.instance.mCamera.getHeight()/2) - (this.backgroundTextureRegion.getHeight()/2), this.backgroundTextureRegion, this.instance.getVertexBufferObjectManager());
+		this.attachChild(this.backgroundSprite);
+		this.backgroundTextureAtlas.load();
+	}
+
 }

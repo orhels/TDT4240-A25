@@ -1,8 +1,6 @@
 package com.example.airhockey;
 
 
-import junit.framework.TestFailure;
-
 import org.andengine.engine.camera.Camera;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
@@ -12,32 +10,44 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 
 public class Mallet {
 	
-	public BitmapTextureAtlas malletAtlas;
-	public ITextureRegion malletTexture;
-	public Sprite sprite;
+	private BitmapTextureAtlas malletAtlas;
+	private ITextureRegion malletTexture;
+	private Sprite sprite;
 	
-	public static Mallet instance;
-	Camera mCamera;
-	boolean moveable;
+	private Camera mCamera;
+	private boolean moveable;
+	
+	private double size;
 	
 	
 	/**
 	 * Constructor
 	 * @param size The size of the mallet
 	 */
-	public Mallet(int size) {
-		//size må settes et sted :)
-		malletAtlas = new BitmapTextureAtlas(GameActivity.getInstance().getTextureManager(), 256, 256);
-		malletTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(malletAtlas, GameActivity.getInstance(), "game/Mallet.png", 10, 10);
-		sprite = new Sprite(0, 0, null, GameActivity.getInstance().getVertexBufferObjectManager());
-		moveable = true;
+	public Mallet(String size, int player) 
+	{
+		if(size.equals("Small"))
+		{
+			this.size = 0.5;
+		}
+		else if(size.equals("Medium"))
+		{
+			this.size = 1.0;
+		}
+		else if(size.equals("Large"))
+		{
+			this.size = 1.5;
+		}
 		
-		mCamera = GameActivity.getInstance().mCamera;
+		this.malletAtlas = new BitmapTextureAtlas(GameActivity.getInstance().getTextureManager(), 256, 256);
+		this.malletTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(malletAtlas, GameActivity.getInstance(), "game/mallet.png", 10, 10);
+		this.sprite = new Sprite(0, 0, malletTexture, GameActivity.getInstance().getVertexBufferObjectManager());
 		
+		this.moveable = true;
+		this.mCamera = GameActivity.getInstance().mCamera;
 		
-		//Må gjøre noe slik at det blir laget en mallet på player 1 sin side, og en på player 2 sin side.
-		setPosition((mCamera.getWidth() / 2), mCamera.getHeight() / 4);
-
+		if(player == 1) setPosition(mCamera.getWidth() * 0.5f, mCamera.getHeight() * 0.25f);
+		else if (player == 2) setPosition(mCamera.getWidth() * 0.5f, mCamera.getHeight() * 0.75f);
 		
 	}
 	
@@ -93,5 +103,7 @@ public class Mallet {
 			
 	}
 
-	
+	public Sprite getSprite() {
+		return this.sprite;
+	}
 }
