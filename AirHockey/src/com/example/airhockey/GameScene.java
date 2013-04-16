@@ -54,6 +54,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		this.playerTwoMallet = new Mallet(size, 2);
 		this.attachChild(this.playerOneMallet.getSprite());
 		this.attachChild(this.playerTwoMallet.getSprite());
+		this.attachChild(this.puck.getSprite());
 	}
 	
 	/**

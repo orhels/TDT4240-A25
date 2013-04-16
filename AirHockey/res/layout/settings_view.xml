@@ -44,7 +44,7 @@
         android:id="@+id/settings_ball_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/size_ball"
+        android:text="@string/size_puck"
         android:layout_marginTop="20dp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 

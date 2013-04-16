@@ -1,10 +1,13 @@
 package com.example.airhockey;
 
 import org.andengine.engine.camera.Camera;
+import org.andengine.entity.IEntity;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+
+import android.preference.PreferenceManager;
 
 public enum Puck 
 {
@@ -17,23 +20,43 @@ public enum Puck
 	private ITextureRegion puckTexture;
 	private Sprite sprite;
 	
-	private final int puckID;
 	private float posX;
 	private float posY;
 	private boolean moveable;
+	
+	private float size;
 	
 	/**
 	 * Constructor
 	 */
 	private Puck()
 	{
-		puckID = (int) (100*Math.random());
-		puckAtlas = new BitmapTextureAtlas(GameActivity.getInstance().getTextureManager(),256,256);
-		puckTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(puckAtlas, GameActivity.getInstance(), "game/puck.png", 60, 60);
-		sprite = new Sprite(60, 60, puckTexture, GameActivity.getInstance().getVertexBufferObjectManager());
-		
+		String size = PreferenceManager.getDefaultSharedPreferences(GameActivity.getInstance()).getString("Puck", "Medium");
+		setSize(size);
+		this.mCamera = GameActivity.getInstance().mCamera;
+		this.puckAtlas = new BitmapTextureAtlas(GameActivity.getInstance().getTextureManager(),256,256);
+		this.puckTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(puckAtlas, GameActivity.getInstance(), "game/puck.png", 60, 60);
+		this.sprite = new Sprite(mCamera.getCenterX()- puckTexture.getHeight()/2, mCamera.getCenterY() - puckTexture.getWidth()/2, puckTexture, GameActivity.getInstance().getVertexBufferObjectManager());
+		this.sprite.setScale(this.size);
+		this.puckAtlas.load();
 			
 		moveable = true;
+	}
+
+	private void setSize(String size) {
+
+		if(size.equals("Small"))
+		{
+			this.size = 0.5f;
+		}
+		else if(size.equals("Medium"))
+		{
+			this.size = 1.0f;
+		}
+		else if(size.equals("Large"))
+		{
+			this.size = 1.5f;
+		}
 	}
 		
 	
@@ -98,5 +121,10 @@ public enum Puck
 	 */
 	public float getPuckPosY(){
 		return this.posY;
+	}
+
+
+	public IEntity getSprite() {
+		return this.sprite;
 	}
 }

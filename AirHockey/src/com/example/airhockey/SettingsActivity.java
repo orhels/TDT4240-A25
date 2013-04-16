@@ -18,7 +18,7 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 	private SeekBar mBallSpeed;
 	private TextView speedHeader;
 	private SharedPreferences preferences;
-	public static final String ballSpeed = "Speed", malletSize = "Mallet", ballSize = "Ball"; 
+	public static final String ballSpeed = "Speed", malletSize = "Mallet", puckSize = "Puck";
 	public static final String small = "Small", medium = "Medium", large = "Large";
 
 	public void onCreate(Bundle bundle) {
@@ -69,7 +69,7 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 	}
 
 	private void checkBallSize() {
-		String checked = preferences.getString(ballSize, small);
+		String checked = preferences.getString(puckSize, small);
 		if (checked.equals(small)) {
 			mBallSize.check(R.id.settings_ball_small);
 		} else if (checked.equals(medium)) {
@@ -118,11 +118,11 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 
 	private void handleBallRadioGroup(int checkedId) {
 		if (checkedId == R.id.settings_ball_small) {
-			writePreference(ballSize, small);
+			writePreference(puckSize, small);
 		} else if (checkedId == R.id.settings_ball_medium) {
-			writePreference(ballSize, medium);
+			writePreference(puckSize, medium);
 		} else {
-			writePreference(ballSize, large);
+			writePreference(puckSize, large);
 		}
 	}
 
