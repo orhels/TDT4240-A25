@@ -8,20 +8,15 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 
-import android.util.Log;
-
-
 public class Mallet {
 	
 	private BitmapTextureAtlas malletAtlas;
 	private ITextureRegion malletTexture;
 	private Sprite sprite;
-	
+	private GameActivity instance;
 	private Camera mCamera;
 	private boolean moveable;
-	
 	private float size;
-	
 	
 	/**
 	 * Constructor
@@ -30,13 +25,14 @@ public class Mallet {
 	public Mallet(String size, int player) 
 	{
 		setSize(size);
-		malletAtlas = new BitmapTextureAtlas(GameActivity.getInstance().getTextureManager(), 125, 125);
-		malletTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(malletAtlas, GameActivity.getInstance(), "game/mallet.png", 0, 0);
-		sprite = new Sprite(0, 0, malletTexture, GameActivity.getInstance().getVertexBufferObjectManager());
+		instance = GameActivity.getInstance();
+		malletAtlas = new BitmapTextureAtlas(instance.getTextureManager(), 125, 125);
+		malletTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(malletAtlas, instance, "game/mallet.png", 0, 0);
+		sprite = new Sprite(0, 0, malletTexture, instance.getVertexBufferObjectManager());
 		sprite.setScale(this.size);
 		malletAtlas.load();
 		moveable = true;
-		mCamera = GameActivity.getInstance().mCamera;
+		mCamera = instance.mCamera;
 		float spriteWidth = sprite.getWidth() / 2;
 		float spriteHeight = sprite.getHeight() / 2;
 		if(player == 1) {
@@ -70,6 +66,13 @@ public class Mallet {
 	 * @param y
 	 */
 	public void setPosition(float x, float y){
+		float radius = sprite.getHeight();
+		if (x + radius >= mCamera.getWidth() || x < 0 ) {
+			x = sprite.getX();
+		}
+		if (y + radius >= mCamera.getHeight() || y < 0 ) {
+			y = sprite.getY();
+		}
 		sprite.setPosition(x, y);
 	}
 	
@@ -83,14 +86,7 @@ public class Mallet {
 			setPosition(sprite.getX() + x, sprite.getY() + y);
 		}
 	}
-	
-	private boolean containsPoint(float xPos, float yPos) {
-		float radius = (float) ((sprite.getHeight() / 2) * size);  
-		float x = xPos - (sprite.getX() + radius);
-		float y = yPos - (sprite.getY() + radius);
-		double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // Pythagoras' theorem
-		return distance <= radius;
-	}
+
 	
 	/**
 	 * Moves the mallet to the position, considers the wall bounds of the field
@@ -139,7 +135,7 @@ public class Mallet {
 		return this.sprite;
 	}
 	
-	private void debug(String msg) {
-		Log.d("Mallet", msg);
-	}
+//	private void debug(String msg) {
+//		Log.d("Mallet", msg);
+//	}
 }
