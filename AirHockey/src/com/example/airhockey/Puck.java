@@ -24,6 +24,13 @@ public enum Puck
 	private float posY;
 	private boolean moveable;
 	
+	/* The total velocity of the puck, a sum of the speed in x and y direction */
+	private float velocity;
+	/* Speed in X direction*/
+	private float speedX;
+	/* Speed in Y direction*/
+	private float speedY;
+	/* The size of the puck */
 	private float size;
 	
 	/**
@@ -31,6 +38,8 @@ public enum Puck
 	 */
 	private Puck()
 	{
+		speedX = 0;
+		speedY = 0;
 		String size = PreferenceManager.getDefaultSharedPreferences(GameActivity.getInstance()).getString("Puck", "Medium");
 		setSize(size);
 		this.mCamera = GameActivity.getInstance().mCamera;
@@ -39,10 +48,14 @@ public enum Puck
 		this.sprite = new Sprite(mCamera.getCenterX()- puckTexture.getHeight()/2, mCamera.getCenterY() - puckTexture.getWidth()/2, puckTexture, GameActivity.getInstance().getVertexBufferObjectManager());
 		this.sprite.setScale(this.size);
 		this.puckAtlas.load();
-			
+		
 		moveable = true;
 	}
 
+	/**
+	 * Set the size of the puck to a float size which corresponds to the parameter string.
+	 * @param size "Small", "Medium" or "Large" string
+	 */
 	private void setSize(String size) {
 
 		if(size.equals("Small"))
@@ -61,51 +74,83 @@ public enum Puck
 		
 	
 	/**
-	 * Update the puck position
-	 * @param puckID
-	 * @param posX
-	 * @param posY
+	 * Update the puck position according to the speed
 	 */
 	public void updatePuck(){
-//		if(!moveable){
-//			return;
-//		}
-//		
-//		int leftWall = 0;
-//        int rightWall = (int) (mCamera.getWidth() - (int) sprite.getWidth());
-//        int lowerWall = (int) (mCamera.getHeight() - (int) sprite.getHeight());
-//        int upperWall = 0;
-//        
-//        float newX;
-//        float newY;
-//
-//        // Set New X,Y Coordinates within Limits
-//        if (sprite.getX() >= leftWall){
-//            newX = sprite.getX() + speedX;
-//        }
-//        else{
-//            newX = leftWall;
-//        }
-//        if (sprite.getY() >= upperWall){
-//            newY = sprite.getY() + speedY;
-//        }
-//        else{
-//            newY = upperWall;
-//        }
-//        if (newX <= rightWall){
-//            newX = sprite.getX() + speedX;
-//        }
-//        else{
-//            newX = rightWall;
-//        }
-//        if (newY <= lowerWall){
-//            newY = sprite.getY() + speedY;
-//        }
-//        else{
-//            newY = rightWall;
-//        }
-//        sprite.setPosition(newX, newY);
+		if(!moveable){
+			return;
+		}
+		
+		int leftWall = 0;
+        int rightWall = (int) (mCamera.getWidth() - (int) sprite.getWidth());
+        int lowerWall = (int) (mCamera.getHeight() - (int) sprite.getHeight());
+        int upperWall = 0;
         
+        float newX;
+        float newY;
+
+        // Set New X,Y Coordinates within Limits
+        if (sprite.getX() >= leftWall){
+            newX = sprite.getX() + speedX;
+        }
+        else{
+            newX = leftWall;
+        }
+        if (sprite.getY() >= upperWall){
+            newY = sprite.getY() + speedY;
+        }
+        else{
+            newY = upperWall;
+        }
+        if (newX <= rightWall){
+            newX = sprite.getX() + speedX;
+        }
+        else{
+            newX = rightWall;
+        }
+        if (newY <= lowerWall){
+            newY = sprite.getY() + speedY;
+        }
+        else{
+            newY = rightWall;
+        }
+        sprite.setPosition(newX, newY);
+        
+	}
+	
+	/**
+	 * Set the total velocity of the puck
+	 * @param velocity
+	 */
+	public void setTotalVelocity(float velocity){
+		this.velocity = velocity;
+	}
+	
+	/**
+	 * Set the speed in x and y directions
+	 * @param dx
+	 * @param dy
+	 */
+	public void setSpeed(float dx, float dy){
+		speedX = dx;
+		speedY = dy;
+	}
+
+	/**
+	 * Returns the X coordinate of the origo of the mallet
+	 * @return
+	 */
+	public float getOrigoX(){
+		float origoX = sprite.getX() + (sprite.getWidth()/2);
+		return origoX;
+	}
+	/**
+	 * Returns the Y coordinate of the origo of the mallet
+	 * @return
+	 */
+	public float getOrigoY(){
+		float origoY = sprite.getY() + (sprite.getHeight()/2);
+		return origoY;
 	}
 	
 	/**
@@ -123,8 +168,11 @@ public enum Puck
 		return this.posY;
 	}
 
-
-	public IEntity getSprite() {
+	/**
+	 * Returns the graphic sprite contained in this object
+	 * @return
+	 */
+	public Sprite getSprite() {
 		return this.sprite;
 	}
 }

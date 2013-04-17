@@ -45,7 +45,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		this.createBackground();
 		this.preference = PreferenceManager.getDefaultSharedPreferences(instance);
 		initializePlayers();
-		this.registerUpdateHandler(new GameUpdateHandler());
+		this.registerUpdateHandler(new GameUpdateHandler(playerOneMallet.getSprite(), playerTwoMallet.getSprite(), puck.getSprite()));
 	}
 	
 	private void initializePlayers() {
@@ -90,5 +90,19 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * Returns the mallet object of player one.
+	 * @return
+	 */
+	public Mallet getPlayerOne(){
+		return playerOneMallet;
+	}
+	/**
+	 * Returns the mallet object of player two.
+	 * @return
+	 */
+	public Mallet getPlayerTwo(){
+		return playerTwoMallet;
+	}
 }

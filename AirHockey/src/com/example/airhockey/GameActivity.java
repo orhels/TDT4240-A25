@@ -64,4 +64,5 @@ public class GameActivity extends SimpleBaseGameActivity {
 	public GameScene getCurrentScene(){
 		return this.scene;
 	}
+	
 }

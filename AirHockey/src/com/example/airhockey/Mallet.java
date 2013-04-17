@@ -17,6 +17,7 @@ public class Mallet {
 	private Camera mCamera;
 	private boolean moveable;
 	private float size;
+	public float spriteHeight, spriteWidth;
 	
 	/**
 	 * Constructor
@@ -33,8 +34,8 @@ public class Mallet {
 		malletAtlas.load();
 		moveable = true;
 		mCamera = instance.mCamera;
-		float spriteWidth = sprite.getWidth() / 2;
-		float spriteHeight = sprite.getHeight() / 2;
+		spriteWidth = sprite.getWidth() / 2;
+		spriteHeight = sprite.getHeight() / 2;
 		if(player == 1) {
 			setPosition(mCamera.getWidth() * 0.5f - spriteWidth, mCamera.getHeight() * 0.15f - spriteHeight);
 		}
@@ -133,6 +134,23 @@ public class Mallet {
 
 	public Sprite getSprite() {
 		return this.sprite;
+	}
+	
+	/**
+	 * Returns the X coordinate of the origo of the mallet
+	 * @return
+	 */
+	public float getOrigoX(){
+		float origoX = sprite.getX() + (spriteWidth/2);
+		return origoX;
+	}
+	/**
+	 * Returns the Y coordinate of the origo of the mallet
+	 * @return
+	 */
+	public float getOrigoY(){
+		float origoY = sprite.getY() + (spriteHeight/2);
+		return origoY;
 	}
 	
 //	private void debug(String msg) {
