@@ -44,8 +44,9 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		this.mCamera = instance.mCamera;
 		this.createBackground();
 		this.preference = PreferenceManager.getDefaultSharedPreferences(instance);
+		puck.setTotalVelocity(1.0f);
 		initializePlayers();
-		this.registerUpdateHandler(new GameUpdateHandler(playerOneMallet.getSprite(), playerTwoMallet.getSprite(), puck.getSprite()));
+		this.registerUpdateHandler(new GameUpdateHandler(playerOneMallet, playerTwoMallet, puck));
 	}
 	
 	private void initializePlayers() {
@@ -61,7 +62,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	 * Method for moving the puck. Called on every update 
 	 */
 	public void movePuck(){
-		//puck.updatePuck();
+		puck.updatePuck();
 	}
 	
 	private void createBackground()

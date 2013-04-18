@@ -125,15 +125,19 @@ public enum Puck
 	public void setTotalVelocity(float velocity){
 		this.velocity = velocity;
 	}
+	public float getTotalVelocity(){
+		return velocity;
+	}
 	
 	/**
-	 * Set the speed in x and y directions
+	 * Set the direction to x and y coordinates, normalizes according to the velocity
 	 * @param dx
 	 * @param dy
 	 */
-	public void setSpeed(float dx, float dy){
-		speedX = dx;
-		speedY = dy;
+	public void setDirection(float dx, float dy){
+		float sum = dx+dy;
+		speedX = (dx/sum) * velocity;
+		speedY = (dy/sum) * velocity;
 	}
 
 	/**
