@@ -32,7 +32,12 @@ public enum Puck
 	private float speedY;
 	/* The size of the puck */
 	private float size;
+	/*The max allowed velocity of the puck */
+	private float maxVelocity;
+	/*The minimum allowed velocity of the puck */
+	private float minVelocity;
 	
+
 	/**
 	 * Constructor
 	 */
@@ -50,6 +55,10 @@ public enum Puck
 		this.puckAtlas.load();
 		
 		moveable = true;
+		
+		setVelocity(2);
+		setMaxVelocity(10);
+		setMinVelocity(1);
 	}
 
 	/**
@@ -72,7 +81,6 @@ public enum Puck
 		}
 	}
 		
-	
 	/**
 	 * Update the puck position according to the speed
 	 */
@@ -94,43 +102,69 @@ public enum Puck
             newX = sprite.getX() + speedX;
         }
         else{
-            newX = leftWall;
-        }
-        if (sprite.getY() >= upperWall){
-            newY = sprite.getY() + speedY;
-        }
-        else{
-            newY = upperWall;
+        	speedX = -speedX;
+            newX = sprite.getX() + speedX;
         }
         if (newX <= rightWall){
             newX = sprite.getX() + speedX;
         }
         else{
-            newX = rightWall;
+        	speedX = -speedX;
+            newX = sprite.getX() + speedX;
         }
-        if (newY <= lowerWall){
-            newY = sprite.getY() + speedY;
-        }
-        else{
-            newY = rightWall;
-        }
+        
+        newY = sprite.getY() + speedY;
+        
         sprite.setPosition(newX, newY);
         
 	}
 	
 	/**
-	 * Set the total velocity of the puck
+	 * Set the total velocity of the puck, within the bounds of the allowed velocities.
 	 * @param velocity
 	 */
-	public void setTotalVelocity(float velocity){
-		this.velocity = velocity;
+	public void setVelocity(float v){
+		if(v>maxVelocity){v=maxVelocity;}
+		if(v<minVelocity){v=minVelocity;}
+		this.velocity = v;
 	}
-	public float getTotalVelocity(){
+	/**
+	 * Get the total velocity of the puck
+	 * @return
+	 */
+	public float getVelocity(){
 		return velocity;
 	}
-	
 	/**
-	 * Set the direction to x and y coordinates, normalizes according to the velocity
+	 * Get the maximum allowed velocity of the puck
+	 * @return
+	 */
+	public float getMaxVelocity() {
+		return maxVelocity;
+	}
+	/**
+	 * Set the maximum allowed velocity of the puck
+	 * @param maxVelocity
+	 */
+	public void setMaxVelocity(float maxVelocity) {
+		this.maxVelocity = maxVelocity;
+	}
+	/**
+	 * Get the minimum allowed velocyt of the puck
+	 * @return
+	 */
+	public float getMinVelocity() {
+		return minVelocity;
+	}
+	/**
+	 * Set the minimum allowed velocity of the puck
+	 * @param minVelocity
+	 */
+	public void setMinVelocity(float minVelocity) {
+		this.minVelocity = minVelocity;
+	}
+	/**
+	 * Set the direction to x and y coordinates. The speed will normalize itself according to the velocity
 	 * @param dx
 	 * @param dy
 	 */
@@ -138,9 +172,7 @@ public enum Puck
 		float sum = Math.abs(dx)+Math.abs(dy);
 		speedX = (dx/sum) * velocity;
 		speedY = (dy/sum) * velocity;
-		System.out.println("Speed set to: "+speedX+", "+speedY);
 	}
-
 	/**
 	 * Returns the X coordinate of the origo of the mallet
 	 * @return
@@ -157,7 +189,6 @@ public enum Puck
 		float origoY = sprite.getY() + (sprite.getHeight()/2);
 		return origoY;
 	}
-	
 	/**
 	 * Returns the Puck X position
 	 * @return
@@ -172,7 +203,6 @@ public enum Puck
 	public float getPuckPosY(){
 		return this.posY;
 	}
-
 	/**
 	 * Returns the graphic sprite contained in this object
 	 * @return

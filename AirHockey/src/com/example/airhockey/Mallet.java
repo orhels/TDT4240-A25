@@ -18,6 +18,14 @@ public class Mallet {
 	private boolean moveable;
 	private float size;
 	public float spriteHeight, spriteWidth;
+	/* The mallets previous X position */
+	private float previousX;
+	/* The mallets previous Y position */
+	private float previousY;
+	/* The mallets speed in X direction */
+	private float speedX;
+	/* The mallets seed in Y direction */
+	private float speedY;
 	
 	/**
 	 * Constructor
@@ -77,6 +85,10 @@ public class Mallet {
 		sprite.setPosition(x, y);
 	}
 	
+	/**
+	 * Sets the position of the mallet according to the touch event.
+	 * @param event
+	 */
 	public void setPosition(TouchEvent event) {
 		
 		float radius = (float) ((sprite.getHeight() / 2) * size); 
@@ -88,50 +100,10 @@ public class Mallet {
 		}
 	}
 
-	
 	/**
-	 * Moves the mallet to the position, considers the wall bounds of the field
-	 * @param x
-	 * @param y
+	 * Returns the sprite graphic object representing the mallet.
+	 * @return
 	 */
-	public void moveMallet(float x, float y) {
-		if(!moveable)
-			return;
-		
-		//også her må veggene begrenses til om det er player 1 eller 2, slik at de kun kan bevege seg på sin egen side.
-		int leftWall = 0;
-        int rightWall = (int) (mCamera.getWidth() - (int) sprite.getWidth());
-        int lowerWall = (int) (mCamera.getHeight() - (int) sprite.getHeight());
-        int upperWall = 0;
-        
-        float newX;
-        float newY;
-
-        // Set New X,Y Coordinates within Limits
-        if (sprite.getX() >= leftWall)
-            newX = x;
-        else
-            newX = leftWall;
-        
-        if (sprite.getY() >= upperWall)
-            newY = y;
-        else
-            newY = upperWall;
-        
-        if (newX <= rightWall)
-            newX = x;
-        else
-            newX = rightWall;
-        
-        if (newY <= lowerWall)
-            newY = y;
-        else
-            newY = rightWall;
-
-        setPosition(newX, newY);
-			
-	}
-
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -152,7 +124,26 @@ public class Mallet {
 		float origoY = sprite.getY() + (sprite.getHeight()/2);
 		return origoY;
 	}
-	
+
+	/**
+	 * Method for updating the movement speed of the mallet.
+	 * Calculates the speed as the difference between the previous positions and the current positions.
+	 * It then sets the previous position as the current ones.
+	 */
+	public void updateSpeed(){
+		float currentX = sprite.getX();
+		float currentY = sprite.getY();
+		speedX = previousX-currentX;
+		speedY = previousY-currentY;
+		previousX = currentX;
+		previousY = currentY;
+	}
+	public float getSpeedX(){
+		return speedX;
+	}
+	public float getSpeedY(){
+		return speedY;
+	}
 //	private void debug(String msg) {
 //		Log.d("Mallet", msg);
 //	}
