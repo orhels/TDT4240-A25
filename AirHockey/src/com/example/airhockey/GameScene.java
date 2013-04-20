@@ -62,10 +62,20 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	 */
 	public void update(){
 		puck.updatePuck();
+		checkWin();
 		playerOneMallet.updateSpeed();
 		playerTwoMallet.updateSpeed();
 	}
+	/**
+	 * Checks if the puck is outside the Y bounds, and assigns a winner.
+	 */
+	public void checkWin(){
+		
+	}
 	
+	/**
+	 * Creates the graphic background in the match
+	 */
 	private void createBackground()
 	{
 		this.setBackground(new Background(Color.WHITE));

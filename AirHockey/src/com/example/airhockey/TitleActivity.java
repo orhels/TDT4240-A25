@@ -1,12 +1,13 @@
 package com.example.airhockey;
 
-import android.app.ActionBar;
+import android.app.ActionBar; 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class TitleActivity extends Activity implements OnClickListener {
 	
@@ -19,10 +20,10 @@ public class TitleActivity extends Activity implements OnClickListener {
 	}
 	
 	private void initializeUI() {
-		((Button) findViewById(R.id.title_new_game_button)).setOnClickListener(this);
-		((Button) findViewById(R.id.title_match_history_button)).setOnClickListener(this);
-		((Button) findViewById(R.id.title_settings_button)).setOnClickListener(this);
-		((Button) findViewById(R.id.title_quit_button)).setOnClickListener(this);
+		((ImageButton) findViewById(R.id.title_new_game_button)).setOnClickListener(this);
+		((ImageButton) findViewById(R.id.title_match_history_button)).setOnClickListener(this);
+		((ImageButton) findViewById(R.id.title_settings_button)).setOnClickListener(this);
+		((ImageButton) findViewById(R.id.title_quit_button)).setOnClickListener(this);
 	}
 	
 	private void configureActionBar() {

@@ -82,7 +82,7 @@ public enum Puck
 	}
 		
 	/**
-	 * Update the puck position according to the speed
+	 * Update the puck position according to the speed.
 	 */
 	public void updatePuck(){
 		if(!moveable){
