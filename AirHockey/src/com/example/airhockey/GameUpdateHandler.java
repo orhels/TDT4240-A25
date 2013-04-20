@@ -27,7 +27,7 @@ public class GameUpdateHandler implements IUpdateHandler{
 			//Set puck velocity to opposite direction of mallet
 			float dx = puck.getOrigoX() - mallet2.getOrigoX();
 			float dy = puck.getOrigoY() - mallet2.getOrigoY();
-			puck.setDirection(dx, dy); 
+			puck.setDirection(dx, dy);
 		}
 		GameActivity.getInstance().getCurrentScene().movePuck();
 		

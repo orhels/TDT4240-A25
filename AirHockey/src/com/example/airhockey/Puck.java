@@ -135,9 +135,10 @@ public enum Puck
 	 * @param dy
 	 */
 	public void setDirection(float dx, float dy){
-		float sum = dx+dy;
+		float sum = Math.abs(dx)+Math.abs(dy);
 		speedX = (dx/sum) * velocity;
 		speedY = (dy/sum) * velocity;
+		System.out.println("Speed set to: "+speedX+", "+speedY);
 	}
 
 	/**

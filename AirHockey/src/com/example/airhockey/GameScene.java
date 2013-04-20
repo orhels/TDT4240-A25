@@ -44,7 +44,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		this.mCamera = instance.mCamera;
 		this.createBackground();
 		this.preference = PreferenceManager.getDefaultSharedPreferences(instance);
-		puck.setTotalVelocity(1.0f);
+		puck.setTotalVelocity(10);
 		initializePlayers();
 		this.registerUpdateHandler(new GameUpdateHandler(playerOneMallet, playerTwoMallet, puck));
 	}
