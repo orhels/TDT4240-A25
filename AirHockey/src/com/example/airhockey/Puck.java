@@ -8,6 +8,7 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 
 import android.graphics.PointF;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public enum Puck 
 {
@@ -20,8 +21,6 @@ public enum Puck
 	private ITextureRegion puckTexture;
 	private Sprite sprite;
 
-	private float posX;
-	private float posY;
 	private boolean moveable;
 
 	/* The total velocity of the puck, a vector of speed and direction */
@@ -51,8 +50,8 @@ public enum Puck
 		moveable = true;
 
 		setVelocity(0, 0);
-		setMaxVelocity(10);
-		setMinVelocity(0);
+		setMaxVelocity(20);
+		setMinVelocity(1);
 	}
 
 	/**
@@ -98,17 +97,28 @@ public enum Puck
 		}
 		sprite.setPosition(x, y);
 	}
+	
+	public void addToPosition(float dx, float dy) {
+		setPosition(sprite.getX() + dx, sprite.getY() + dy);
+	}
 
 	/**
 	 * Set the total velocity of the puck, within the bounds of the allowed velocities.
 	 * @param velocity
 	 */
 	public void setVelocity(float dx, float dy){
-
-		if(dx > maxVelocity){dx = maxVelocity;}
-		if(dx < minVelocity){dx = minVelocity;}
-		if(dy > maxVelocity){dy = maxVelocity;}
-		if(dy < minVelocity){dy = minVelocity;}
+		Log.d("Puck", "DX: " + dx + ". DY: " + dy);
+		if (dx > maxVelocity) {
+			dx = maxVelocity;
+		} else if (dx < -maxVelocity) {
+			dx = -maxVelocity;
+		}
+		if (dy > maxVelocity) {
+			dy = maxVelocity;
+		} else if (dy < -maxVelocity) {
+			dy = -maxVelocity;
+		}
+		
 		if (velocity != null) {
 			velocity.x = dx;
 			velocity.y = dy;
@@ -183,14 +193,14 @@ public enum Puck
 	 * @return
 	 */
 	public float getPuckPosX(){		
-		return this.posX;
+		return this.sprite.getX();
 	}
 	/**
 	 * Returns the Puck Y position
 	 * @return
 	 */
 	public float getPuckPosY(){
-		return this.posY;
+		return this.sprite.getY();
 	}
 	/**
 	 * Returns the graphic sprite contained in this object
@@ -200,6 +210,6 @@ public enum Puck
 		return this.sprite;
 	}
 	public float getRadius() {
-		return sprite.getHeight() / 2;
+		return (sprite.getHeight() / 2) - 12;
 	}
 }

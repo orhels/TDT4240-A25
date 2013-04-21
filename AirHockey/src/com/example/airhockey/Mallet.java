@@ -147,13 +147,8 @@ public class Mallet {
 		speedY = previousY - currentY;
 		previousX = currentX;
 		previousY = currentY;
-		if (speedX > 0) {
-			debug("Speed [x]: " + speedX);
-		}
-		if (speedY > 0) {
-			debug("Speed [y]: " + speedY);
-		}
 	}
+
 	public float getSpeedX(){
 		return speedX;
 	}

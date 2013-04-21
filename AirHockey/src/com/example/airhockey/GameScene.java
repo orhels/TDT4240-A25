@@ -12,7 +12,9 @@ import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.util.color.Color;
 
 import android.content.SharedPreferences;
+import android.graphics.PointF;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class GameScene extends Scene implements IOnSceneTouchListener {
 	
@@ -98,8 +100,21 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 				playerTwoMallet.setPosition(pSceneTouchEvent);
 			}			
 		}
+		PointF touch = new PointF(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+		PointF ball = new PointF(playerOneMallet.getOrigoX(), playerOneMallet.getOrigoY());
+		Log.d("GameScene", "Angle: " + getAngle(touch, ball));
 		return false;
 	}
+	
+    public float getAngle(PointF one, PointF two) {
+        float angle = (float) Math.toDegrees(Math.atan2(one.x - two.x, one.y - two.y));
+
+        if(angle < 0){
+            angle += 360;
+        }
+
+        return angle;
+    }
 	
 	/**
 	 * Returns the mallet object of player one.

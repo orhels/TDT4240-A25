@@ -30,26 +30,25 @@ public class GameUpdateHandler implements IUpdateHandler{
 		mallet1.updateSpeed();
 		mallet2.updateSpeed();
 		double distance = mallet1.getDistanceFromPoint(puck.getOrigoX(), puck.getOrigoY());
-		if (distance <= mallet1.getRadius() + puck.getRadius()){
+		double minDistance = mallet1.getRadius() + puck.getRadius();
+		if (distance <= minDistance){
 			debug("Player 1 - Collided with puck");
 			handleCollision(mallet1, distance);
-			puck.updatePuck();
-			//Set puck velocity to opposite direction of mallet
 		}
+
 		distance = mallet2.getDistanceFromPoint(puck.getOrigoX(), puck.getOrigoY());
 		if (distance <= mallet2.getRadius() + puck.getRadius()){
 			debug("Player 2 - Collided with puck");
 			handleCollision(mallet2, distance);
-			puck.updatePuck();
-			//Set puck velocity to opposite direction of mallet
 		}
+		
 		GameActivity.getInstance().getCurrentScene().update();
 
 	}
 	
 	private void handleCollision(Mallet player, double distance) {
-		double angle = getAngle(new PointF(player.getOrigoX(), player.getOrigoY()), 
-				new PointF(puck.getOrigoX(), puck.getOrigoY()));
+//		double angle = getAngle(new PointF(player.getOrigoX(), player.getOrigoY()), 
+//				new PointF(puck.getOrigoX(), puck.getOrigoY()));
 		PointF normal = new PointF();
 		normal.x =  player.getOrigoX() - puck.getOrigoX();
 		normal.y =  player.getOrigoY() - puck.getOrigoY();
@@ -58,44 +57,61 @@ public class GameUpdateHandler implements IUpdateHandler{
 		normal.x /= divider;
 		normal.y /= divider;
 		// Find the tangent for the normal
-		PointF tangent = new PointF();
-		tangent.x = -normal.y;
-		tangent.y = normal.x;
+		PointF tangent = new PointF(-normal.y, normal.x);
 		// Projecting the velocities onto the normal of the balls and the balls' tangent.
-		double vel1N = dot(normal, new PointF(player.getSpeedX(), player.getSpeedY()), angle);
-		double vel2T = dot(tangent, puck.getVelocity(), angle);
+		double vel1N = dot(normal, new PointF(player.getSpeedX(), player.getSpeedY()));
+		double vel2T = dot(tangent, puck.getVelocity());
 		double newVel2N = vel1N;
 		
 		// Calculate the puck's speed along the normal.
-		PointF newNormal2 = new PointF();
-		newNormal2.x = (float) (normal.x * newVel2N);
-		newNormal2.y = (float) (normal.y * newVel2N);
+		PointF newNormal2 = new PointF((float) (normal.x * newVel2N), (float) (normal.y * newVel2N));
 		
 		// Calculate the puck's speed along the tangent.
-		PointF newTanget2 = new PointF();
-		newTanget2.x = (float) (tangent.x * vel2T);
-		newTanget2.y = (float) (tangent.y * vel2T);
+		PointF newTanget2 = new PointF((float) (tangent.x * vel2T), (float) (tangent.y * vel2T));
 		
 		// Project it back to the puck.
 		PointF newPuckVel = new PointF();
 		newPuckVel.x = newNormal2.x + newTanget2.x;
 		newPuckVel.y = newNormal2.y + newTanget2.y;
 		puck.setVelocity(newPuckVel.x, newPuckVel.y);
+		preventOverlapping(player, distance);
+		puck.updatePuck();
+	}
+	
+	private void preventOverlapping(Mallet mallet, double distance) {
+		PointF delta = new PointF(mallet.getOrigoX() - puck.getOrigoX(), mallet.getOrigoY() - puck.getOrigoY());
+		float diff = (float) ((mallet.getRadius() + puck.getRadius() - distance) / distance);
+		PointF mtd = new PointF(delta.x * diff, delta.y * diff);
+		
+		// Move them away from each other
+		mallet.setPosition(mallet.getSprite().getX() + mtd.x, mallet.getSprite().getY() + mtd.y);
+		puck.setPosition(puck.getPuckPosX() - mtd.x, puck.getPuckPosY() - mtd.y);
+		
 	}
 	
     // return the inner product of this Vector a and b
-    public double dot(PointF one, PointF two, double angle) {
-        return (one.x + two.x + one.y + two.y) * Math.cos(angle);
+    public double dot(PointF one, PointF two) {
+    	
+        return (one.x + two.x + one.y + two.y) * Math.cos(getAngle(one, two));
     }
     
-    public float getAngle(PointF one, PointF two) {
-        float angle = (float) Math.toDegrees(Math.atan2(one.x - two.x, one.y - two.y));
-
-        if(angle < 0){
-            angle += 360;
-        }
-
-        return angle;
+    public double getAngle(PointF one, PointF two) {
+       return Math.atan2(one.x - two.x, one.y - two.y);
+    }
+    
+    public PointF normalize(PointF one) {
+    	PointF result = new PointF();
+    	double divisor = Math.sqrt(Math.pow(one.x, 2) + Math.pow(one.y, 2));
+    	result.x = (float) (one.x / divisor);
+    	result.y = (float) (one.y / divisor);
+    	return result;
+    }
+    
+    public PointF multiply(PointF one, double scalar) {
+    	PointF result = new PointF();
+    	result.x = (float) (one.x * scalar);
+    	result.y = (float) (one.y * scalar);
+    	return result;
     }
 
 	@Override
