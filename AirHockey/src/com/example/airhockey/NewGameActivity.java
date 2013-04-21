@@ -89,6 +89,7 @@ public class NewGameActivity extends Activity implements OnClickListener, OnSeek
 		{
 		case R.id.startButton:
 			Intent intent = new Intent(this, GameActivity.class);
+			//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 			startActivity(intent);
 			break;
 		}

@@ -48,22 +48,13 @@ public class GameActivity extends SimpleBaseGameActivity {
 	public static GameActivity getInstance(){
 		return instance;
 	}
-	
-	public void onStop() {
-		super.onStop();
-		scene.destroySprites();
-	}
-	
-	public void onPause() {
-		super.onPause();
-		scene.destroySprites();
-	}
 
 	@Override
 	protected Scene onCreateScene() 
 	{
 		scene = new GameScene();
 		scene.setOnSceneTouchListener(scene);
+
 		return scene;
 	}
 	
@@ -73,6 +64,16 @@ public class GameActivity extends SimpleBaseGameActivity {
 	
 	public GameScene getCurrentScene(){
 		return this.scene;
+	}
+	
+	public void onStop() {
+		super.onStop();
+		scene.destroySprites();
+	}
+	
+	public void onPause() {
+		super.onPause();
+		scene.destroySprites();
 	}
 	
 }
