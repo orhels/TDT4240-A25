@@ -54,6 +54,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 	{
 		scene = new GameScene();
 		scene.setOnSceneTouchListener(scene);
+
 		return scene;
 	}
 	
