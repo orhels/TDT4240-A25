@@ -2,6 +2,7 @@ package com.example.airhockey;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -19,12 +20,29 @@ public class EndOfGameActivity extends Activity implements OnClickListener
 	public void onCreate(Bundle bundle)
 	{
 		super.onCreate(bundle);
-		setContentView(R.layout.new_game_view);
+		setContentView(R.layout.end_of_game_view);
 		fetchPreferences();
 		initializeUI();
+		selectWinner();
 		configureActionBar();
 	}
 	
+	private void selectWinner() {
+		/*
+		 pseudokode:
+		 if(player1 is the winner) {
+		 	winnerTextView.setText(player1 + ": " + player1points + " vs " + player2 + ": " + player2points + "\n" 
+		 					+ player1 + " is the winner!!!")
+		 } else {
+		 	winnerTextView.setText(player1 + ": " + player1points + " vs " + player2 + ": " + player2points + "\n\n" 
+		 					+ player2 + " is the winner!!!")
+		 }
+		 
+		 
+		 */
+		
+	}
+
 	private void fetchPreferences() 
 	{
 		preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -49,10 +67,12 @@ public class EndOfGameActivity extends Activity implements OnClickListener
 		switch (v.getId())
 		{
 		case R.id.rematchButton:
-			// TODO: Start a new gameActivity
+			Intent intent = new Intent(this, GameActivity.class);
+			startActivity(intent);
 			break;
 		case R.id.mainMenuButton:
-			// TODO: Jump back to the main manu
+			//Virker dette? :s
+			this.finish();
 			break;
 		}
 	}
