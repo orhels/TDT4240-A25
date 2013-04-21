@@ -21,8 +21,6 @@ public enum Puck
 	private ITextureRegion puckTexture;
 	private Sprite sprite;
 
-	private boolean moveable;
-
 	/* The total velocity of the puck, a vector of speed and direction */
 	private PointF velocity;
 	/* The size of the puck */
@@ -38,20 +36,25 @@ public enum Puck
 	 */
 	private Puck()
 	{
-		String size = PreferenceManager.getDefaultSharedPreferences(GameActivity.getInstance()).getString("Puck", "Medium");
-		setSize(size);
 		this.mCamera = GameActivity.getInstance().mCamera;
+		initPuck();
+	}
+	
+	/**
+	 * Initializes the puck variables
+	 */
+	public void initPuck(){
 		this.puckAtlas = new BitmapTextureAtlas(GameActivity.getInstance().getTextureManager(),256,256);
 		this.puckTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(puckAtlas, GameActivity.getInstance(), "game/puck.png", 60, 60);
 		this.sprite = new Sprite(mCamera.getCenterX()- puckTexture.getHeight()/2, mCamera.getCenterY() - puckTexture.getWidth()/2, puckTexture, GameActivity.getInstance().getVertexBufferObjectManager());
+		String size = PreferenceManager.getDefaultSharedPreferences(GameActivity.getInstance()).getString("Puck", "Medium");
+		setSize(size);
 		this.sprite.setScale(this.size);
 		this.puckAtlas.load();
-
-		moveable = true;
-
+		
 		setVelocity(0, 0);
-		setMaxVelocity(20);
-		setMinVelocity(1);
+		setMaxVelocity(10);
+		
 	}
 
 	/**
@@ -78,23 +81,29 @@ public enum Puck
 	 * Update the puck position according to the speed.
 	 */
 	public void updatePuck(){
-		if(!moveable){
-			return;
-		}
 		setPosition(sprite.getX() + velocity.x, sprite.getY() + velocity.y);
-
+		
 	}
-
+	
+	/**
+	 * Resets the puck back to original position
+	 */
+	public void resetPuck(){
+		sprite.setPosition(mCamera.getCenterX()- puckTexture.getHeight()/2, mCamera.getCenterY() - puckTexture.getWidth()/2);
+		setVelocity(0, 0);
+	}
+	/**
+	 * Sets the x and y positions of the puck
+	 * @param x
+	 * @param y
+	 */
 	public void setPosition(float x, float y){
 		float radius = sprite.getHeight();
 		if (x + radius >= mCamera.getWidth() || x < 0 ) {
 			x = sprite.getX();
 			velocity.x *= -0.95f;
 		}
-		if (y + radius >= mCamera.getHeight() || y < 0 ) {
-			y = sprite.getY();
-			velocity.y *= -0.95f;
-		}
+
 		sprite.setPosition(x, y);
 	}
 	

@@ -5,7 +5,11 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
+import org.andengine.opengl.font.Font;
+import org.andengine.opengl.font.FontFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+
+import android.graphics.Typeface;
 
 public class GameActivity extends SimpleBaseGameActivity {
 
@@ -14,6 +18,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 	private GameScene scene;
 	static final int CAMERA_WIDTH = 480;
 	static final int CAMERA_HEIGHT = 800;
+	public Font mFont;
 	
 
 
@@ -41,8 +46,8 @@ public class GameActivity extends SimpleBaseGameActivity {
 	@Override
 	protected void onCreateResources() 
 	{
-		
-		
+		mFont = FontFactory.create(this.getFontManager(),this.getTextureManager(), 256, 256, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 64);
+	    mFont.load();
 	}
 	
 	public static GameActivity getInstance(){
@@ -66,6 +71,11 @@ public class GameActivity extends SimpleBaseGameActivity {
 		return this.scene;
 	}
 	
+	@Override
+	public void onBackPressed() {
+		// TODO: Add "Do you want to quit?" graphics
+		super.onBackPressed();
+	}
 	public void onStop() {
 		super.onStop();
 		scene.destroySprites();
