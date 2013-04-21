@@ -8,8 +8,10 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 
+import android.util.Log;
+
 public class Mallet {
-	
+
 	private BitmapTextureAtlas malletAtlas;
 	private ITextureRegion malletTexture;
 	private Sprite sprite;
@@ -26,7 +28,7 @@ public class Mallet {
 	private float speedX;
 	/* The mallets seed in Y direction */
 	private float speedY;
-	
+
 	/**
 	 * Constructor
 	 * @param size The size of the mallet
@@ -50,11 +52,11 @@ public class Mallet {
 		else if (player == 2) {
 			setPosition(mCamera.getWidth() * 0.5f - spriteWidth, mCamera.getHeight() * 0.85f - spriteHeight);
 		}
-		
+
 	}
-	
+
 	private void setSize(String size) {
-		
+
 		if(size.equals("Small"))
 		{
 			this.size = 0.5f;
@@ -68,7 +70,7 @@ public class Mallet {
 			this.size = 1.5f;
 		}
 	}
-	
+
 	/**
 	 * Sets the position of the Mallet sprite
 	 * @param x
@@ -84,20 +86,28 @@ public class Mallet {
 		}
 		sprite.setPosition(x, y);
 	}
-	
+
 	/**
 	 * Sets the position of the mallet according to the touch event.
 	 * @param event
 	 */
 	public void setPosition(TouchEvent event) {
-		
+
 		float radius = (float) ((sprite.getHeight() / 2) * size); 
 		float x = event.getX() - (sprite.getX() + radius);
 		float y = event.getY() - (sprite.getY() + radius);
 		double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // Pythagoras' theorem
-		if (distance <= radius) {
+		if (distance <= radius) { 
+			// Only respond to touches close to the mallet
 			setPosition(sprite.getX() + x, sprite.getY() + y);
 		}
+	}
+
+	public double getDistanceFromPoint(float posX, float posY) {
+		float radius = (float) ((sprite.getHeight() / 2) * size); 
+		float x = posX - (sprite.getX() + radius);
+		float y = posY - (sprite.getY() + radius);
+		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // Pythagoras' theorem
 	}
 
 	/**
@@ -107,7 +117,7 @@ public class Mallet {
 	public Sprite getSprite() {
 		return this.sprite;
 	}
-	
+
 	/**
 	 * Returns the X coordinate of the origo of the mallet
 	 * @return
@@ -133,10 +143,16 @@ public class Mallet {
 	public void updateSpeed(){
 		float currentX = sprite.getX();
 		float currentY = sprite.getY();
-		speedX = previousX-currentX;
-		speedY = previousY-currentY;
+		speedX = previousX - currentX;
+		speedY = previousY - currentY;
 		previousX = currentX;
 		previousY = currentY;
+		if (speedX > 0) {
+			debug("Speed [x]: " + speedX);
+		}
+		if (speedY > 0) {
+			debug("Speed [y]: " + speedY);
+		}
 	}
 	public float getSpeedX(){
 		return speedX;
@@ -144,7 +160,15 @@ public class Mallet {
 	public float getSpeedY(){
 		return speedY;
 	}
-//	private void debug(String msg) {
-//		Log.d("Mallet", msg);
-//	}
+
+	public float getRadius() {
+		return sprite.getHeight() / 2;
+	}
+	private void debug(String msg) {
+		Log.d("Mallet", msg);
+	}
+
+	public boolean isIdle() {
+		return speedX == 0 && speedY == 0;
+	}
 }

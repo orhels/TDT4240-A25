@@ -1,64 +1,58 @@
 package com.example.airhockey;
 
 import org.andengine.engine.camera.Camera;
-import org.andengine.entity.IEntity;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 
+import android.graphics.PointF;
 import android.preference.PreferenceManager;
 
 public enum Puck 
 {
 	PUCK;
-	
+
 	//Fields
-//	private int puckID = PUCKID_NOT_Set;
+	//	private int puckID = PUCKID_NOT_Set;
 	private Camera mCamera;
 	private BitmapTextureAtlas puckAtlas;
 	private ITextureRegion puckTexture;
 	private Sprite sprite;
-	
+
 	private float posX;
 	private float posY;
 	private boolean moveable;
-	
-	/* The total velocity of the puck, a sum of the speed in x and y direction */
-	private float velocity;
-	/* Speed in X direction*/
-	private float speedX;
-	/* Speed in Y direction*/
-	private float speedY;
+
+	/* The total velocity of the puck, a vector of speed and direction */
+	private PointF velocity;
 	/* The size of the puck */
 	private float size;
 	/*The max allowed velocity of the puck */
 	private float maxVelocity;
 	/*The minimum allowed velocity of the puck */
 	private float minVelocity;
-	
+
 
 	/**
 	 * Constructor
 	 */
 	private Puck()
 	{
-		speedX = 0;
-		speedY = 0;
 		String size = PreferenceManager.getDefaultSharedPreferences(GameActivity.getInstance()).getString("Puck", "Medium");
 		setSize(size);
 		this.mCamera = GameActivity.getInstance().mCamera;
 		this.puckAtlas = new BitmapTextureAtlas(GameActivity.getInstance().getTextureManager(),256,256);
-		this.puckTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(puckAtlas, GameActivity.getInstance(), "game/Puck.png", 60, 60);
+		this.puckTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(puckAtlas, GameActivity.getInstance(), "game/puck.png", 60, 60);
 		this.sprite = new Sprite(mCamera.getCenterX()- puckTexture.getHeight()/2, mCamera.getCenterY() - puckTexture.getWidth()/2, puckTexture, GameActivity.getInstance().getVertexBufferObjectManager());
 		this.sprite.setScale(this.size);
 		this.puckAtlas.load();
-		
+
 		moveable = true;
-		
-		setVelocity(2);
+
+		setVelocity(0, 0);
 		setMaxVelocity(10);
-		setMinVelocity(1);
+		setMinVelocity(0);
 	}
 
 	/**
@@ -80,7 +74,7 @@ public enum Puck
 			this.size = 1.5f;
 		}
 	}
-		
+
 	/**
 	 * Update the puck position according to the speed.
 	 */
@@ -88,51 +82,45 @@ public enum Puck
 		if(!moveable){
 			return;
 		}
-		
-		int leftWall = 0;
-        int rightWall = (int) (mCamera.getWidth() - (int) sprite.getWidth());
-        int lowerWall = (int) (mCamera.getHeight() - (int) sprite.getHeight());
-        int upperWall = 0;
-        
-        float newX;
-        float newY;
+		setPosition(sprite.getX() + velocity.x, sprite.getY() + velocity.y);
 
-        // Set New X,Y Coordinates within Limits
-        if (sprite.getX() >= leftWall){
-            newX = sprite.getX() + speedX;
-        }
-        else{
-        	speedX = -speedX;
-            newX = sprite.getX() + speedX;
-        }
-        if (newX <= rightWall){
-            newX = sprite.getX() + speedX;
-        }
-        else{
-        	speedX = -speedX;
-            newX = sprite.getX() + speedX;
-        }
-        
-        newY = sprite.getY() + speedY;
-        
-        sprite.setPosition(newX, newY);
-        
 	}
-	
+
+	public void setPosition(float x, float y){
+		float radius = sprite.getHeight();
+		if (x + radius >= mCamera.getWidth() || x < 0 ) {
+			x = sprite.getX();
+			velocity.x *= -0.95f;
+		}
+		if (y + radius >= mCamera.getHeight() || y < 0 ) {
+			y = sprite.getY();
+			velocity.y *= -0.95f;
+		}
+		sprite.setPosition(x, y);
+	}
+
 	/**
 	 * Set the total velocity of the puck, within the bounds of the allowed velocities.
 	 * @param velocity
 	 */
-	public void setVelocity(float v){
-		if(v>maxVelocity){v=maxVelocity;}
-		if(v<minVelocity){v=minVelocity;}
-		this.velocity = v;
+	public void setVelocity(float dx, float dy){
+
+		if(dx > maxVelocity){dx = maxVelocity;}
+		if(dx < minVelocity){dx = minVelocity;}
+		if(dy > maxVelocity){dy = maxVelocity;}
+		if(dy < minVelocity){dy = minVelocity;}
+		if (velocity != null) {
+			velocity.x += dx;
+			velocity.y += dy;
+		} else {
+			velocity = new PointF(dx, dy);
+		}
 	}
 	/**
 	 * Get the total velocity of the puck
 	 * @return
 	 */
-	public float getVelocity(){
+	public PointF getVelocity(){
 		return velocity;
 	}
 	/**
@@ -147,7 +135,9 @@ public enum Puck
 	 * @param maxVelocity
 	 */
 	public void setMaxVelocity(float maxVelocity) {
-		this.maxVelocity = maxVelocity;
+		if (maxVelocity > 0) {
+			this.maxVelocity = maxVelocity;
+		}
 	}
 	/**
 	 * Get the minimum allowed velocyt of the puck
@@ -169,9 +159,8 @@ public enum Puck
 	 * @param dy
 	 */
 	public void setDirection(float dx, float dy){
-		float sum = Math.abs(dx)+Math.abs(dy);
-		speedX = (dx/sum) * velocity;
-		speedY = (dy/sum) * velocity;
+		velocity.x = dx;
+		velocity.y = dy;
 	}
 	/**
 	 * Returns the X coordinate of the origo of the mallet
@@ -209,5 +198,8 @@ public enum Puck
 	 */
 	public Sprite getSprite() {
 		return this.sprite;
+	}
+	public float getRadius() {
+		return sprite.getHeight() / 2;
 	}
 }

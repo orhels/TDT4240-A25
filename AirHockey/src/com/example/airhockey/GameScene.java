@@ -63,8 +63,6 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	public void update(){
 		puck.updatePuck();
 		checkWin();
-		playerOneMallet.updateSpeed();
-		playerTwoMallet.updateSpeed();
 	}
 	/**
 	 * Checks if the puck is outside the Y bounds, and assigns a winner.
@@ -116,5 +114,12 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	 */
 	public Mallet getPlayerTwo(){
 		return playerTwoMallet;
+	}
+	
+	public void destroySprites() {
+		playerOneMallet.getSprite().detachSelf();
+		playerTwoMallet.getSprite().detachSelf();
+		puck.getSprite().detachSelf();
+		backgroundSprite.detachSelf();
 	}
 }

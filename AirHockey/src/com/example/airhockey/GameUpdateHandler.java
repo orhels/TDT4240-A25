@@ -1,9 +1,9 @@
 package com.example.airhockey;
 
 import org.andengine.engine.handler.IUpdateHandler;
-import org.andengine.entity.sprite.Sprite;
 
-import android.hardware.Camera.PreviewCallback;
+import android.graphics.PointF;
+import android.util.Log;
 
 public class GameUpdateHandler implements IUpdateHandler{
 
@@ -11,7 +11,7 @@ public class GameUpdateHandler implements IUpdateHandler{
 	private Mallet mallet1, mallet2;
 	/* The puck object */
 	private Puck puck;
-	
+
 	/**
 	 * Constructor taking in the mallets and the puck objects 
 	 */
@@ -27,29 +27,58 @@ public class GameUpdateHandler implements IUpdateHandler{
 	 */
 	@Override
 	public void onUpdate(float pSecondsElapsed) {
-		if (mallet1.getSprite().collidesWith(puck.getSprite())){
-			System.out.println("Player one collided with puck");
+		mallet1.updateSpeed();
+		mallet2.updateSpeed();
+//		PointF normal = new PointF();
+		double distance = mallet1.getDistanceFromPoint(puck.getOrigoX(), puck.getOrigoY());
+//		normal.x = (float) ((mallet1.getOrigoX() - puck.getOrigoX()) / distance);
+//		normal.y = (float) ((mallet1.getOrigoY() - puck.getOrigoY()) / distance);
+//		PointF tanget = new PointF();
+//		tanget.x = -normal.y;
+//		tanget.y = normal.x;
+//		// Projecting the velocities onto the normal balls and the normal's tangent.
+//		double scalarVelN1 = dot(normal, new PointF(mallet1.getSpeedX(), mallet1.getSpeedY()));
+//		double scalarVelT1 = dot(tanget, new PointF(mallet1.getSpeedX(), mallet1.getSpeedY()));
+//		double scalarVelN2 = dot(normal, puck.getVelocity());
+//		double scalarVelT2 = dot(tanget, puck.getVelocity());
+//		PointF newVel = new PointF();
+//		newMalletVel.x = 
+		
+		if (distance <= mallet1.getRadius() + puck.getRadius()){
+			debug("Player 1 - Collided with puck");
 			//Set puck velocity to opposite direction of mallet
-			float dx = puck.getOrigoX() - mallet1.getOrigoX();
-			float dy = puck.getOrigoY() - mallet1.getOrigoY();
-			puck.setDirection(dx, dy);
-			puck.setVelocity( Math.abs(mallet1.getSpeedX())+Math.abs(mallet1.getSpeedY()) );
+			if (mallet1.isIdle()) {
+				puck.setVelocity(puck.getVelocity().x * -1.9f, puck.getVelocity().y * -1.9f);
+			} else {
+				puck.setVelocity(mallet1.getSpeedX(), mallet1.getSpeedY());
+			}
 		}
-		if (mallet2.getSprite().collidesWith(puck.getSprite())){
-			System.out.println("Player two collided with puck");
+		distance = mallet2.getDistanceFromPoint(puck.getOrigoX(), puck.getOrigoY());
+		if (distance <= mallet2.getRadius() + puck.getRadius()){
+			debug("Player 2 - Collided with puck");
 			//Set puck velocity to opposite direction of mallet
-			float dx = puck.getOrigoX() - mallet2.getOrigoX();
-			float dy = puck.getOrigoY() - mallet2.getOrigoY();
-			puck.setDirection(dx, dy);
-			puck.setVelocity( Math.abs(mallet2.getSpeedX())+Math.abs(mallet2.getSpeedY()) );
+			if (mallet2.isIdle()) {
+				puck.setVelocity(puck.getVelocity().x * -1.9f, puck.getVelocity().y * -1.9f);
+			} else {
+				puck.setVelocity(mallet2.getSpeedX(), mallet2.getSpeedY());
+			}
 		}
 		GameActivity.getInstance().getCurrentScene().update();
-		
+
 	}
 	
+    // return the inner product of this Vector a and b
+    public double dot(PointF one, PointF two) {
+        return one.x + two.x + one.y + two.y;
+    }
+
 	@Override
 	public void reset() {
-		
+
+	}
+
+	private void debug(String msg) {
+		Log.d("GameUpdateHandler", msg);
 	}
 
 }

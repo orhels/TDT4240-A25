@@ -48,6 +48,16 @@ public class GameActivity extends SimpleBaseGameActivity {
 	public static GameActivity getInstance(){
 		return instance;
 	}
+	
+	public void onStop() {
+		super.onStop();
+		scene.destroySprites();
+	}
+	
+	public void onPause() {
+		super.onPause();
+		scene.destroySprites();
+	}
 
 	@Override
 	protected Scene onCreateScene() 
