@@ -8,8 +8,6 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 
-import android.util.Log;
-
 public class Mallet {
 
 	private BitmapTextureAtlas malletAtlas;
@@ -17,7 +15,6 @@ public class Mallet {
 	private Sprite sprite;
 	private GameActivity instance;
 	private Camera mCamera;
-	private boolean moveable;
 	private float size;
 	public float spriteHeight, spriteWidth;
 	/* The mallets previous X position */
@@ -28,31 +25,39 @@ public class Mallet {
 	private float speedX;
 	/* The mallets seed in Y direction */
 	private float speedY;
+	private int playerID;
 
 	/**
 	 * Constructor
 	 * @param size The size of the mallet
 	 */
-	public Mallet(String size, int player) 
+	public Mallet(String size, int playerID) 
 	{
 		setSize(size);
+		this.playerID = playerID;
 		instance = GameActivity.getInstance();
+		mCamera = instance.mCamera;
+		loadTextures();
+		initializePosition();
+	}
+	
+	private void initializePosition() {
+		spriteWidth = sprite.getWidth() / 2;
+		spriteHeight = sprite.getHeight() / 2;
+		if(playerID == 1) {
+			setPosition(mCamera.getWidth() * 0.5f - spriteWidth, mCamera.getHeight() * 0.15f - spriteHeight);
+		}
+		else if (playerID == 2) {
+			setPosition(mCamera.getWidth() * 0.5f - spriteWidth, mCamera.getHeight() * 0.85f - spriteHeight);
+		}
+	}
+	
+	private void loadTextures() {
 		malletAtlas = new BitmapTextureAtlas(instance.getTextureManager(), 125, 125);
 		malletTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(malletAtlas, instance, "game/mallet.png", 0, 0);
 		sprite = new Sprite(0, 0, malletTexture, instance.getVertexBufferObjectManager());
 		sprite.setScale(this.size);
 		malletAtlas.load();
-		moveable = true;
-		mCamera = instance.mCamera;
-		spriteWidth = sprite.getWidth() / 2;
-		spriteHeight = sprite.getHeight() / 2;
-		if(player == 1) {
-			setPosition(mCamera.getWidth() * 0.5f - spriteWidth, mCamera.getHeight() * 0.15f - spriteHeight);
-		}
-		else if (player == 2) {
-			setPosition(mCamera.getWidth() * 0.5f - spriteWidth, mCamera.getHeight() * 0.85f - spriteHeight);
-		}
-
 	}
 
 	private void setSize(String size) {
@@ -159,11 +164,12 @@ public class Mallet {
 	public float getRadius() {
 		return sprite.getHeight() / 2;
 	}
-	private void debug(String msg) {
-		Log.d("Mallet", msg);
-	}
 
 	public boolean isIdle() {
 		return speedX == 0 && speedY == 0;
+	}
+
+	public void reset() {
+		initializePosition();
 	}
 }

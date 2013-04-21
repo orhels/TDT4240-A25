@@ -41,7 +41,7 @@ public enum Puck
 	}
 	
 	/**
-	 * Initializes the puck variables
+	 * Initializes the puck's variables
 	 */
 	public void initPuck(){
 		this.puckAtlas = new BitmapTextureAtlas(GameActivity.getInstance().getTextureManager(),256,256);
