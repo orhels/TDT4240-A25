@@ -24,13 +24,13 @@
             android:id="@+id/settings_mallet_small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
             android:text="@string/small" />
 
         <RadioButton
             android:id="@+id/settings_mallet_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="@string/medium" />
 
         <RadioButton
@@ -59,13 +59,13 @@
             android:id="@+id/settings_ball_small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
             android:text="@string/small" />
 
         <RadioButton
             android:id="@+id/settings_ball_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="@string/medium" />
 
         <RadioButton
