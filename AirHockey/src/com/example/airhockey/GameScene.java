@@ -78,6 +78,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		playerTwoGoalsText.setPosition(mCamera.getWidth()-45, mCamera.getHeight()*3/4-playerTwoGoalsText.getWidth()/2);
 		playerOneGoalsText.setRotation(180);
 		playerTwoGoalsText.setRotation(0);
+		//TODO: Add "WIN" text n stuff
 		attachChild(playerOneGoalsText);
 		attachChild(playerTwoGoalsText);
 	}

@@ -71,6 +71,11 @@ public class GameActivity extends SimpleBaseGameActivity {
 		return this.scene;
 	}
 	
+	@Override
+	public void onBackPressed() {
+		// TODO: Add "Do you want to quit?" graphics
+		super.onBackPressed();
+	}
 	public void onStop() {
 		super.onStop();
 		scene.destroySprites();
