@@ -22,7 +22,6 @@ public enum Puck
 
 	private float posX;
 	private float posY;
-	private boolean moveable;
 
 	/* The total velocity of the puck, a vector of speed and direction */
 	private PointF velocity;
@@ -47,8 +46,6 @@ public enum Puck
 		this.sprite = new Sprite(mCamera.getCenterX()- puckTexture.getHeight()/2, mCamera.getCenterY() - puckTexture.getWidth()/2, puckTexture, GameActivity.getInstance().getVertexBufferObjectManager());
 		this.sprite.setScale(this.size);
 		this.puckAtlas.load();
-
-		moveable = true;
 
 		setVelocity(0, 0);
 		setMaxVelocity(10);
@@ -79,11 +76,8 @@ public enum Puck
 	 * Update the puck position according to the speed.
 	 */
 	public void updatePuck(){
-		if(!moveable){
-			return;
-		}
 		setPosition(sprite.getX() + velocity.x, sprite.getY() + velocity.y);
-
+		
 	}
 
 	public void setPosition(float x, float y){

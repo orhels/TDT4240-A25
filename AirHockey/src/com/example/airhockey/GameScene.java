@@ -26,6 +26,16 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	private Mallet playerTwoMallet;
 	/* The Puck */
 	private Puck puck = Puck.PUCK;
+	/* Player one's score */
+	private int playerOneScore;
+	/* Player two's score */
+	private int playerTwoScore;
+	/* Number of points needed to win the game */
+	private int goalsToWin;
+	/* True if player one has won */
+	private boolean playerOneWin;
+	/* True if player two has won */
+	private boolean playerTwoWin;
 	
 	// BACKGROUND
 	private BitmapTextureAtlas backgroundTextureAtlas;
@@ -44,6 +54,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		this.mCamera = instance.mCamera;
 		this.createBackground();
 		this.preference = PreferenceManager.getDefaultSharedPreferences(instance);
+		this.goalsToWin = preference.getInt("goalsToWin", 5);
 		initializePlayers();
 		this.registerUpdateHandler(new GameUpdateHandler(playerOneMallet, playerTwoMallet, puck));
 	}
@@ -55,6 +66,10 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		this.attachChild(this.playerOneMallet.getSprite());
 		this.attachChild(this.playerTwoMallet.getSprite());
 		this.attachChild(this.puck.getSprite());
+		playerOneScore = 0;
+		playerTwoScore = 0;
+		playerOneWin = false;
+		playerTwoWin = false;
 	}
 	
 	/**
@@ -62,15 +77,42 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	 */
 	public void update(){
 		puck.updatePuck();
-		checkWin();
+		checkScore();
 	}
 	/**
 	 * Checks if the puck is outside the Y bounds, and assigns a winner.
+	 * return True if there is a winner
 	 */
-	public void checkWin(){
-		
+	public void checkScore(){
+		float yPos = puck.getSprite().getY();
+		if(yPos<0){
+			//increment player one score, display it on the screen
+			playerOneScore ++;
+			System.out.println("Player One scored: "+playerOneScore);
+			if(playerOneScore==goalsToWin){
+				playerOneWin = true;
+				gameOver();
+			}
+		}
+		else if(yPos>instance.mCamera.getHeight()){
+			//increment player two score, display it on the screen
+			playerTwoScore ++;
+			System.out.println("Player two scored: "+playerTwoScore);
+			if(playerTwoScore==goalsToWin){
+				playerTwoWin = true;
+				gameOver();
+			}
+		}
 	}
 	
+	/**
+	 * Ends the game, declares a winner. Then it saves the game in the match history..
+	 */
+	private void gameOver(){
+		System.out.println("GAME OVER, END THE GAME FFS");
+		
+		
+	}
 	/**
 	 * Creates the graphic background in the match
 	 */
