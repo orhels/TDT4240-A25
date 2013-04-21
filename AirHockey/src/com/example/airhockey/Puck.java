@@ -79,7 +79,19 @@ public enum Puck
 		setPosition(sprite.getX() + velocity.x, sprite.getY() + velocity.y);
 		
 	}
-
+	
+	/**
+	 * Resets the puck back to original position
+	 */
+	public void resetPuck(){
+		sprite.setPosition(mCamera.getCenterX()- puckTexture.getHeight()/2, mCamera.getCenterY() - puckTexture.getWidth()/2);
+		setVelocity(0, 0);
+	}
+	/**
+	 * Sets the x and y positions of the puck
+	 * @param x
+	 * @param y
+	 */
 	public void setPosition(float x, float y){
 		float radius = sprite.getHeight();
 		if (x + radius >= mCamera.getWidth() || x < 0 ) {

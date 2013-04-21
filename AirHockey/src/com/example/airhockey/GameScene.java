@@ -5,12 +5,14 @@ import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.util.color.Color;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -30,6 +32,10 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	private int playerOneScore;
 	/* Player two's score */
 	private int playerTwoScore;
+	/* Text graphic item showing player ones score */
+	private Text playerOneGoalsText;
+	/* Text graphic item showing player twos score */
+	private Text playerTwoGoalsText;
 	/* Number of points needed to win the game */
 	private int goalsToWin;
 	/* True if player one has won */
@@ -55,10 +61,29 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		this.createBackground();
 		this.preference = PreferenceManager.getDefaultSharedPreferences(instance);
 		this.goalsToWin = preference.getInt("goalsToWin", 5);
+		this.playerOneGoalsText = new Text(0, 0, instance.mFont, "0", instance.getVertexBufferObjectManager());
+		this.playerTwoGoalsText = new Text(0, 0, instance.mFont, "0", instance.getVertexBufferObjectManager());
+		
+		addGoalText();
 		initializePlayers();
 		this.registerUpdateHandler(new GameUpdateHandler(playerOneMallet, playerTwoMallet, puck));
 	}
 	
+	/**
+	 * Adds text graphic displayig the goal scores
+	 */
+	private void addGoalText(){
+		playerOneGoalsText.setPosition(mCamera.getWidth()-10, mCamera.getHeight()*1/4);
+		playerTwoGoalsText.setPosition(mCamera.getWidth()-10, mCamera.getHeight()*3/4);
+		playerOneGoalsText.setRotation(180);
+		playerTwoGoalsText.setRotation(0);
+		attachChild(playerOneGoalsText);
+		attachChild(playerTwoGoalsText);
+	}
+	
+	/**
+	 * Initializes the players and puck
+	 */
 	private void initializePlayers() {
 		String size = preference.getString(SettingsActivity.malletSize, SettingsActivity.medium);
 		this.playerOneMallet = new Mallet(size, 1);
@@ -93,6 +118,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 				playerOneWin = true;
 				gameOver();
 			}
+			puck.resetPuck();
 		}
 		else if(yPos>instance.mCamera.getHeight()){
 			//increment player two score, display it on the screen
@@ -102,7 +128,9 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 				playerTwoWin = true;
 				gameOver();
 			}
+			puck.resetPuck();
 		}
+		
 	}
 	
 	/**
@@ -110,7 +138,13 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	 */
 	private void gameOver(){
 		System.out.println("GAME OVER, END THE GAME FFS");
-		
+		if(playerOneWin){
+			
+		}
+		if(playerTwoWin){
+			
+		}
+		instance.startActivity(new Intent(instance, EndOfGameActivity.class));
 		
 	}
 	/**
