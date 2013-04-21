@@ -46,8 +46,8 @@ public class GameActivity extends SimpleBaseGameActivity {
 	@Override
 	protected void onCreateResources() 
 	{
-		mFont = FontFactory.create(this.getFontManager(),this.getTextureManager(), 256, 256,Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32);
-	    mFont.load();		
+		mFont = FontFactory.create(this.getFontManager(),this.getTextureManager(), 256, 256, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 64);
+	    mFont.load();
 	}
 	
 	public static GameActivity getInstance(){

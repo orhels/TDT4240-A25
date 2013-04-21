@@ -58,14 +58,13 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	public GameScene(){
 		this.instance = GameActivity.getInstance();
 		this.mCamera = instance.mCamera;
-		this.createBackground();
 		this.preference = PreferenceManager.getDefaultSharedPreferences(instance);
 		this.goalsToWin = preference.getInt("goalsToWin", 5);
-		this.playerOneGoalsText = new Text(0, 0, instance.mFont, "0", instance.getVertexBufferObjectManager());
-		this.playerTwoGoalsText = new Text(0, 0, instance.mFont, "0", instance.getVertexBufferObjectManager());
 		
+		this.createBackground();
 		addGoalText();
 		initializePlayers();
+		
 		this.registerUpdateHandler(new GameUpdateHandler(playerOneMallet, playerTwoMallet, puck));
 	}
 	
@@ -73,8 +72,10 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	 * Adds text graphic displayig the goal scores
 	 */
 	private void addGoalText(){
-		playerOneGoalsText.setPosition(mCamera.getWidth()-10, mCamera.getHeight()*1/4);
-		playerTwoGoalsText.setPosition(mCamera.getWidth()-10, mCamera.getHeight()*3/4);
+		this.playerOneGoalsText = new Text(0, 0, instance.mFont, "0", instance.getVertexBufferObjectManager());
+		this.playerTwoGoalsText = new Text(0, 0, instance.mFont, "0", instance.getVertexBufferObjectManager());
+		playerOneGoalsText.setPosition(mCamera.getWidth()-40, mCamera.getHeight()*1/4-playerOneGoalsText.getWidth()/2);
+		playerTwoGoalsText.setPosition(mCamera.getWidth()-45, mCamera.getHeight()*3/4-playerTwoGoalsText.getWidth()/2);
 		playerOneGoalsText.setRotation(180);
 		playerTwoGoalsText.setRotation(0);
 		attachChild(playerOneGoalsText);
@@ -90,11 +91,12 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		this.playerTwoMallet = new Mallet(size, 2);
 		this.attachChild(this.playerOneMallet.getSprite());
 		this.attachChild(this.playerTwoMallet.getSprite());
+		this.puck.initPuck();
 		this.attachChild(this.puck.getSprite());
-		playerOneScore = 0;
-		playerTwoScore = 0;
-		playerOneWin = false;
-		playerTwoWin = false;
+		this.playerOneScore = 0;
+		this.playerTwoScore = 0;
+		this.playerOneWin = false;
+		this.playerTwoWin = false;
 	}
 	
 	/**
@@ -113,7 +115,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		if(yPos<0){
 			//increment player one score, display it on the screen
 			playerOneScore ++;
-			System.out.println("Player One scored: "+playerOneScore);
+			playerOneGoalsText.setText(""+playerOneScore);
 			if(playerOneScore==goalsToWin){
 				playerOneWin = true;
 				gameOver();
@@ -123,14 +125,13 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		else if(yPos>instance.mCamera.getHeight()){
 			//increment player two score, display it on the screen
 			playerTwoScore ++;
-			System.out.println("Player two scored: "+playerTwoScore);
+			playerTwoGoalsText.setText(""+playerTwoScore);
 			if(playerTwoScore==goalsToWin){
 				playerTwoWin = true;
 				gameOver();
 			}
 			puck.resetPuck();
 		}
-		
 	}
 	
 	/**
@@ -139,13 +140,14 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	private void gameOver(){
 		System.out.println("GAME OVER, END THE GAME FFS");
 		if(playerOneWin){
-			
+			//TODO: Display player one has won
 		}
 		if(playerTwoWin){
-			
+			//TODO: Display player two has won
 		}
+		//TODO: Save match in match history
 		instance.startActivity(new Intent(instance, EndOfGameActivity.class));
-		
+		instance.finish();
 	}
 	/**
 	 * Creates the graphic background in the match

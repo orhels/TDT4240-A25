@@ -38,18 +38,26 @@ public enum Puck
 	 */
 	private Puck()
 	{
-		String size = PreferenceManager.getDefaultSharedPreferences(GameActivity.getInstance()).getString("Puck", "Medium");
-		setSize(size);
 		this.mCamera = GameActivity.getInstance().mCamera;
+		initPuck();
+	}
+	
+	/**
+	 * Initializes the puck variables
+	 */
+	public void initPuck(){
 		this.puckAtlas = new BitmapTextureAtlas(GameActivity.getInstance().getTextureManager(),256,256);
 		this.puckTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(puckAtlas, GameActivity.getInstance(), "game/puck.png", 60, 60);
 		this.sprite = new Sprite(mCamera.getCenterX()- puckTexture.getHeight()/2, mCamera.getCenterY() - puckTexture.getWidth()/2, puckTexture, GameActivity.getInstance().getVertexBufferObjectManager());
+		String size = PreferenceManager.getDefaultSharedPreferences(GameActivity.getInstance()).getString("Puck", "Medium");
+		setSize(size);
 		this.sprite.setScale(this.size);
 		this.puckAtlas.load();
-
+		
 		setVelocity(0, 0);
 		setMaxVelocity(10);
 		setMinVelocity(0);
+		
 	}
 
 	/**
