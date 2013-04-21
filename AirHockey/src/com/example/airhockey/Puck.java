@@ -86,10 +86,7 @@ public enum Puck
 			x = sprite.getX();
 			velocity.x *= -0.95f;
 		}
-		if (y + radius >= mCamera.getHeight() || y < 0 ) {
-			y = sprite.getY();
-			velocity.y *= -0.95f;
-		}
+
 		sprite.setPosition(x, y);
 	}
 
