@@ -110,8 +110,8 @@ public enum Puck
 		if(dy > maxVelocity){dy = maxVelocity;}
 		if(dy < minVelocity){dy = minVelocity;}
 		if (velocity != null) {
-			velocity.x += dx;
-			velocity.y += dy;
+			velocity.x = dx;
+			velocity.y = dy;
 		} else {
 			velocity = new PointF(dx, dy);
 		}

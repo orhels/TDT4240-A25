@@ -29,47 +29,73 @@ public class GameUpdateHandler implements IUpdateHandler{
 	public void onUpdate(float pSecondsElapsed) {
 		mallet1.updateSpeed();
 		mallet2.updateSpeed();
-//		PointF normal = new PointF();
 		double distance = mallet1.getDistanceFromPoint(puck.getOrigoX(), puck.getOrigoY());
-//		normal.x = (float) ((mallet1.getOrigoX() - puck.getOrigoX()) / distance);
-//		normal.y = (float) ((mallet1.getOrigoY() - puck.getOrigoY()) / distance);
-//		PointF tanget = new PointF();
-//		tanget.x = -normal.y;
-//		tanget.y = normal.x;
-//		// Projecting the velocities onto the normal balls and the normal's tangent.
-//		double scalarVelN1 = dot(normal, new PointF(mallet1.getSpeedX(), mallet1.getSpeedY()));
-//		double scalarVelT1 = dot(tanget, new PointF(mallet1.getSpeedX(), mallet1.getSpeedY()));
-//		double scalarVelN2 = dot(normal, puck.getVelocity());
-//		double scalarVelT2 = dot(tanget, puck.getVelocity());
-//		PointF newVel = new PointF();
-//		newMalletVel.x = 
-		
 		if (distance <= mallet1.getRadius() + puck.getRadius()){
 			debug("Player 1 - Collided with puck");
+			handleCollision(mallet1, distance);
+			puck.updatePuck();
 			//Set puck velocity to opposite direction of mallet
-			if (mallet1.isIdle()) {
-				puck.setVelocity(puck.getVelocity().x * -1.9f, puck.getVelocity().y * -1.9f);
-			} else {
-				puck.setVelocity(mallet1.getSpeedX(), mallet1.getSpeedY());
-			}
 		}
 		distance = mallet2.getDistanceFromPoint(puck.getOrigoX(), puck.getOrigoY());
 		if (distance <= mallet2.getRadius() + puck.getRadius()){
 			debug("Player 2 - Collided with puck");
+			handleCollision(mallet2, distance);
+			puck.updatePuck();
 			//Set puck velocity to opposite direction of mallet
-			if (mallet2.isIdle()) {
-				puck.setVelocity(puck.getVelocity().x * -1.9f, puck.getVelocity().y * -1.9f);
-			} else {
-				puck.setVelocity(mallet2.getSpeedX(), mallet2.getSpeedY());
-			}
 		}
 		GameActivity.getInstance().getCurrentScene().update();
 
 	}
 	
+	private void handleCollision(Mallet player, double distance) {
+		double angle = getAngle(new PointF(player.getOrigoX(), player.getOrigoY()), 
+				new PointF(puck.getOrigoX(), puck.getOrigoY()));
+		PointF normal = new PointF();
+		normal.x =  player.getOrigoX() - puck.getOrigoX();
+		normal.y =  player.getOrigoY() - puck.getOrigoY();
+		double divider = Math.sqrt(Math.pow(normal.x, 2) + Math.pow(normal.y, 2));
+		// Create a unit vector of the normal.
+		normal.x /= divider;
+		normal.y /= divider;
+		// Find the tangent for the normal
+		PointF tangent = new PointF();
+		tangent.x = -normal.y;
+		tangent.y = normal.x;
+		// Projecting the velocities onto the normal of the balls and the balls' tangent.
+		double vel1N = dot(normal, new PointF(player.getSpeedX(), player.getSpeedY()), angle);
+		double vel2T = dot(tangent, puck.getVelocity(), angle);
+		double newVel2N = vel1N;
+		
+		// Calculate the puck's speed along the normal.
+		PointF newNormal2 = new PointF();
+		newNormal2.x = (float) (normal.x * newVel2N);
+		newNormal2.y = (float) (normal.y * newVel2N);
+		
+		// Calculate the puck's speed along the tangent.
+		PointF newTanget2 = new PointF();
+		newTanget2.x = (float) (tangent.x * vel2T);
+		newTanget2.y = (float) (tangent.y * vel2T);
+		
+		// Project it back to the puck.
+		PointF newPuckVel = new PointF();
+		newPuckVel.x = newNormal2.x + newTanget2.x;
+		newPuckVel.y = newNormal2.y + newTanget2.y;
+		puck.setVelocity(newPuckVel.x, newPuckVel.y);
+	}
+	
     // return the inner product of this Vector a and b
-    public double dot(PointF one, PointF two) {
-        return one.x + two.x + one.y + two.y;
+    public double dot(PointF one, PointF two, double angle) {
+        return (one.x + two.x + one.y + two.y) * Math.cos(angle);
+    }
+    
+    public float getAngle(PointF one, PointF two) {
+        float angle = (float) Math.toDegrees(Math.atan2(one.x - two.x, one.y - two.y));
+
+        if(angle < 0){
+            angle += 360;
+        }
+
+        return angle;
     }
 
 	@Override
