@@ -110,37 +110,23 @@ public class Mallet {
 	 */
 	public void setPosition(final TouchEvent event) {
 
-<<<<<<< HEAD
+
 		float radius = getRadius(); 
 		float x = event.getX() - (sprite.getX() + radius);
 		float y = event.getY() - (sprite.getY() + radius);
 		double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // Pythagoras' theorem
 		if (distance <= radius) { 
-=======
-		final float radius = (this.sprite.getHeight() / 2) * this.size;
-		final float x = event.getX() - (this.sprite.getX() + radius);
-		final float y = event.getY() - (this.sprite.getY() + radius);
-		final double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // Pythagoras' theorem
-		if (distance <= radius) {
->>>>>>> 7a35e629824b8d252ec277222107a62ba7404772
 			// Only respond to touches close to the mallet
 			this.setPosition(this.sprite.getX() + x, this.sprite.getY() + y);
 		}
 	}
 
-<<<<<<< HEAD
 	public double getDistanceFromPoint(float posX, float posY) {
 		//float radius = getRadius();
 		//float x = posX - (sprite.getX() + radius);
 		float x = posX - getOrigoX();
 		float y = posY - getOrigoY();
 		//float y = posY - (sprite.getY() + radius);
-=======
-	public double getDistanceFromPoint(final float posX, final float posY) {
-		final float radius = (this.sprite.getHeight() / 2) * this.size;
-		final float x = posX - (this.sprite.getX() + radius);
-		final float y = posY - (this.sprite.getY() + radius);
->>>>>>> 7a35e629824b8d252ec277222107a62ba7404772
 		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // Pythagoras' theorem
 	}
 
@@ -158,14 +144,8 @@ public class Mallet {
 	 * 
 	 * @return
 	 */
-<<<<<<< HEAD
 	public float getOrigoX(){
 		float origoX = sprite.getX() + ((sprite.getWidth() / 2) * size);
-=======
-	public float getOrigoX() {
-		final float origoX = this.sprite.getX()
-				+ ((this.sprite.getWidth() / 2) * this.size);
->>>>>>> 7a35e629824b8d252ec277222107a62ba7404772
 		return origoX;
 	}
 
@@ -174,14 +154,9 @@ public class Mallet {
 	 * 
 	 * @return
 	 */
-<<<<<<< HEAD
+
 	public float getOrigoY(){
 		float origoY = sprite.getY() + ((sprite.getHeight() / 2) * size);
-=======
-	public float getOrigoY() {
-		final float origoY = this.sprite.getY()
-				+ ((this.sprite.getHeight() / 2) * this.size);
->>>>>>> 7a35e629824b8d252ec277222107a62ba7404772
 		return origoY;
 	}
 
@@ -208,11 +183,7 @@ public class Mallet {
 	}
 
 	public float getRadius() {
-<<<<<<< HEAD
 		return (sprite.getHeight() / 2) * size;
-=======
-		return this.sprite.getHeight() / 2;
->>>>>>> 7a35e629824b8d252ec277222107a62ba7404772
 	}
 
 	public boolean isIdle() {
