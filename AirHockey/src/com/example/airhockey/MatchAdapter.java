@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+/**
+ * @author G25
+ * @version 1.0
+ */
 public class MatchAdapter extends ArrayAdapter<Match> {
 
 	private Context context;

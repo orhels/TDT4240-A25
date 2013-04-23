@@ -1,5 +1,9 @@
 package com.example.airhockey;
 
+/**
+ * @author G25
+ * @version 1.0
+ */
 public class Goal {
 
 	private float leftCorner, rightCorner;

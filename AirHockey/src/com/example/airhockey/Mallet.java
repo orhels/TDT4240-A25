@@ -8,6 +8,10 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 
+/**
+ * @author G25
+ * @version 1.0
+ */
 public class Mallet {
 
 	private BitmapTextureAtlas malletAtlas;

@@ -1,7 +1,8 @@
 package com.example.airhockey;
+
 /**
- * Class for holding data on a match in the match history.
- *
+ * @author G25
+ * @version 1.0
  */
 public class Match {
 	

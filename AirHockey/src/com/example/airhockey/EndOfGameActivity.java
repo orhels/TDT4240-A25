@@ -9,6 +9,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * @author G25
+ * @version 1.0
+ */
 public class EndOfGameActivity extends Activity implements OnClickListener
 {
 
@@ -20,9 +24,9 @@ public class EndOfGameActivity extends Activity implements OnClickListener
 		super.onCreate(bundle);
 		setContentView(R.layout.end_of_game_view);
 		Intent intent = getIntent();
-		if (intent.hasExtra(GameScene.winner) && intent.hasExtra(GameScene.score)) {
-			winnerName = intent.getStringExtra(GameScene.winner);
-			score = intent.getStringExtra(GameScene.score);
+		if (intent.hasExtra(Constants.WINNER) && intent.hasExtra(Constants.SCORE)) {
+			winnerName = intent.getStringExtra(Constants.WINNER);
+			score = intent.getStringExtra(Constants.SCORE);
 		}
 		initializeUI();
 		configureActionBar();

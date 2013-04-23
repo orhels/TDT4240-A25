@@ -9,6 +9,10 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import android.graphics.PointF;
 import android.preference.PreferenceManager;
 
+/**
+ * @author G25
+ * @version 1.0
+ */
 public enum Puck 
 {
 	PUCK;

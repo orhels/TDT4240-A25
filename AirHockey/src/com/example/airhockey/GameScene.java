@@ -18,6 +18,10 @@ import android.graphics.PointF;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+/**
+ * @author G25
+ * @version 1.0
+ */
 public class GameScene extends Scene implements IOnSceneTouchListener {
 
 
@@ -37,7 +41,6 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	private BitmapTextureAtlas backgroundTextureAtlas;
 	private TextureRegion backgroundTextureRegion;
 	private Sprite backgroundSprite;
-	public static final String winner = "winner", loser = "loser", score = "scoreWin";
 	private DatabaseHelper db;
 
 	/* The container for the game preferences */
@@ -90,7 +93,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	 * Initializes the players and puck
 	 */
 	private void initializePlayers() {
-		String size = preference.getString(SettingsActivity.malletSize, SettingsActivity.medium);
+		String size = preference.getString(Constants.MALLETSIZE, Constants.MEDIUM);
 		playerOne = new Player(new Mallet(size, 1));
 		playerTwo = new Player(new Mallet(size, 2));
 		this.attachChild(playerOne.getMallet().getSprite());
@@ -153,7 +156,11 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		resetScreenEntities();
 	}
 
-	private void resetScreenEntities() {
+	/**
+	 * 
+	 */
+	private void resetScreenEntities() 
+	{
 		puck.resetPuck();
 		playerOne.reset();
 		playerTwo.reset();
@@ -176,9 +183,9 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		}
 		//TODO: Save match in match history
 		Intent intent = new Intent(instance, EndOfGameActivity.class);
-		intent.putExtra(GameScene.winner, winnerName);
-		intent.putExtra(GameScene.score, score);
-		intent.putExtra(GameScene.loser, loserName);
+		intent.putExtra(Constants.WINNER, winnerName);
+		intent.putExtra(Constants.SCORE, score);
+		intent.putExtra(Constants.LOSER, loserName);
 		saveMatch();
 		instance.startActivity(intent);
 		instance.finish();

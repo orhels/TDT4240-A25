@@ -11,6 +11,10 @@ import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.graphics.Typeface;
 
+/**
+ * @author G25
+ * @version 1.0
+ */
 public class GameActivity extends SimpleBaseGameActivity {
 
 	static GameActivity instance;

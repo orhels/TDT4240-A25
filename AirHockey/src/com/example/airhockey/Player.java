@@ -2,6 +2,10 @@ package com.example.airhockey;
 
 import org.andengine.input.touch.TouchEvent;
 
+/**
+ * @author G25
+ * @version 1.0
+ */
 public class Player {
 	
 	private Mallet mallet;

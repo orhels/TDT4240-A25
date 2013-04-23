@@ -17,6 +17,10 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
+/**
+ * @author G25
+ * @version 1.0
+ */
 public class HistoryActivity extends Activity implements OnItemLongClickListener {
 
 	private ListView matchList;

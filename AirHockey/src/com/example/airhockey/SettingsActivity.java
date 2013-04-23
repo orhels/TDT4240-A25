@@ -12,14 +12,17 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+/**
+ * @author G25
+ * @version 1.0
+ */
 public class SettingsActivity extends Activity implements OnCheckedChangeListener, OnSeekBarChangeListener {
 
 	private RadioGroup mMalletSize, mBallSize;
 	private SeekBar mBallSpeed;
 	private TextView speedHeader;
 	private SharedPreferences preferences;
-	public static final String ballSpeed = "Speed", malletSize = "Mallet", puckSize = "Puck";
-	public static final String small = "Small", medium = "Medium", large = "Large";
+	
 
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
@@ -58,10 +61,10 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 	}
 
 	private void checkMalletSize() {
-		String checked = preferences.getString(malletSize, small);
-		if (checked.equals(small)) {
+		String checked = preferences.getString(Constants.MALLETSIZE, Constants.SMALL);
+		if (checked.equals(Constants.SMALL)) {
 			mMalletSize.check(R.id.settings_mallet_small);
-		} else if (checked.equals(medium)) {
+		} else if (checked.equals(Constants.MEDIUM)) {
 			mMalletSize.check(R.id.settings_mallet_medium);
 		} else {
 			mMalletSize.check(R.id.settings_mallet_large);
@@ -69,10 +72,10 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 	}
 
 	private void checkBallSize() {
-		String checked = preferences.getString(puckSize, small);
-		if (checked.equals(small)) {
+		String checked = preferences.getString(Constants.PUCKSIZE, Constants.SMALL);
+		if (checked.equals(Constants.SMALL)) {
 			mBallSize.check(R.id.settings_ball_small);
-		} else if (checked.equals(medium)) {
+		} else if (checked.equals(Constants.MEDIUM)) {
 			mBallSize.check(R.id.settings_ball_medium);
 		} else {
 			mBallSize.check(R.id.settings_ball_large);
@@ -82,7 +85,7 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 	private void initializeSeekBar() {
 		mBallSpeed = (SeekBar) findViewById(R.id.settings_ball_speed);
 		mBallSpeed.setOnSeekBarChangeListener(this);
-		mBallSpeed.setProgress(Integer.parseInt(preferences.getString(ballSpeed, "0")));
+		mBallSpeed.setProgress(Integer.parseInt(preferences.getString(Constants.BALLSPEED, "0")));
 		mBallSpeed.setMax(10);
 		updateHeader();
 	}
@@ -108,21 +111,21 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 
 	private void handleMalletRadioGroup(int checkedId) {
 		if (checkedId == R.id.settings_mallet_small) {
-			writePreference(malletSize, small);
+			writePreference(Constants.MALLETSIZE, Constants.SMALL);
 		} else if (checkedId == R.id.settings_mallet_medium) {
-			writePreference(malletSize, medium);
+			writePreference(Constants.MALLETSIZE, Constants.MEDIUM);
 		} else {
-			writePreference(malletSize, large);
+			writePreference(Constants.MALLETSIZE, Constants.LARGE);
 		}
 	}
 
 	private void handleBallRadioGroup(int checkedId) {
 		if (checkedId == R.id.settings_ball_small) {
-			writePreference(puckSize, small);
+			writePreference(Constants.PUCKSIZE, Constants.SMALL);
 		} else if (checkedId == R.id.settings_ball_medium) {
-			writePreference(puckSize, medium);
+			writePreference(Constants.PUCKSIZE, Constants.MEDIUM);
 		} else {
-			writePreference(puckSize, large);
+			writePreference(Constants.PUCKSIZE, Constants.LARGE);
 		}
 	}
 
@@ -143,7 +146,7 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 		if (fromUser) {
-			writePreference(ballSpeed, String.valueOf(progress));
+			writePreference(Constants.BALLSPEED, String.valueOf(progress));
 			updateHeader();
 		}
 	}

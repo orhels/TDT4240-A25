@@ -5,6 +5,10 @@ import org.andengine.engine.handler.IUpdateHandler;
 import android.graphics.PointF;
 import android.util.Log;
 
+/**
+ * @author G25
+ * @version 1.0
+ */
 public class GameUpdateHandler implements IUpdateHandler{
 
 	/* The mallet objects */
