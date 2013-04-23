@@ -142,9 +142,6 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	 */
 	private void gameOver(){
 		System.out.println("GAME OVER, END THE GAME FFS");
-<<<<<<< HEAD
-		
-=======
 		String winnerName = "";
 		String score = "";
 		if(playerOne.hasWon()){
@@ -155,7 +152,6 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 			winnerName = playerTwo.getName();
 			score = playerTwo.getScore() + " - " + playerOne.getScore();
 		}
->>>>>>> 1e918fcba79d0c0fad3db5d5a7fff322ba62e0ca
 		//TODO: Save match in match history
 		Intent intent = new Intent(instance, EndOfGameActivity.class);
 		intent.putExtra(GameScene.winner, winnerName);
