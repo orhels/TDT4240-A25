@@ -49,7 +49,7 @@ public enum Puck
 	public void initPuck(){ 
 		instance = GameActivity.getInstance();
 		this.puckAtlas = new BitmapTextureAtlas(instance.getTextureManager(),256,256);
-		this.puckTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(puckAtlas, instance, "game/puck.png", 60, 60);
+		this.puckTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(puckAtlas, instance, "game/puck.png", 76, 76);
 		this.sprite = new Sprite(mCamera.getCenterX()- puckTexture.getHeight()/2, mCamera.getCenterY() - puckTexture.getWidth()/2, puckTexture, instance.getVertexBufferObjectManager());
 		String size = PreferenceManager.getDefaultSharedPreferences(instance).getString("Puck", "Medium");
 		setSize(size);
@@ -135,9 +135,6 @@ public enum Puck
 	public void setVelocity(float dx, float dy){
 		dx *= speedMultiplier;
 		dy *= speedMultiplier;
-		Log.d("Puck", "Speed X: " + dx);
-		Log.d("Puck", "Speed Y: " + dy);
-		Log.d("Puck", "Max speed: " + maxVelocity);
 		if (dx > maxVelocity) {
 			dx = maxVelocity;
 		} else if (dx < -maxVelocity) {
@@ -193,7 +190,7 @@ public enum Puck
 	 * @return
 	 */
 	public float getOrigoX(){
-		float origoX = sprite.getX() + ((sprite.getWidth()/2) * size);
+		float origoX = sprite.getX() + ((sprite.getWidth() / 2) * size);
 		return origoX;
 	}
 	/**
@@ -201,7 +198,7 @@ public enum Puck
 	 * @return
 	 */
 	public float getOrigoY(){
-		float origoY = sprite.getY() + ((sprite.getHeight()/2) * size);
+		float origoY = sprite.getY() + ((sprite.getHeight()  / 2) * size);
 		return origoY;
 	}
 	/**
@@ -226,7 +223,7 @@ public enum Puck
 		return this.sprite;
 	}
 	public float getRadius() {
-		return (sprite.getHeight() / 2) - 12;
+		return (sprite.getHeight() / 2) * size;
 	}
 
 	/**

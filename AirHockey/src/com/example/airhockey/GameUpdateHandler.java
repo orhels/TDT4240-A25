@@ -3,7 +3,6 @@ package com.example.airhockey;
 import org.andengine.engine.handler.IUpdateHandler;
 
 import android.graphics.PointF;
-import android.util.Log;
 
 public class GameUpdateHandler implements IUpdateHandler{
 
@@ -34,9 +33,9 @@ public class GameUpdateHandler implements IUpdateHandler{
 		if (distance <= minDistance){
 			handleCollision(mallet1, distance);
 		}
-
 		distance = mallet2.getDistanceFromPoint(puck.getOrigoX(), puck.getOrigoY());
-		if (distance <= mallet2.getRadius() + puck.getRadius()){
+		minDistance = mallet2.getRadius() + puck.getRadius();
+		if (distance <= minDistance){
 			handleCollision(mallet2, distance);
 		}
 		

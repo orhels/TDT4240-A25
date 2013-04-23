@@ -98,7 +98,7 @@ public class Mallet {
 	 */
 	public void setPosition(TouchEvent event) {
 
-		float radius = (float) ((sprite.getHeight() / 2) * size); 
+		float radius = getRadius(); 
 		float x = event.getX() - (sprite.getX() + radius);
 		float y = event.getY() - (sprite.getY() + radius);
 		double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // Pythagoras' theorem
@@ -109,9 +109,11 @@ public class Mallet {
 	}
 
 	public double getDistanceFromPoint(float posX, float posY) {
-		float radius = (float) ((sprite.getHeight() / 2) * size); 
-		float x = posX - (sprite.getX() + radius);
-		float y = posY - (sprite.getY() + radius);
+		//float radius = getRadius();
+		//float x = posX - (sprite.getX() + radius);
+		float x = posX - getOrigoX();
+		float y = posY - getOrigoY();
+		//float y = posY - (sprite.getY() + radius);
 		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // Pythagoras' theorem
 	}
 
@@ -128,7 +130,7 @@ public class Mallet {
 	 * @return
 	 */
 	public float getOrigoX(){
-		float origoX = sprite.getX() + ((sprite.getWidth()/2) * size);
+		float origoX = sprite.getX() + ((sprite.getWidth() / 2) * size);
 		return origoX;
 	}
 	/**
@@ -136,7 +138,7 @@ public class Mallet {
 	 * @return
 	 */
 	public float getOrigoY(){
-		float origoY = sprite.getY() + ((sprite.getHeight()/2) * size);
+		float origoY = sprite.getY() + ((sprite.getHeight() / 2) * size);
 		return origoY;
 	}
 
@@ -162,7 +164,7 @@ public class Mallet {
 	}
 
 	public float getRadius() {
-		return sprite.getHeight() / 2;
+		return (sprite.getHeight() / 2) * size;
 	}
 
 	public boolean isIdle() {
