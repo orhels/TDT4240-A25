@@ -9,46 +9,51 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class EndOfGameActivity extends Activity implements OnClickListener
-{
+/**
+ * @author G25
+ * @version 1.0
+ */
+public class EndOfGameActivity extends Activity implements OnClickListener {
 
 	private TextView winnerTextView;
 	private String winnerName, score;
 
-	public void onCreate(Bundle bundle)
-	{
+	@Override
+	public void onCreate(final Bundle bundle) {
 		super.onCreate(bundle);
-		setContentView(R.layout.end_of_game_view);
-		Intent intent = getIntent();
-		if (intent.hasExtra(GameScene.winner) && intent.hasExtra(GameScene.score)) {
-			winnerName = intent.getStringExtra(GameScene.winner);
-			score = intent.getStringExtra(GameScene.score);
+		this.setContentView(R.layout.end_of_game_view);
+		final Intent intent = this.getIntent();
+		if (intent.hasExtra(Constants.WINNER)
+				&& intent.hasExtra(Constants.SCORE)) {
+			this.winnerName = intent.getStringExtra(Constants.WINNER);
+			this.score = intent.getStringExtra(Constants.SCORE);
 		}
-		initializeUI();
-		configureActionBar();
+		this.initializeUI();
+		this.configureActionBar();
 	}
 
 	private void initializeUI() {
-		winnerTextView = (TextView) findViewById(R.id.winnerTextView);
-		winnerTextView.setText(winnerName + " won!" + "\nScore: " + score);
-		((Button) findViewById(R.id.rematchButton)).setOnClickListener(this);
-		((Button) findViewById(R.id.mainMenuButton)).setOnClickListener(this);
+		this.winnerTextView = (TextView) this.findViewById(R.id.winnerTextView);
+		this.winnerTextView.setText(this.winnerName + " won!" + "\nScore: "
+				+ this.score);
+		((Button) this.findViewById(R.id.rematchButton))
+				.setOnClickListener(this);
+		((Button) this.findViewById(R.id.mainMenuButton))
+				.setOnClickListener(this);
 	}
 
 	private void configureActionBar() {
-		ActionBar ab = getActionBar();
+		final ActionBar ab = this.getActionBar();
 		ab.setTitle("End of Game");
 		ab.setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
-	public void onClick(View v) 
-	{
-		switch (v.getId())
-		{
+	public void onClick(final View v) {
+		switch (v.getId()) {
 		case R.id.rematchButton:
-			Intent intent = new Intent(this, GameActivity.class);
-			startActivity(intent);
+			final Intent intent = new Intent(this, GameActivity.class);
+			this.startActivity(intent);
 			break;
 		case R.id.mainMenuButton:
 			this.finish();

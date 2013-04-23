@@ -1,40 +1,41 @@
 package com.example.airhockey;
+
 /**
- * Class for holding data on a match in the match history.
- *
+ * @author G25
+ * @version 1.0
  */
 public class Match {
-	
-	String player1name, player2name, date;
-	int player1score, player2score;
 
-	public Match(String player1name, String player2name,
-			int player1score, int player2score, String date) {
+	private String player1name, player2name, date;
+	private int player1score, player2score;
+
+	public Match(final String player1name, final String player2name,
+			final int player1score, final int player2score, final String date) {
 		this.player1name = player1name;
 		this.player2name = player2name;
 		this.date = date;
 		this.player1score = player1score;
 		this.player2score = player2score;
 	}
-	
+
 	public String getPlayer1name() {
-		return player1name;
+		return this.player1name;
 	}
-	
+
 	public String getPlayer2name() {
-		return player2name;
+		return this.player2name;
 	}
-	
+
 	public String getDate() {
-		return date;
+		return this.date;
 	}
-	
+
 	public int getPlayer1score() {
-		return player1score;
+		return this.player1score;
 	}
-	
+
 	public int getPlayer2score() {
-		return player2score;
+		return this.player2score;
 	}
-	
+
 }

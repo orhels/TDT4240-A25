@@ -12,45 +12,53 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-public class SettingsActivity extends Activity implements OnCheckedChangeListener, OnSeekBarChangeListener {
+/**
+ * @author G25
+ * @version 1.0
+ */
+public class SettingsActivity extends Activity implements
+		OnCheckedChangeListener, OnSeekBarChangeListener {
 
 	private RadioGroup mMalletSize, mBallSize;
 	private SeekBar mBallSpeed;
 	private TextView speedHeader;
 	private SharedPreferences preferences;
-	public static final String ballSpeed = "Speed", malletSize = "Mallet", puckSize = "Puck";
-	public static final String small = "Small", medium = "Medium", large = "Large";
 
-	public void onCreate(Bundle bundle) {
+	@Override
+	public void onCreate(final Bundle bundle) {
 		super.onCreate(bundle);
-		setContentView(R.layout.settings_view);
-		fetchPreferences();
-		initializeUI();
-		configureActionBar();
+		this.setContentView(R.layout.settings_view);
+		this.fetchPreferences();
+		this.initializeUI();
+		this.configureActionBar();
 	}
 
 	private void initializeUI() {
-		speedHeader = (TextView) findViewById(R.id.settings_ball_speed_header);
-		initializeRadioGroups();
-		initializeSeekBar();
+		this.speedHeader = (TextView) this
+				.findViewById(R.id.settings_ball_speed_header);
+		this.initializeRadioGroups();
+		this.initializeSeekBar();
 	}
 
 	private void initializeRadioGroups() {
-		mMalletSize = (RadioGroup) findViewById(R.id.settings_mallet_radio_group);
-		checkMalletSize();
-		mMalletSize.setOnCheckedChangeListener(this);
-		mBallSize   = (RadioGroup) findViewById(R.id.settings_ball_radio_group);
-		checkBallSize();
-		mBallSize.setOnCheckedChangeListener(this);
+		this.mMalletSize = (RadioGroup) this
+				.findViewById(R.id.settings_mallet_radio_group);
+		this.checkMalletSize();
+		this.mMalletSize.setOnCheckedChangeListener(this);
+		this.mBallSize = (RadioGroup) this
+				.findViewById(R.id.settings_ball_radio_group);
+		this.checkBallSize();
+		this.mBallSize.setOnCheckedChangeListener(this);
 	}
 
 	private void configureActionBar() {
-		ActionBar ab = getActionBar();
+		final ActionBar ab = this.getActionBar();
 		ab.setDisplayHomeAsUpEnabled(true);
 		ab.setTitle("Settings");
 	}
 
-	public boolean onOptionsItemSelected (MenuItem item) {
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
 			this.finish();
 		}
@@ -58,76 +66,79 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 	}
 
 	private void checkMalletSize() {
-		String checked = preferences.getString(malletSize, small);
-		if (checked.equals(small)) {
-			mMalletSize.check(R.id.settings_mallet_small);
-		} else if (checked.equals(medium)) {
-			mMalletSize.check(R.id.settings_mallet_medium);
+		final String checked = this.preferences.getString(Constants.MALLETSIZE,
+				Constants.SMALL);
+		if (checked.equals(Constants.SMALL)) {
+			this.mMalletSize.check(R.id.settings_mallet_small);
+		} else if (checked.equals(Constants.MEDIUM)) {
+			this.mMalletSize.check(R.id.settings_mallet_medium);
 		} else {
-			mMalletSize.check(R.id.settings_mallet_large);
+			this.mMalletSize.check(R.id.settings_mallet_large);
 		}
 	}
 
 	private void checkBallSize() {
-		String checked = preferences.getString(puckSize, small);
-		if (checked.equals(small)) {
-			mBallSize.check(R.id.settings_ball_small);
-		} else if (checked.equals(medium)) {
-			mBallSize.check(R.id.settings_ball_medium);
+		final String checked = this.preferences.getString(Constants.PUCKSIZE,
+				Constants.SMALL);
+		if (checked.equals(Constants.SMALL)) {
+			this.mBallSize.check(R.id.settings_ball_small);
+		} else if (checked.equals(Constants.MEDIUM)) {
+			this.mBallSize.check(R.id.settings_ball_medium);
 		} else {
-			mBallSize.check(R.id.settings_ball_large);
+			this.mBallSize.check(R.id.settings_ball_large);
 		}
 	}
 
 	private void initializeSeekBar() {
-		mBallSpeed = (SeekBar) findViewById(R.id.settings_ball_speed);
-		mBallSpeed.setOnSeekBarChangeListener(this);
-		mBallSpeed.setProgress(Integer.parseInt(preferences.getString(ballSpeed, "0")));
-		mBallSpeed.setMax(9);
-		updateHeader();
+		this.mBallSpeed = (SeekBar) this.findViewById(R.id.settings_ball_speed);
+		this.mBallSpeed.setOnSeekBarChangeListener(this);
+		this.mBallSpeed.setProgress(Integer.parseInt(this.preferences
+				.getString(Constants.BALLSPEED, "0")));
+		this.mBallSpeed.setMax(9);
+		this.updateHeader();
 	}
 
 	private void fetchPreferences() {
-		preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
 	}
 
 	@Override
-	public void onCheckedChanged(RadioGroup group, int checkedId) {
+	public void onCheckedChanged(final RadioGroup group, final int checkedId) {
 		if (group.getId() == R.id.settings_mallet_radio_group) {
-			handleMalletRadioGroup(checkedId);
+			this.handleMalletRadioGroup(checkedId);
 		} else {
-			handleBallRadioGroup(checkedId);
+			this.handleBallRadioGroup(checkedId);
 		}
 	}
 
-	private void writePreference(String key, String value) {
-		SharedPreferences.Editor editor = preferences.edit();
+	private void writePreference(final String key, final String value) {
+		final SharedPreferences.Editor editor = this.preferences.edit();
 		editor.putString(key, value);
 		editor.commit();
 	}
 
-	private void handleMalletRadioGroup(int checkedId) {
+	private void handleMalletRadioGroup(final int checkedId) {
 		if (checkedId == R.id.settings_mallet_small) {
-			writePreference(malletSize, small);
+			this.writePreference(Constants.MALLETSIZE, Constants.SMALL);
 		} else if (checkedId == R.id.settings_mallet_medium) {
-			writePreference(malletSize, medium);
+			this.writePreference(Constants.MALLETSIZE, Constants.MEDIUM);
 		} else {
-			writePreference(malletSize, large);
+			this.writePreference(Constants.MALLETSIZE, Constants.LARGE);
 		}
 	}
 
-	private void handleBallRadioGroup(int checkedId) {
+	private void handleBallRadioGroup(final int checkedId) {
 		if (checkedId == R.id.settings_ball_small) {
-			writePreference(puckSize, small);
+			this.writePreference(Constants.PUCKSIZE, Constants.SMALL);
 		} else if (checkedId == R.id.settings_ball_medium) {
-			writePreference(puckSize, medium);
+			this.writePreference(Constants.PUCKSIZE, Constants.MEDIUM);
 		} else {
-			writePreference(puckSize, large);
+			this.writePreference(Constants.PUCKSIZE, Constants.LARGE);
 		}
 	}
 
 	private void updateHeader() {
-		int progress = mBallSpeed.getProgress();
+		final int progress = this.mBallSpeed.getProgress();
 		String descriptor = "Normal";
 
 		if (progress < 3) {
@@ -136,24 +147,27 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 			descriptor = "Fast";
 		}
 
-		speedHeader.setText("Speed: " + descriptor + " (" + (progress + 1) + ")");
+		this.speedHeader.setText("Speed: " + descriptor + " (" + (progress + 1)
+				+ ")");
 
 	}
 
 	@Override
-	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+	public void onProgressChanged(final SeekBar seekBar, final int progress,
+			final boolean fromUser) {
 		if (fromUser) {
-			writePreference(ballSpeed, String.valueOf(progress + 1));
-			updateHeader();
+			this.writePreference(Constants.BALLSPEED,
+					String.valueOf(progress + 1));
+			this.updateHeader();
 		}
 	}
 
 	@Override
-	public void onStartTrackingTouch(SeekBar seekBar) {
+	public void onStartTrackingTouch(final SeekBar seekBar) {
 	}
 
 	@Override
-	public void onStopTrackingTouch(SeekBar seekBar) {
+	public void onStopTrackingTouch(final SeekBar seekBar) {
 	}
 
 }
