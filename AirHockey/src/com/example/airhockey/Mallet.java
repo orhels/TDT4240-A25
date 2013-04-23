@@ -128,7 +128,7 @@ public class Mallet {
 	 * @return
 	 */
 	public float getOrigoX(){
-		float origoX = sprite.getX() + (sprite.getWidth()/2);
+		float origoX = sprite.getX() + ((sprite.getWidth()/2) * size);
 		return origoX;
 	}
 	/**
@@ -136,7 +136,7 @@ public class Mallet {
 	 * @return
 	 */
 	public float getOrigoY(){
-		float origoY = sprite.getY() + (sprite.getHeight()/2);
+		float origoY = sprite.getY() + ((sprite.getHeight()/2) * size);
 		return origoY;
 	}
 

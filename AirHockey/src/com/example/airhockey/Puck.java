@@ -100,7 +100,7 @@ public enum Puck
 	 * @param y
 	 */
 	public void setPosition(float x, float y){
-		float radius = sprite.getHeight();
+		float radius = sprite.getHeight() * size;
 		if (x + radius >= mCamera.getWidth() || x < 0 ) {
 			x = sprite.getX();
 			velocity.x *= -0.95f;
@@ -193,7 +193,7 @@ public enum Puck
 	 * @return
 	 */
 	public float getOrigoX(){
-		float origoX = sprite.getX() + (sprite.getWidth()/2);
+		float origoX = sprite.getX() + ((sprite.getWidth()/2) * size);
 		return origoX;
 	}
 	/**
@@ -201,7 +201,7 @@ public enum Puck
 	 * @return
 	 */
 	public float getOrigoY(){
-		float origoY = sprite.getY() + (sprite.getHeight()/2);
+		float origoY = sprite.getY() + ((sprite.getHeight()/2) * size);
 		return origoY;
 	}
 	/**
