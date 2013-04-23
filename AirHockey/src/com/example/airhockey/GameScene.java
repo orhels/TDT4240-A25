@@ -64,12 +64,12 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	 * Adds text graphic displayig the goal scores
 	 */
 	private void addGoalText(){
-		this.playerTwoGoalsText = new Text(0, 0, instance.mFont, "0", instance.getVertexBufferObjectManager());
-		this.playerOneGoalsText = new Text(0, 0, instance.mFont, "0", instance.getVertexBufferObjectManager());
-		playerTwoGoalsText.setPosition(mCamera.getWidth()-40, mCamera.getHeight()*1/4-playerTwoGoalsText.getWidth()/2);
-		playerOneGoalsText.setPosition(mCamera.getWidth()-45, mCamera.getHeight()*3/4-playerOneGoalsText.getWidth()/2);
+		this.playerTwoGoalsText = new Text(0, 0, instance.mFont, "00", instance.getVertexBufferObjectManager());
+		this.playerOneGoalsText = new Text(0, 0, instance.mFont, "00", instance.getVertexBufferObjectManager());
 		playerTwoGoalsText.setRotation(180);
 		playerOneGoalsText.setRotation(0);
+		playerTwoGoalsText.setPosition(mCamera.getWidth()-70, mCamera.getHeight()*1/4-playerTwoGoalsText.getWidth()/2);
+		playerOneGoalsText.setPosition(mCamera.getWidth()-75, mCamera.getHeight()*3/4-playerOneGoalsText.getWidth()/2);
 		//TODO: Add "WIN" text n stuff
 		attachChild(playerTwoGoalsText);
 		attachChild(playerOneGoalsText);
@@ -104,10 +104,15 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		float yPos = puck.getSprite().getY();
 		if(yPos < 0){
 			playerScored(playerOne);
-			playerOneGoalsText.setText("" + playerOne.getScore());
+			int score = playerOne.getScore();
+			playerOneGoalsText.setText("" + score);
+			
 		}
 		else if(yPos > instance.mCamera.getHeight()){
 			playerScored(playerTwo);
+			int score = playerTwo.getScore();
+			playerTwoGoalsText.setText(""+score);
+			
 			playerTwoGoalsText.setText("" + playerTwo.getScore());
 		}
 	}
