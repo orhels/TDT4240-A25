@@ -4,8 +4,7 @@ package com.example.airhockey;
  * @author G25
  * @version 1.0
  */
-public class Constants 
-{
+public class Constants {
 	public static final String BALLSPEED = "Speed";
 	public static final String MALLETSIZE = "Mallet";
 	public static final String PUCKSIZE = "Puck";

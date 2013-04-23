@@ -15,38 +15,45 @@ import android.widget.TextView;
  */
 public class MatchAdapter extends ArrayAdapter<Match> {
 
-	private Context context;
-	private List<Match> matches;
+	private final Context context;
+	private final List<Match> matches;
 	private TextView player1Name, player1Score, player2Name, player2Score;
 
-	public MatchAdapter(Context context, List<Match> matches) {
+	public MatchAdapter(final Context context, final List<Match> matches) {
 		super(context, R.layout.highscore_list_item, matches);
 		this.context = context;
 		this.matches = matches;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.highscore_list_item, parent, false);
-		Match match = matches.get(position);
+	public View getView(final int position, final View convertView,
+			final ViewGroup parent) {
+		final LayoutInflater inflater = (LayoutInflater) this.context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		final View rowView = inflater.inflate(R.layout.highscore_list_item,
+				parent, false);
+		final Match match = this.matches.get(position);
 
-		player1Name  = (TextView) rowView.findViewById(R.id.highscore_list_name1);
-		player1Score = (TextView) rowView.findViewById(R.id.highscore_list_score1);
-		player2Name  = (TextView) rowView.findViewById(R.id.highscore_list_name2);
-		player2Score = (TextView) rowView.findViewById(R.id.highscore_list_score2);
+		this.player1Name = (TextView) rowView
+				.findViewById(R.id.highscore_list_name1);
+		this.player1Score = (TextView) rowView
+				.findViewById(R.id.highscore_list_score1);
+		this.player2Name = (TextView) rowView
+				.findViewById(R.id.highscore_list_name2);
+		this.player2Score = (TextView) rowView
+				.findViewById(R.id.highscore_list_score2);
 
-		player1Name.setText(match.getPlayer1name());
-		player1Score.setText("" + match.getPlayer1score());
+		this.player1Name.setText(match.getPlayer1name());
+		this.player1Score.setText("" + match.getPlayer1score());
 
-		player2Name.setText(match.getPlayer2name());
-		player2Score.setText("" + match.getPlayer2score());
+		this.player2Name.setText(match.getPlayer2name());
+		this.player2Score.setText("" + match.getPlayer2score());
 
 		return rowView;
 	}
-	
-	public Match remove(int pos) {
-		return matches.remove(pos);
+
+	public Match remove(final int pos) {
+		return this.matches.remove(pos);
 	}
 
 }

@@ -7,60 +7,58 @@ import org.andengine.input.touch.TouchEvent;
  * @version 1.0
  */
 public class Player {
-	
+
 	private Mallet mallet;
 	private int score = 0;
 	private boolean won = false;
 	private String name = "";
-	
-	
-	public Player(Mallet mallet) {
+
+	public Player(final Mallet mallet) {
 		this.mallet = mallet;
 	}
-	
+
 	public Mallet getMallet() {
-		return mallet;
+		return this.mallet;
 	}
-	
-	public void setMallet(Mallet mallet) {
+
+	public void setMallet(final Mallet mallet) {
 		this.mallet = mallet;
 	}
-	
+
 	public int getScore() {
-		return score;
+		return this.score;
 	}
-	
-	public void setScore(int score) {
+
+	public void setScore(final int score) {
 		this.score = score;
 	}
-	
+
 	public int incrementScore() {
-		return ++score;
+		return ++this.score;
 	}
-	
+
 	public void reset() {
-		mallet.reset();
+		this.mallet.reset();
 	}
-	
-	public void onTouch(TouchEvent pSceneTouchEvent) {
-		mallet.setPosition(pSceneTouchEvent);
+
+	public void onTouch(final TouchEvent pSceneTouchEvent) {
+		this.mallet.setPosition(pSceneTouchEvent);
 	}
-	
-	public void setWon(boolean won) {
+
+	public void setWon(final boolean won) {
 		this.won = won;
 	}
-	
+
 	public boolean hasWon() {
-		return won;
+		return this.won;
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
-	
-	public void setName(String name) {
+
+	public void setName(final String name) {
 		this.name = name;
 	}
-	
 
 }

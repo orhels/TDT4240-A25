@@ -21,94 +21,104 @@ import android.widget.ListView;
  * @author G25
  * @version 1.0
  */
-public class HistoryActivity extends Activity implements OnItemLongClickListener {
+public class HistoryActivity extends Activity implements
+		OnItemLongClickListener {
 
 	private ListView matchList;
 	private DatabaseHelper db;
 	private MatchAdapter adapter;
-	
-	public void onCreate(Bundle bundle) {
+
+	@Override
+	public void onCreate(final Bundle bundle) {
 		super.onCreate(bundle);
-		setContentView(R.layout.highscore_view);
-		db = new DatabaseHelper(this, "AirHockeyDB");
-		initializeUI();
-		configureActionBar();
+		this.setContentView(R.layout.highscore_view);
+		this.db = new DatabaseHelper(this, "AirHockeyDB");
+		this.initializeUI();
+		this.configureActionBar();
 	}
-	
+
 	private void initializeUI() {
-		matchList = (ListView) findViewById(R.id.highscore_list);
-		matchList.setOnItemLongClickListener(this);
-		adapter = new MatchAdapter(this, fetchMatches());
-		matchList.setAdapter(adapter);
+		this.matchList = (ListView) this.findViewById(R.id.highscore_list);
+		this.matchList.setOnItemLongClickListener(this);
+		this.adapter = new MatchAdapter(this, this.fetchMatches());
+		this.matchList.setAdapter(this.adapter);
 	}
-	
+
 	private List<Match> fetchMatches() {
-		List<Match> matches = db.getHighScores();
+		final List<Match> matches = this.db.getHighScores();
 		if (matches.size() < 1) {
-			debug("No matches in DB");
+			this.debug("No matches in DB");
 		}
 		matches.add(new Match("Tor Kristian", "Christian", 1, 239, "Dafq?"));
 		return matches;
 	}
-	
+
 	private void configureActionBar() {
-		ActionBar ab = getActionBar();
+		final ActionBar ab = this.getActionBar();
 		ab.setTitle("Match History");
 		ab.setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+	public boolean onCreateOptionsMenu(final Menu menu) {
+		final MenuInflater inflater = this.getMenuInflater();
 		inflater.inflate(R.menu.history_menu, menu);
 		return true;
 	}
-	
-	public boolean onOptionsItemSelected (MenuItem item) {
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
 			this.finish();
 		}
 		if (item.getItemId() == R.id.history_menu_clear) {
-			db.clearHistory();
+			this.db.clearHistory();
 		}
 		return true;
 	}
-	
-	private void debug(String msg) {
+
+	private void debug(final String msg) {
 		Log.d("HistoryActivity", msg);
 	}
 
 	@Override
-	public boolean onItemLongClick(AdapterView<?> adapter, View view, int pos, long id) {
-		showDeleteDialog(pos);
+	public boolean onItemLongClick(final AdapterView<?> adapter,
+			final View view, final int pos, final long id) {
+		this.showDeleteDialog(pos);
 		return true;
 	}
-	
-	private void deleteMatch(int pos) {
-		Match match = this.adapter.remove(pos);
-		db.removeHighScore(match);
+
+	private void deleteMatch(final int pos) {
+		final Match match = this.adapter.remove(pos);
+		this.db.removeHighScore(match);
 		this.adapter.notifyDataSetChanged();
-		debug("Deleting #" + pos + " match");
+		this.debug("Deleting #" + pos + " match");
 	}
-	
-    public void showDeleteDialog(final int pos) {
-        // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        Resources res = getResources();
-        builder.setMessage(res.getString(R.string.history_dialog_prompt))
-               .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                	   deleteMatch(pos);
-                	   dialog.dismiss();
-                   }
-               })
-               .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                       // User cancels
-                	   dialog.dismiss();
-                   }
-               });
-        // Create the AlertDialog object and show
-        builder.create().show();
-    }
+
+	public void showDeleteDialog(final int pos) {
+		// Use the Builder class for convenient dialog construction
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		final Resources res = this.getResources();
+		builder.setMessage(res.getString(R.string.history_dialog_prompt))
+				.setPositiveButton(R.string.ok,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(final DialogInterface dialog,
+									final int id) {
+								HistoryActivity.this.deleteMatch(pos);
+								dialog.dismiss();
+							}
+						})
+				.setNegativeButton(R.string.cancel,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(final DialogInterface dialog,
+									final int id) {
+								// User cancels
+								dialog.dismiss();
+							}
+						});
+		// Create the AlertDialog object and show
+		builder.create().show();
+	}
 }

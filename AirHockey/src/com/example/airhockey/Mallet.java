@@ -1,6 +1,5 @@
 package com.example.airhockey;
 
-
 import org.andengine.engine.camera.Camera;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
@@ -17,8 +16,8 @@ public class Mallet {
 	private BitmapTextureAtlas malletAtlas;
 	private ITextureRegion malletTexture;
 	private Sprite sprite;
-	private GameActivity instance;
-	private Camera mCamera;
+	private final GameActivity instance;
+	private final Camera mCamera;
 	private float size;
 	public float spriteHeight, spriteWidth;
 	/* The mallets previous X position */
@@ -29,98 +28,106 @@ public class Mallet {
 	private float speedX;
 	/* The mallets seed in Y direction */
 	private float speedY;
-	private int playerID;
+	private final int playerID;
 
 	/**
 	 * Constructor
-	 * @param size The size of the mallet
+	 * 
+	 * @param size
+	 *            The size of the mallet
 	 */
-	public Mallet(String size, int playerID) 
-	{
-		setSize(size);
+	public Mallet(final String size, final int playerID) {
+		this.setSize(size);
 		this.playerID = playerID;
-		instance = GameActivity.getInstance();
-		mCamera = instance.mCamera;
-		loadTextures();
-		initializePosition();
+		this.instance = GameActivity.getInstance();
+		this.mCamera = this.instance.mCamera;
+		this.loadTextures();
+		this.initializePosition();
 	}
-	
+
 	private void initializePosition() {
-		spriteWidth = sprite.getWidth() / 2;
-		spriteHeight = sprite.getHeight() / 2;
-		if(playerID == 1) {
-			setPosition(mCamera.getWidth() * 0.5f - spriteWidth, mCamera.getHeight() * 0.15f - spriteHeight);
-		}
-		else if (playerID == 2) {
-			setPosition(mCamera.getWidth() * 0.5f - spriteWidth, mCamera.getHeight() * 0.85f - spriteHeight);
+		this.spriteWidth = this.sprite.getWidth() / 2;
+		this.spriteHeight = this.sprite.getHeight() / 2;
+		if (this.playerID == 1) {
+			this.setPosition((this.mCamera.getWidth() * 0.5f)
+					- this.spriteWidth, (this.mCamera.getHeight() * 0.15f)
+					- this.spriteHeight);
+		} else if (this.playerID == 2) {
+			this.setPosition((this.mCamera.getWidth() * 0.5f)
+					- this.spriteWidth, (this.mCamera.getHeight() * 0.85f)
+					- this.spriteHeight);
 		}
 	}
-	
+
 	private void loadTextures() {
-		malletAtlas = new BitmapTextureAtlas(instance.getTextureManager(), 125, 125);
-		malletTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(malletAtlas, instance, "game/mallet.png", 0, 0);
-		sprite = new Sprite(0, 0, malletTexture, instance.getVertexBufferObjectManager());
-		sprite.setScale(this.size);
-		malletAtlas.load();
+		this.malletAtlas = new BitmapTextureAtlas(
+				this.instance.getTextureManager(), 125, 125);
+		this.malletTexture = BitmapTextureAtlasTextureRegionFactory
+				.createFromAsset(this.malletAtlas, this.instance,
+						"game/mallet.png", 0, 0);
+		this.sprite = new Sprite(0, 0, this.malletTexture,
+				this.instance.getVertexBufferObjectManager());
+		this.sprite.setScale(this.size);
+		this.malletAtlas.load();
 	}
 
-	private void setSize(String size) {
+	private void setSize(final String size) {
 
-		if(size.equals(Constants.SMALL))
-		{
+		if (size.equals(Constants.SMALL)) {
 			this.size = 0.5f;
-		}
-		else if(size.equals(Constants.MEDIUM))
-		{
+		} else if (size.equals(Constants.MEDIUM)) {
 			this.size = 1.0f;
-		}
-		else if(size.equals(Constants.LARGE))
-		{
+		} else if (size.equals(Constants.LARGE)) {
 			this.size = 1.5f;
 		}
 	}
 
 	/**
 	 * Sets the position of the Mallet sprite
+	 * 
 	 * @param x
 	 * @param y
 	 */
-	public void setPosition(float x, float y){
-		float radius = sprite.getHeight();
-		if (x + radius >= mCamera.getWidth() || x < 0 ) {
-			x = sprite.getX();
+	public void setPosition(float x, float y) {
+		final float radius = this.sprite.getHeight();
+		if (((x + radius) >= this.mCamera.getWidth()) || (x < 0)) {
+			x = this.sprite.getX();
 		}
-		if (y + radius >= mCamera.getHeight() || y < 0 ) {
-			y = sprite.getY();
+		if (((y + radius) >= this.mCamera.getHeight()) || (y < 0)) {
+			y = this.sprite.getY();
 		}
-		sprite.setPosition(x, y);
+		this.sprite.setPosition(x, y);
 	}
 
 	/**
 	 * Sets the position of the mallet according to the touch event.
+	 * 
 	 * @param event
 	 */
-	public void setPosition(TouchEvent event) {
+	public void setPosition(final TouchEvent event) {
 
-		float radius = (float) ((sprite.getHeight() / 2) * size); 
-		float x = event.getX() - (sprite.getX() + radius);
-		float y = event.getY() - (sprite.getY() + radius);
-		double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // Pythagoras' theorem
-		if (distance <= radius) { 
+		final float radius = (this.sprite.getHeight() / 2) * this.size;
+		final float x = event.getX() - (this.sprite.getX() + radius);
+		final float y = event.getY() - (this.sprite.getY() + radius);
+		final double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // Pythagoras'
+																			// theorem
+		if (distance <= radius) {
 			// Only respond to touches close to the mallet
-			setPosition(sprite.getX() + x, sprite.getY() + y);
+			this.setPosition(this.sprite.getX() + x, this.sprite.getY() + y);
 		}
 	}
 
-	public double getDistanceFromPoint(float posX, float posY) {
-		float radius = (float) ((sprite.getHeight() / 2) * size); 
-		float x = posX - (sprite.getX() + radius);
-		float y = posY - (sprite.getY() + radius);
-		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // Pythagoras' theorem
+	public double getDistanceFromPoint(final float posX, final float posY) {
+		final float radius = (this.sprite.getHeight() / 2) * this.size;
+		final float x = posX - (this.sprite.getX() + radius);
+		final float y = posY - (this.sprite.getY() + radius);
+		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // Pythagoras'
+															// theorem
 	}
 
 	/**
 	 * Returns the sprite graphic object representing the mallet.
+	 * 
 	 * @return
 	 */
 	public Sprite getSprite() {
@@ -129,51 +136,57 @@ public class Mallet {
 
 	/**
 	 * Returns the X coordinate of the origo of the mallet
+	 * 
 	 * @return
 	 */
-	public float getOrigoX(){
-		float origoX = sprite.getX() + ((sprite.getWidth()/2) * size);
+	public float getOrigoX() {
+		final float origoX = this.sprite.getX()
+				+ ((this.sprite.getWidth() / 2) * this.size);
 		return origoX;
 	}
+
 	/**
 	 * Returns the Y coordinate of the origo of the mallet
+	 * 
 	 * @return
 	 */
-	public float getOrigoY(){
-		float origoY = sprite.getY() + ((sprite.getHeight()/2) * size);
+	public float getOrigoY() {
+		final float origoY = this.sprite.getY()
+				+ ((this.sprite.getHeight() / 2) * this.size);
 		return origoY;
 	}
 
 	/**
-	 * Method for updating the movement speed of the mallet.
-	 * Calculates the speed as the difference between the previous positions and the current positions.
-	 * It then sets the previous position as the current ones.
+	 * Method for updating the movement speed of the mallet. Calculates the
+	 * speed as the difference between the previous positions and the current
+	 * positions. It then sets the previous position as the current ones.
 	 */
-	public void updateSpeed(){
-		float currentX = sprite.getX();
-		float currentY = sprite.getY();
-		speedX = previousX - currentX;
-		speedY = previousY - currentY;
-		previousX = currentX;
-		previousY = currentY;
+	public void updateSpeed() {
+		final float currentX = this.sprite.getX();
+		final float currentY = this.sprite.getY();
+		this.speedX = this.previousX - currentX;
+		this.speedY = this.previousY - currentY;
+		this.previousX = currentX;
+		this.previousY = currentY;
 	}
 
-	public float getSpeedX(){
-		return speedX;
+	public float getSpeedX() {
+		return this.speedX;
 	}
-	public float getSpeedY(){
-		return speedY;
+
+	public float getSpeedY() {
+		return this.speedY;
 	}
 
 	public float getRadius() {
-		return sprite.getHeight() / 2;
+		return this.sprite.getHeight() / 2;
 	}
 
 	public boolean isIdle() {
-		return speedX == 0 && speedY == 0;
+		return (this.speedX == 0) && (this.speedY == 0);
 	}
 
 	public void reset() {
-		initializePosition();
+		this.initializePosition();
 	}
 }

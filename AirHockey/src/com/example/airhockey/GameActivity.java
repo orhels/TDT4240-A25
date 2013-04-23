@@ -23,74 +23,79 @@ public class GameActivity extends SimpleBaseGameActivity {
 	static final int CAMERA_WIDTH = 480;
 	static final int CAMERA_HEIGHT = 800;
 	public Font mFont;
-	
-
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
-		instance = this;
-    	mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-    	EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED,
-    			new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), mCamera);
-    	engineOptions.getTouchOptions().setNeedsMultiTouch(true);
-        return engineOptions;
+		GameActivity.instance = this;
+		this.mCamera = new Camera(0, 0, GameActivity.CAMERA_WIDTH,
+				GameActivity.CAMERA_HEIGHT);
+		final EngineOptions engineOptions = new EngineOptions(true,
+				ScreenOrientation.PORTRAIT_FIXED, new RatioResolutionPolicy(
+						GameActivity.CAMERA_WIDTH, GameActivity.CAMERA_HEIGHT),
+				this.mCamera);
+		engineOptions.getTouchOptions().setNeedsMultiTouch(true);
+		return engineOptions;
 	}
 
 	@Override
-	protected void onCreateResources() 
-	{
-		mFont = FontFactory.create(this.getFontManager(),this.getTextureManager(), 256, 256, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 64);
-	    mFont.load();
+	protected void onCreateResources() {
+		this.mFont = FontFactory.create(this.getFontManager(),
+				this.getTextureManager(), 256, 256,
+				Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 64);
+		this.mFont.load();
 	}
-	
-	public static GameActivity getInstance(){
-		return instance;
+
+	public static GameActivity getInstance() {
+		return GameActivity.instance;
 	}
 
 	@Override
-	protected Scene onCreateScene() 
-	{
-		scene = new GameScene();
-		scene.setOnSceneTouchListener(scene);
+	protected Scene onCreateScene() {
+		this.scene = new GameScene();
+		this.scene.setOnSceneTouchListener(this.scene);
 
-		return scene;
-	}
-	
-	public void setCurrentScene(GameScene scene){
-		this.scene = scene;
-	}
-	
-	public GameScene getCurrentScene(){
 		return this.scene;
 	}
-	
+
+	public void setCurrentScene(final GameScene scene) {
+		this.scene = scene;
+	}
+
+	public GameScene getCurrentScene() {
+		return this.scene;
+	}
+
 	@Override
 	public void onBackPressed() {
 		// TODO: Add "Do you want to quit?" graphics
 		super.onBackPressed();
 	}
+
+	@Override
 	public void onStop() {
 		super.onStop();
-		if (scene != null) {
-			scene.destroySprites();
-			scene = null;
+		if (this.scene != null) {
+			this.scene.destroySprites();
+			this.scene = null;
 		}
 	}
-	
+
+	@Override
 	public void onPause() {
 		super.onPause();
-		if (scene != null) {
-			scene.destroySprites();
-			scene = null;
+		if (this.scene != null) {
+			this.scene.destroySprites();
+			this.scene = null;
 		}
 	}
-	
+
+	@Override
 	public void onResume() {
 		super.onResume();
 	}
-	
+
 	public GameScene getScene() {
-		return scene;
+		return this.scene;
 	}
-	
+
 }

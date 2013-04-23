@@ -6,18 +6,19 @@ package com.example.airhockey;
  */
 public class Goal {
 
-	private float leftCorner, rightCorner;
-	
-	public Goal(float leftCorner, float rightCorner) {
+	private final float leftCorner, rightCorner;
+
+	public Goal(final float leftCorner, final float rightCorner) {
 		this.leftCorner = leftCorner;
 		this.rightCorner = rightCorner;
 	}
-	
-	public boolean isInside(float left, float right) {
-		return left > leftCorner && right < rightCorner;
+
+	public boolean isInside(final float left, final float right) {
+		return (left > this.leftCorner) && (right < this.rightCorner);
 	}
-	
+
+	@Override
 	public String toString() {
-		return "" + leftCorner + "-" + rightCorner;
+		return "" + this.leftCorner + "-" + this.rightCorner;
 	}
 }
