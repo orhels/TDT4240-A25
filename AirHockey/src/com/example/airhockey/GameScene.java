@@ -16,7 +16,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PointF;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 /**
  * @author G25
@@ -56,8 +55,11 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		this.preference = PreferenceManager.getDefaultSharedPreferences(instance);
 		try {
 			this.goalsToWin = Integer.parseInt(preference.getString("goalsToWin", "5"));
+			puck.setSpeedMultiplier(Float.parseFloat(preference.getString(Constants.BALLSPEED, "1")));
 		} catch (Exception e) {
+			// Catches formatting errors
 			goalsToWin = 5;
+			puck.setSpeedMultiplier(1f);
 		}
 
 		this.createBackground();
@@ -181,7 +183,6 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 			loserName = playerOne.getName();
 			score = playerTwo.getScore() + " - " + playerOne.getScore();
 		}
-		//TODO: Save match in match history
 		Intent intent = new Intent(instance, EndOfGameActivity.class);
 		intent.putExtra(Constants.WINNER, winnerName);
 		intent.putExtra(Constants.SCORE, score);
@@ -193,7 +194,6 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	
 	private void saveMatch() {
 		db = new DatabaseHelper(instance, "AirHockeyDB");
-		Log.d("GameScene", "Saving the scores, lzm");
 		db.saveMatch(playerOne.getName(), playerTwo.getName(), playerOne.getScore(), playerTwo.getScore(), "EEFOEKF");
 		db.close();
 	}

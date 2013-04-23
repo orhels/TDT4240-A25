@@ -66,15 +66,15 @@ public class Mallet {
 
 	private void setSize(String size) {
 
-		if(size.equals("Small"))
+		if(size.equals(Constants.SMALL))
 		{
 			this.size = 0.5f;
 		}
-		else if(size.equals("Medium"))
+		else if(size.equals(Constants.MEDIUM))
 		{
 			this.size = 1.0f;
 		}
-		else if(size.equals("Large"))
+		else if(size.equals(Constants.LARGE))
 		{
 			this.size = 1.5f;
 		}
@@ -132,7 +132,7 @@ public class Mallet {
 	 * @return
 	 */
 	public float getOrigoX(){
-		float origoX = sprite.getX() + (sprite.getWidth()/2);
+		float origoX = sprite.getX() + ((sprite.getWidth()/2) * size);
 		return origoX;
 	}
 	/**
@@ -140,7 +140,7 @@ public class Mallet {
 	 * @return
 	 */
 	public float getOrigoY(){
-		float origoY = sprite.getY() + (sprite.getHeight()/2);
+		float origoY = sprite.getY() + ((sprite.getHeight()/2) * size);
 		return origoY;
 	}
 
