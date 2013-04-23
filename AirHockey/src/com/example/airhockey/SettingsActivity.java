@@ -83,7 +83,7 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 		mBallSpeed = (SeekBar) findViewById(R.id.settings_ball_speed);
 		mBallSpeed.setOnSeekBarChangeListener(this);
 		mBallSpeed.setProgress(Integer.parseInt(preferences.getString(ballSpeed, "0")));
-		mBallSpeed.setMax(10);
+		mBallSpeed.setMax(9);
 		updateHeader();
 	}
 
@@ -136,14 +136,14 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 			descriptor = "Fast";
 		}
 
-		speedHeader.setText("Speed: " + descriptor + " (" + progress + ")");
+		speedHeader.setText("Speed: " + descriptor + " (" + (progress + 1) + ")");
 
 	}
 
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 		if (fromUser) {
-			writePreference(ballSpeed, String.valueOf(progress));
+			writePreference(ballSpeed, String.valueOf(progress + 1));
 			updateHeader();
 		}
 	}

@@ -9,8 +9,8 @@ public class Goal {
 		this.rightCorner = rightCorner;
 	}
 	
-	public boolean isInside(float x) {
-		return x > leftCorner && x < rightCorner;
+	public boolean isInside(float left, float right) {
+		return left > leftCorner && right < rightCorner;
 	}
 	
 	public String toString() {

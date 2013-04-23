@@ -32,13 +32,11 @@ public class GameUpdateHandler implements IUpdateHandler{
 		double distance = mallet1.getDistanceFromPoint(puck.getOrigoX(), puck.getOrigoY());
 		double minDistance = mallet1.getRadius() + puck.getRadius();
 		if (distance <= minDistance){
-			debug("Player 1 - Collided with puck");
 			handleCollision(mallet1, distance);
 		}
 
 		distance = mallet2.getDistanceFromPoint(puck.getOrigoX(), puck.getOrigoY());
 		if (distance <= mallet2.getRadius() + puck.getRadius()){
-			debug("Player 2 - Collided with puck");
 			handleCollision(mallet2, distance);
 		}
 		
@@ -118,9 +116,4 @@ public class GameUpdateHandler implements IUpdateHandler{
 	public void reset() {
 
 	}
-
-	private void debug(String msg) {
-		Log.d("GameUpdateHandler", msg);
-	}
-
 }

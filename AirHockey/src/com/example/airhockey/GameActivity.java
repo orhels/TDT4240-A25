@@ -69,6 +69,7 @@ public class GameActivity extends SimpleBaseGameActivity {
 		super.onStop();
 		if (scene != null) {
 			scene.destroySprites();
+			scene = null;
 		}
 	}
 	
@@ -76,7 +77,12 @@ public class GameActivity extends SimpleBaseGameActivity {
 		super.onPause();
 		if (scene != null) {
 			scene.destroySprites();
+			scene = null;
 		}
+	}
+	
+	public void onResume() {
+		super.onResume();
 	}
 	
 	public GameScene getScene() {

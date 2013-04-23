@@ -8,6 +8,7 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 
 import android.graphics.PointF;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public enum Puck 
 {
@@ -25,11 +26,10 @@ public enum Puck
 	private PointF velocity;
 	/* The size of the puck */
 	private float size;
-	/*The max allowed velocity of the puck */
+	/* The max allowed velocity of the puck */
 	private float maxVelocity;
-	/*The minimum allowed velocity of the puck */
-	private float minVelocity;
-
+	/* The factor the speed should be scaled with */
+	private float speedMultiplier = 1;
 
 	/**
 	 * Constructor
@@ -38,13 +38,16 @@ public enum Puck
 	{
 		instance = GameActivity.getInstance();
 		this.mCamera = instance.mCamera;
-		initPuck();
+		if (instance != null) {
+			initPuck();
+		}
 	}
 
 	/**
 	 * Initializes the puck's variables
 	 */
-	public void initPuck(){
+	public void initPuck(){ 
+		instance = GameActivity.getInstance();
 		this.puckAtlas = new BitmapTextureAtlas(instance.getTextureManager(),256,256);
 		this.puckTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(puckAtlas, instance, "game/puck.png", 60, 60);
 		this.sprite = new Sprite(mCamera.getCenterX()- puckTexture.getHeight()/2, mCamera.getCenterY() - puckTexture.getWidth()/2, puckTexture, instance.getVertexBufferObjectManager());
@@ -54,8 +57,6 @@ public enum Puck
 		this.puckAtlas.load();
 
 		setVelocity(0, 0);
-		setMaxVelocity(10);
-
 	}
 
 	/**
@@ -108,14 +109,14 @@ public enum Puck
 		Goal goal;
 		if (y <= 0) { // Player 2 may have the ball inside player 1's goal
 			goal = instance.getScene().getPlayerOneGoal();
-			if (!goal.isInside(x)) {
-				y -= velocity.y;
+			if (!goal.isInside(x, x + radius)) {
+				y = 0;
 				velocity.y *= -0.95; 
 			}
 		} else if (y + radius >= mCamera.getHeight()) {  // Player 1 may have the ball inside player 2's goal
 			goal = instance.getScene().getPlayerTwoGoal();
-			if (!goal.isInside(x)) {
-				y -= velocity.y;
+			if (!goal.isInside(x, x + radius)) {
+				y = mCamera.getHeight() - radius;
 				velocity.y *= -0.95; 
 			}
 		}
@@ -132,6 +133,11 @@ public enum Puck
 	 * @param velocity
 	 */
 	public void setVelocity(float dx, float dy){
+		dx *= speedMultiplier;
+		dy *= speedMultiplier;
+		Log.d("Puck", "Speed X: " + dx);
+		Log.d("Puck", "Speed Y: " + dy);
+		Log.d("Puck", "Max speed: " + maxVelocity);
 		if (dx > maxVelocity) {
 			dx = maxVelocity;
 		} else if (dx < -maxVelocity) {
@@ -172,20 +178,6 @@ public enum Puck
 		if (maxVelocity > 0) {
 			this.maxVelocity = maxVelocity;
 		}
-	}
-	/**
-	 * Get the minimum allowed velocyt of the puck
-	 * @return
-	 */
-	public float getMinVelocity() {
-		return minVelocity;
-	}
-	/**
-	 * Set the minimum allowed velocity of the puck
-	 * @param minVelocity
-	 */
-	public void setMinVelocity(float minVelocity) {
-		this.minVelocity = minVelocity;
 	}
 	/**
 	 * Set the direction to x and y coordinates. The speed will normalize itself according to the velocity
@@ -235,5 +227,22 @@ public enum Puck
 	}
 	public float getRadius() {
 		return (sprite.getHeight() / 2) - 12;
+	}
+
+	/**
+	 * Sets the speed multiplier for the puck.
+	 * 
+	 * @param speedMultiplier Number between 1 and 10
+	 */
+	public void setSpeedMultiplier(float speedMultiplier) {
+		Log.d("Puck", "Speed multiplier: " + speedMultiplier);
+		Log.d("Puck", "Max speed: " + maxVelocity);
+		if (speedMultiplier > 0 && speedMultiplier <= 10) {
+			maxVelocity = speedMultiplier * 2;
+			speedMultiplier /= 10;
+			this.speedMultiplier =  0.5f + speedMultiplier;
+			Log.d("Puck", "New speed multiplier: " + speedMultiplier);
+			Log.d("Puck", "New max speed: " + maxVelocity);
+		}
 	}
 }
