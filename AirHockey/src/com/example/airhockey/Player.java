@@ -7,6 +7,7 @@ public class Player {
 	private Mallet mallet;
 	private int score = 0;
 	private boolean won = false;
+	private String name = "";
 	
 	
 	public Player(Mallet mallet) {
@@ -30,7 +31,7 @@ public class Player {
 	}
 	
 	public int incrementScore() {
-		return score++;
+		return ++score;
 	}
 	
 	public void reset() {
@@ -47,6 +48,14 @@ public class Player {
 	
 	public boolean hasWon() {
 		return won;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 

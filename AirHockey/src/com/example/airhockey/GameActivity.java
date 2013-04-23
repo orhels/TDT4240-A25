@@ -29,17 +29,6 @@ public class GameActivity extends SimpleBaseGameActivity {
     	EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED,
     			new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), mCamera);
     	engineOptions.getTouchOptions().setNeedsMultiTouch(true);
-    	/*
-        if(MultiTouch.isSupported(this)) {
-            if(MultiTouch.isSupportedDistinct(this)) {
-                Toast.makeText(this, "MultiTouch detected --> Both controls will work properly!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "MultiTouch detected, but your device has problems distinguishing between fingers.\n\nControls are placed at different vertical locations.", Toast.LENGTH_LONG).show();
-            }
-        } else {
-            Toast.makeText(this, "Sorry your device does NOT support MultiTouch!\n\n(Falling back to SingleTouch.)\n\nControls are placed at different vertical locations.", Toast.LENGTH_LONG).show();
-        }
-        */
         return engineOptions;
 	}
 

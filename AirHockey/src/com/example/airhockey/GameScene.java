@@ -23,7 +23,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	private Camera mCamera;
 	private GameActivity instance;
 
-	/* Teh Puhck */
+	/* The Puhck */
 	private Puck puck = Puck.PUCK;
 	private Player playerOne, playerTwo;
 	/* Text graphic item showing the players' scores */
@@ -35,6 +35,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	private BitmapTextureAtlas backgroundTextureAtlas;
 	private TextureRegion backgroundTextureRegion;
 	private Sprite backgroundSprite;
+	public static final String winner = "winner", score = "score";
 
 	/* The container for the game preferences */
 	private SharedPreferences preference;
@@ -73,6 +74,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		//TODO: Add "WIN" text n stuff
 		attachChild(playerTwoGoalsText);
 		attachChild(playerOneGoalsText);
+		
 	}
 
 	/**
@@ -86,6 +88,11 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		this.attachChild(playerTwo.getMallet().getSprite());
 		this.puck.initPuck();
 		this.attachChild(this.puck.getSprite());
+		Intent intent = instance.getIntent();
+		if (intent.hasExtra(NewGameActivity.player1Name) && intent.hasExtra(NewGameActivity.player2Name)) {
+			playerOne.setName(intent.getStringExtra(NewGameActivity.player1Name));
+			playerTwo.setName(intent.getStringExtra(NewGameActivity.player2Name));
+		}
 	}
 
 	/**
@@ -135,9 +142,25 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	 */
 	private void gameOver(){
 		System.out.println("GAME OVER, END THE GAME FFS");
+<<<<<<< HEAD
 		
+=======
+		String winnerName = "";
+		String score = "";
+		if(playerOne.hasWon()){
+			winnerName = playerOne.getName();
+			score = playerOne.getScore() + " - " + playerTwo.getScore();
+		}
+		if(playerTwo.hasWon()){
+			winnerName = playerTwo.getName();
+			score = playerTwo.getScore() + " - " + playerOne.getScore();
+		}
+>>>>>>> 1e918fcba79d0c0fad3db5d5a7fff322ba62e0ca
 		//TODO: Save match in match history
-		instance.startActivity(new Intent(instance, EndOfGameActivity.class));
+		Intent intent = new Intent(instance, EndOfGameActivity.class);
+		intent.putExtra(GameScene.winner, winnerName);
+		intent.putExtra(GameScene.score, score);
+		instance.startActivity(intent);
 		instance.finish();
 	}
 	/**
