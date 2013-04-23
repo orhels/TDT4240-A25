@@ -118,7 +118,6 @@ public class Mallet {
 	 * @param event
 	 */
 	public void setPosition(final TouchEvent event) {
-
 		float radius = getRadius(); 
 		float x = event.getX() - getOrigoX();
 		float y = event.getY() - getOrigoY();
