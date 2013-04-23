@@ -8,7 +8,6 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 
 import android.graphics.PointF;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 public enum Puck 
 {
@@ -133,7 +132,6 @@ public enum Puck
 	 * @param velocity
 	 */
 	public void setVelocity(float dx, float dy){
-		Log.d("Puck", "DX: " + dx + ". DY: " + dy);
 		if (dx > maxVelocity) {
 			dx = maxVelocity;
 		} else if (dx < -maxVelocity) {

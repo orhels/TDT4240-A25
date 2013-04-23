@@ -92,6 +92,7 @@ public class NewGameActivity extends Activity implements OnClickListener, OnSeek
 			intent.putExtra(player1Name, getPlayer1Name());
 			intent.putExtra(player2Name, getPlayer2Name());
 			startActivity(intent);
+			finish();
 			break;
 		}
 	}

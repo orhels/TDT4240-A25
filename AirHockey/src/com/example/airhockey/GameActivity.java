@@ -67,12 +67,16 @@ public class GameActivity extends SimpleBaseGameActivity {
 	}
 	public void onStop() {
 		super.onStop();
-		scene.destroySprites();
+		if (scene != null) {
+			scene.destroySprites();
+		}
 	}
 	
 	public void onPause() {
 		super.onPause();
-		scene.destroySprites();
+		if (scene != null) {
+			scene.destroySprites();
+		}
 	}
 	
 	public GameScene getScene() {
