@@ -23,7 +23,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	private Camera mCamera;
 	private GameActivity instance;
 
-	/* Teh Puhck */
+	/* The Puhck */
 	private Puck puck = Puck.PUCK;
 	private Player playerOne, playerTwo;
 	/* Text graphic item showing the players' scores */
@@ -73,6 +73,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		//TODO: Add "WIN" text n stuff
 		attachChild(playerTwoGoalsText);
 		attachChild(playerOneGoalsText);
+		
 	}
 
 	/**
