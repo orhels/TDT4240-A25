@@ -109,11 +109,11 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	private void initializePlayers() {
 		final String size = this.preference.getString(Constants.MALLETSIZE,
 				Constants.MEDIUM);
+		this.puck.initPuck();
 		this.playerOne = new Player(new Mallet(size, 1));
 		this.playerTwo = new Player(new Mallet(size, 2));
 		this.attachChild(this.playerOne.getMallet().getSprite());
 		this.attachChild(this.playerTwo.getMallet().getSprite());
-		this.puck.initPuck();
 		this.attachChild(this.puck.getSprite());
 		final Intent intent = this.instance.getIntent();
 		if (intent.hasExtra(Constants.PLAYER1NAME) && intent.hasExtra(Constants.PLAYER2NAME)) {

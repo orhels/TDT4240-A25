@@ -7,6 +7,8 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 
+import android.util.Log;
+
 /**
  * @author G25
  * @version 1.0
@@ -18,7 +20,8 @@ public class Mallet {
 	private Sprite sprite;
 	private final GameActivity instance;
 	private final Camera mCamera;
-	private float size;
+	private int imageSize = 98;
+	private String imagePath = "game/mallet_";
 	public float spriteHeight, spriteWidth;
 	/* The mallets previous X position */
 	private float previousX;
@@ -61,10 +64,12 @@ public class Mallet {
 	}
 
 	private void loadTextures() {
-		this.malletAtlas = new BitmapTextureAtlas(this.instance.getTextureManager(), 125, 125);
-		this.malletTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.malletAtlas, this.instance, "game/mallet.png", 0, 0);
-		this.sprite = new Sprite(0, 0, this.malletTexture, this.instance.getVertexBufferObjectManager());
-		this.sprite.setScale(this.size);
+		this.malletAtlas = new BitmapTextureAtlas(this.instance.getTextureManager(), imageSize, imageSize);
+		this.malletTexture = BitmapTextureAtlasTextureRegionFactory.
+				createFromAsset(this.malletAtlas, this.instance,
+						imagePath, 0, 0);
+		this.sprite = new Sprite(0, 0, this.malletTexture, 
+				this.instance.getVertexBufferObjectManager());
 		this.malletAtlas.load();
 	}
 
@@ -72,15 +77,18 @@ public class Mallet {
 
 		if (size.equals(Constants.SMALL)) 
 		{
-			this.size = 0.5f;
+			this.imageSize = 98;
+			this.imagePath += "small.png";
 		} 
 		else if (size.equals(Constants.MEDIUM)) 
 		{
-			this.size = 1.0f;
+			this.imageSize = 125;
+			this.imagePath += "medium.png";
 		} 
 		else if (size.equals(Constants.LARGE)) 
 		{
-			this.size = 1.5f;
+			this.imageSize = 167;
+			this.imagePath += "big.png";
 		}
 	}
 
@@ -91,7 +99,8 @@ public class Mallet {
 	 * @param y
 	 */
 	public void setPosition(float x, float y) {
-		final float radius = this.sprite.getHeight();
+		final float radius = getRadius();
+//				this.sprite.getHeight();
 		if (((x + radius) >= this.mCamera.getWidth()) || (x < 0)) 
 		{
 			x = this.sprite.getX();
@@ -110,37 +119,23 @@ public class Mallet {
 	 */
 	public void setPosition(final TouchEvent event) {
 
-<<<<<<< HEAD
 		float radius = getRadius(); 
-		float x = event.getX() - (sprite.getX() + radius);
-		float y = event.getY() - (sprite.getY() + radius);
+		float x = event.getX() - getOrigoX();
+		float y = event.getY() - getOrigoY();
 		double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // Pythagoras' theorem
+		Log.d("Mallet", "Distance: " + distance);
 		if (distance <= radius) { 
-=======
-		final float radius = (this.sprite.getHeight() / 2) * this.size;
-		final float x = event.getX() - (this.sprite.getX() + radius);
-		final float y = event.getY() - (this.sprite.getY() + radius);
-		final double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // Pythagoras' theorem
-		if (distance <= radius) {
->>>>>>> 7a35e629824b8d252ec277222107a62ba7404772
 			// Only respond to touches close to the mallet
 			this.setPosition(this.sprite.getX() + x, this.sprite.getY() + y);
 		}
 	}
 
-<<<<<<< HEAD
 	public double getDistanceFromPoint(float posX, float posY) {
 		//float radius = getRadius();
 		//float x = posX - (sprite.getX() + radius);
 		float x = posX - getOrigoX();
 		float y = posY - getOrigoY();
 		//float y = posY - (sprite.getY() + radius);
-=======
-	public double getDistanceFromPoint(final float posX, final float posY) {
-		final float radius = (this.sprite.getHeight() / 2) * this.size;
-		final float x = posX - (this.sprite.getX() + radius);
-		final float y = posY - (this.sprite.getY() + radius);
->>>>>>> 7a35e629824b8d252ec277222107a62ba7404772
 		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // Pythagoras' theorem
 	}
 
@@ -158,14 +153,8 @@ public class Mallet {
 	 * 
 	 * @return
 	 */
-<<<<<<< HEAD
 	public float getOrigoX(){
-		float origoX = sprite.getX() + ((sprite.getWidth() / 2) * size);
-=======
-	public float getOrigoX() {
-		final float origoX = this.sprite.getX()
-				+ ((this.sprite.getWidth() / 2) * this.size);
->>>>>>> 7a35e629824b8d252ec277222107a62ba7404772
+		float origoX = sprite.getX() + getRadius();
 		return origoX;
 	}
 
@@ -174,14 +163,8 @@ public class Mallet {
 	 * 
 	 * @return
 	 */
-<<<<<<< HEAD
 	public float getOrigoY(){
-		float origoY = sprite.getY() + ((sprite.getHeight() / 2) * size);
-=======
-	public float getOrigoY() {
-		final float origoY = this.sprite.getY()
-				+ ((this.sprite.getHeight() / 2) * this.size);
->>>>>>> 7a35e629824b8d252ec277222107a62ba7404772
+		float origoY = sprite.getY() + getRadius();
 		return origoY;
 	}
 
@@ -208,11 +191,7 @@ public class Mallet {
 	}
 
 	public float getRadius() {
-<<<<<<< HEAD
-		return (sprite.getHeight() / 2) * size;
-=======
-		return this.sprite.getHeight() / 2;
->>>>>>> 7a35e629824b8d252ec277222107a62ba7404772
+		return (this.imageSize / 2);
 	}
 
 	public boolean isIdle() {

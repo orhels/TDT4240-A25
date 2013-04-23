@@ -28,7 +28,8 @@ public enum Puck {
 	/* The total velocity of the puck, a vector of speed and direction */
 	private PointF velocity;
 	/* The size of the puck */
-	private float size;
+	private int imageSize = 40, offSet = 10;
+	private String imagePath = "game/puck_";
 	/* The max allowed velocity of the puck */
 	private float maxVelocity;
 	/* The factor the speed should be scaled with */
@@ -51,19 +52,18 @@ public enum Puck {
 
 	public void initPuck() {
 		this.instance = GameActivity.getInstance();
+		final String size = PreferenceManager.getDefaultSharedPreferences(
+				this.instance).getString("Puck", "Medium");
+		this.setSize(size);
 		this.puckAtlas = new BitmapTextureAtlas(
-				this.instance.getTextureManager(), 256, 256);
+				this.instance.getTextureManager(), imageSize, imageSize);
 		this.puckTexture = BitmapTextureAtlasTextureRegionFactory
 				.createFromAsset(this.puckAtlas, this.instance,
-						"game/puck.png", 60, 60);
+						imagePath, 0, 0);
 		this.sprite = new Sprite(this.mCamera.getCenterX()
 				- (this.puckTexture.getHeight() / 2), this.mCamera.getCenterY()
 				- (this.puckTexture.getWidth() / 2), this.puckTexture,
 				this.instance.getVertexBufferObjectManager());
-		final String size = PreferenceManager.getDefaultSharedPreferences(
-				this.instance).getString("Puck", "Medium");
-		this.setSize(size);
-		this.sprite.setScale(this.size);
 		this.puckAtlas.load();
 
 		this.setVelocity(0, 0);
@@ -79,11 +79,17 @@ public enum Puck {
 	private void setSize(final String size) {
 
 		if (size.equals("Small")) {
-			this.size = 0.5f;
+			this.imageSize = 40;
+			this.offSet = 10;
+			this.imagePath = "game/puck_small.png";
 		} else if (size.equals("Medium")) {
-			this.size = 1.0f;
+			this.imageSize = 76;
+			this.offSet = 20;
+			this.imagePath = "game/puck_medium.png";
 		} else if (size.equals("Large")) {
-			this.size = 1.5f;
+			this.imageSize = 112;
+			this.offSet = 30;
+			this.imagePath = "game/puck_big.png";
 		}
 	}
 
@@ -113,7 +119,7 @@ public enum Puck {
 	 * @param y
 	 */
 	public void setPosition(float x, float y) {
-		final float radius = this.sprite.getHeight() * this.size;
+		final float radius = this.sprite.getHeight();
 		if (((x + radius) >= this.mCamera.getWidth()) || (x < 0)) {
 			x = this.sprite.getX();
 			this.velocity.x *= -0.95f;
@@ -221,7 +227,7 @@ public enum Puck {
 
 	public float getOrigoX() {
 		final float origoX = this.sprite.getX()
-				+ ((this.sprite.getWidth() / 2) * this.size);
+				+ (this.sprite.getWidth() / 2);
 		return origoX;
 	}
 
@@ -232,7 +238,7 @@ public enum Puck {
 	 */
 	public float getOrigoY() {
 		final float origoY = this.sprite.getY()
-				+ ((this.sprite.getHeight() / 2) * this.size);
+				+ (this.sprite.getHeight() / 2);
 		return origoY;
 	}
 
@@ -264,7 +270,7 @@ public enum Puck {
 	}
 
 	public float getRadius() {
-		return (sprite.getHeight() / 2) * size;
+		return imageSize / 2;
 	}
 
 	/**
