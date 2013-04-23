@@ -20,6 +20,7 @@ public enum Puck
 	private BitmapTextureAtlas puckAtlas;
 	private ITextureRegion puckTexture;
 	private Sprite sprite;
+	private GameActivity instance;
 
 	/* The total velocity of the puck, a vector of speed and direction */
 	private PointF velocity;
@@ -36,25 +37,26 @@ public enum Puck
 	 */
 	private Puck()
 	{
-		this.mCamera = GameActivity.getInstance().mCamera;
+		instance = GameActivity.getInstance();
+		this.mCamera = instance.mCamera;
 		initPuck();
 	}
-	
+
 	/**
 	 * Initializes the puck's variables
 	 */
 	public void initPuck(){
-		this.puckAtlas = new BitmapTextureAtlas(GameActivity.getInstance().getTextureManager(),256,256);
-		this.puckTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(puckAtlas, GameActivity.getInstance(), "game/puck.png", 60, 60);
-		this.sprite = new Sprite(mCamera.getCenterX()- puckTexture.getHeight()/2, mCamera.getCenterY() - puckTexture.getWidth()/2, puckTexture, GameActivity.getInstance().getVertexBufferObjectManager());
-		String size = PreferenceManager.getDefaultSharedPreferences(GameActivity.getInstance()).getString("Puck", "Medium");
+		this.puckAtlas = new BitmapTextureAtlas(instance.getTextureManager(),256,256);
+		this.puckTexture = BitmapTextureAtlasTextureRegionFactory.createFromAsset(puckAtlas, instance, "game/puck.png", 60, 60);
+		this.sprite = new Sprite(mCamera.getCenterX()- puckTexture.getHeight()/2, mCamera.getCenterY() - puckTexture.getWidth()/2, puckTexture, instance.getVertexBufferObjectManager());
+		String size = PreferenceManager.getDefaultSharedPreferences(instance).getString("Puck", "Medium");
 		setSize(size);
 		this.sprite.setScale(this.size);
 		this.puckAtlas.load();
-		
+
 		setVelocity(0, 0);
 		setMaxVelocity(10);
-		
+
 	}
 
 	/**
@@ -82,9 +84,9 @@ public enum Puck
 	 */
 	public void updatePuck(){
 		setPosition(sprite.getX() + velocity.x, sprite.getY() + velocity.y);
-		
+
 	}
-	
+
 	/**
 	 * Resets the puck back to original position
 	 */
@@ -103,10 +105,25 @@ public enum Puck
 			x = sprite.getX();
 			velocity.x *= -0.95f;
 		}
+		// Check if the ball is inside the goal
+		Goal goal;
+		if (y <= 0) { // Player 2 may have the ball inside player 1's goal
+			goal = instance.getScene().getPlayerOneGoal();
+			if (!goal.isInside(x)) {
+				y -= velocity.y;
+				velocity.y *= -0.95; 
+			}
+		} else if (y + radius >= mCamera.getHeight()) {  // Player 1 may have the ball inside player 2's goal
+			goal = instance.getScene().getPlayerTwoGoal();
+			if (!goal.isInside(x)) {
+				y -= velocity.y;
+				velocity.y *= -0.95; 
+			}
+		}
 
 		sprite.setPosition(x, y);
 	}
-	
+
 	public void addToPosition(float dx, float dy) {
 		setPosition(sprite.getX() + dx, sprite.getY() + dy);
 	}
@@ -127,7 +144,7 @@ public enum Puck
 		} else if (dy < -maxVelocity) {
 			dy = -maxVelocity;
 		}
-		
+
 		if (velocity != null) {
 			velocity.x = dx;
 			velocity.y = dy;

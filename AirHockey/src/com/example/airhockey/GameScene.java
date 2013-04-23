@@ -27,6 +27,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	/* The Puhck */
 	private Puck puck = Puck.PUCK;
 	private Player playerOne, playerTwo;
+	private Goal playerOneGoal, playerTwoGoal;
 	/* Text graphic item showing the players' scores */
 	private Text playerTwoGoalsText, playerOneGoalsText;
 	/* Number of points needed to win the game */
@@ -57,6 +58,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		}
 
 		this.createBackground();
+		initializeGoals();
 		addGoalText();
 		initializePlayers();
 
@@ -77,6 +79,11 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		attachChild(playerTwoGoalsText);
 		attachChild(playerOneGoalsText);
 		
+	}
+	
+	private void initializeGoals() {
+		playerOneGoal = new Goal(100, mCamera.getWidth() - 100);
+		playerTwoGoal = new Goal(100, mCamera.getWidth() - 100);
 	}
 
 	/**
@@ -110,13 +117,13 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	 */
 	public void checkScore(){
 		float yPos = puck.getSprite().getY();
-		if(yPos < 0){
+		if(yPos + (puck.getSprite().getHeight() / 2) < 0){
 			playerScored(playerOne);
 			int score = playerOne.getScore();
 			playerOneGoalsText.setText("" + score);
 			
 		}
-		else if(yPos > instance.mCamera.getHeight()){
+		else if(yPos + (puck.getSprite().getHeight() / 2) > instance.mCamera.getHeight()){
 			playerScored(playerTwo);
 			int score = playerTwo.getScore();
 			playerTwoGoalsText.setText(""+score);
@@ -231,5 +238,13 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		playerTwo.getMallet().getSprite().detachSelf();
 		puck.getSprite().detachSelf();
 		backgroundSprite.detachSelf();
+	}
+	
+	public Goal getPlayerOneGoal() {
+		return playerOneGoal;
+	}
+
+	public Goal getPlayerTwoGoal() {
+		return playerTwoGoal;
 	}
 }

@@ -75,4 +75,8 @@ public class GameActivity extends SimpleBaseGameActivity {
 		scene.destroySprites();
 	}
 	
+	public GameScene getScene() {
+		return scene;
+	}
+	
 }
