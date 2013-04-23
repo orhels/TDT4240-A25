@@ -24,7 +24,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	private Camera mCamera;
 	private GameActivity instance;
 
-	/* The Puhck */
+	/* The Puck */
 	private Puck puck = Puck.PUCK;
 	private Player playerOne, playerTwo;
 	private Goal playerOneGoal, playerTwoGoal;
@@ -69,8 +69,8 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	 * Adds text graphic displayig the goal scores
 	 */
 	private void addGoalText(){
-		this.playerTwoGoalsText = new Text(0, 0, instance.mFont, " 0", instance.getVertexBufferObjectManager());
-		this.playerOneGoalsText = new Text(0, 0, instance.mFont, "0 ", instance.getVertexBufferObjectManager());
+		this.playerTwoGoalsText = new Text(0, 0, instance.mFont, "00", instance.getVertexBufferObjectManager());
+		this.playerOneGoalsText = new Text(0, 0, instance.mFont, "00", instance.getVertexBufferObjectManager());
 		playerTwoGoalsText.setRotation(180);
 		playerOneGoalsText.setRotation(0);
 		playerTwoGoalsText.setPosition(30, mCamera.getHeight()*1/4-playerTwoGoalsText.getWidth()/2);
@@ -120,15 +120,28 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		if(yPos + (puck.getSprite().getHeight() / 2) < 0){
 			playerScored(playerOne);
 			int score = playerOne.getScore();
-			playerOneGoalsText.setText("" + score);
+			if (score < 10)
+			{
+				playerOneGoalsText.setText("0" + score);
+			}
+			else
+			{
+				playerOneGoalsText.setText("" + score);
+			}
 			
 		}
 		else if(yPos + (puck.getSprite().getHeight() / 2) > instance.mCamera.getHeight()){
 			playerScored(playerTwo);
 			int score = playerTwo.getScore();
-			playerTwoGoalsText.setText(""+score);
+			if (score < 10)
+			{
+				playerTwoGoalsText.setText("0"+score);
+			}
+			else
+			{
+				playerTwoGoalsText.setText(""+ score);				
+			}
 			
-			playerTwoGoalsText.setText("" + playerTwo.getScore());
 		}
 	}
 
