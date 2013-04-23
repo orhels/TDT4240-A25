@@ -35,6 +35,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	private BitmapTextureAtlas backgroundTextureAtlas;
 	private TextureRegion backgroundTextureRegion;
 	private Sprite backgroundSprite;
+	public static final String winner = "winner", score = "score";
 
 	/* The container for the game preferences */
 	private SharedPreferences preference;
@@ -86,6 +87,11 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		this.attachChild(playerTwo.getMallet().getSprite());
 		this.puck.initPuck();
 		this.attachChild(this.puck.getSprite());
+		Intent intent = instance.getIntent();
+		if (intent.hasExtra(NewGameActivity.player1Name) && intent.hasExtra(NewGameActivity.player2Name)) {
+			playerOne.setName(intent.getStringExtra(NewGameActivity.player1Name));
+			playerTwo.setName(intent.getStringExtra(NewGameActivity.player2Name));
+		}
 	}
 
 	/**
@@ -130,14 +136,21 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	 */
 	private void gameOver(){
 		System.out.println("GAME OVER, END THE GAME FFS");
+		String winnerName = "";
+		String score = "";
 		if(playerOne.hasWon()){
-			//TODO: Display player one has won
+			winnerName = playerOne.getName();
+			score = playerOne.getScore() + " - " + playerTwo.getScore();
 		}
 		if(playerTwo.hasWon()){
-			//TODO: Display player two has won
+			winnerName = playerTwo.getName();
+			score = playerTwo.getScore() + " - " + playerOne.getScore();
 		}
 		//TODO: Save match in match history
-		instance.startActivity(new Intent(instance, EndOfGameActivity.class));
+		Intent intent = new Intent(instance, EndOfGameActivity.class);
+		intent.putExtra(GameScene.winner, winnerName);
+		intent.putExtra(GameScene.score, score);
+		instance.startActivity(intent);
 		instance.finish();
 	}
 	/**

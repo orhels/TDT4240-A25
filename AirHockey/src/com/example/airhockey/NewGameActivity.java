@@ -89,7 +89,8 @@ public class NewGameActivity extends Activity implements OnClickListener, OnSeek
 		{
 		case R.id.startButton:
 			Intent intent = new Intent(this, GameActivity.class);
-			//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+			intent.putExtra(player1Name, getPlayer1Name());
+			intent.putExtra(player2Name, getPlayer2Name());
 			startActivity(intent);
 			break;
 		}
@@ -122,8 +123,16 @@ public class NewGameActivity extends Activity implements OnClickListener, OnSeek
 	@Override
 	public void afterTextChanged(Editable s) 
 	{
-		writePreference(player1Name, this.player1NameInput.getText().toString());
-		writePreference(player2Name, this.player2NameInput.getText().toString());
+		writePreference(player1Name, getPlayer1Name());
+		writePreference(player2Name, getPlayer2Name());
+	}
+	
+	private String getPlayer1Name() {
+		return this.player1NameInput.getText().toString();
+	}
+	
+	private String getPlayer2Name() {
+		return this.player2NameInput.getText().toString();
 	}
 
 
