@@ -81,12 +81,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.close();
 	}
 
-	private void saveMatch(String name1, String name2, int score1, int score2, String date) {
+	public void saveMatch(String name1, String name2, int score1, int score2, String date) {
 		SQLiteDatabase db = getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put("player1name", name1);
+		values.put("player2name", name2);
 		values.put("score1", score1);
-		values.put("player2name", score2);
 		values.put("score2", score2);
 		values.put("date", date);
 		if (db.insert(matchhistoryTableName, null, values) > 0) {
@@ -124,6 +124,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private void debug(String msg) {
 		Log.d("DatabaseHelper", msg);
 	}
-
-
 }

@@ -43,9 +43,7 @@ public class HistoryActivity extends Activity implements OnItemLongClickListener
 		if (matches.size() < 1) {
 			debug("No matches in DB");
 		}
-		matches.add(new Match("Per", "Kai", 1, 3, "Dafq?"));
 		matches.add(new Match("Tor Kristian", "Christian", 1, 239, "Dafq?"));
-		matches.add(new Match("Tor Kristian", "Barrack \"Killah\"", 1, 2, "Dafq?"));
 		return matches;
 	}
 	

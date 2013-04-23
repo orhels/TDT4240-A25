@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PointF;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class GameScene extends Scene implements IOnSceneTouchListener {
 
@@ -35,7 +36,8 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	private BitmapTextureAtlas backgroundTextureAtlas;
 	private TextureRegion backgroundTextureRegion;
 	private Sprite backgroundSprite;
-	public static final String winner = "winner", score = "score";
+	public static final String winner = "winner", loser = "loser", score = "scoreWin";
+	private DatabaseHelper db;
 
 	/* The container for the game preferences */
 	private SharedPreferences preference;
@@ -154,23 +156,34 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	 * Ends the game, declares a winner. Then it saves the game in the match history..
 	 */
 	private void gameOver(){
-		String winnerName = "";
-		String score = "";
+		String winnerName = "", score = "", loserName = "";
 		if(playerOne.hasWon()){
 			winnerName = playerOne.getName();
+			loserName = playerTwo.getName();
 			score = playerOne.getScore() + " - " + playerTwo.getScore();
 		}
 		if(playerTwo.hasWon()){
 			winnerName = playerTwo.getName();
+			loserName = playerOne.getName();
 			score = playerTwo.getScore() + " - " + playerOne.getScore();
 		}
 		//TODO: Save match in match history
 		Intent intent = new Intent(instance, EndOfGameActivity.class);
 		intent.putExtra(GameScene.winner, winnerName);
 		intent.putExtra(GameScene.score, score);
+		intent.putExtra(GameScene.loser, loserName);
+		saveMatch();
 		instance.startActivity(intent);
 		instance.finish();
 	}
+	
+	private void saveMatch() {
+		db = new DatabaseHelper(instance, "AirHockeyDB");
+		Log.d("GameScene", "Saving the scores, lzm");
+		db.saveMatch(playerOne.getName(), playerTwo.getName(), playerOne.getScore(), playerTwo.getScore(), "EEFOEKF");
+		db.close();
+	}
+	
 	/**
 	 * Creates the graphic background in the match
 	 */
