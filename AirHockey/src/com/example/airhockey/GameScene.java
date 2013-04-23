@@ -116,12 +116,9 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		this.puck.initPuck();
 		this.attachChild(this.puck.getSprite());
 		final Intent intent = this.instance.getIntent();
-		if (intent.hasExtra(NewGameActivity.player1Name)
-				&& intent.hasExtra(NewGameActivity.player2Name)) {
-			this.playerOne.setName(intent
-					.getStringExtra(NewGameActivity.player1Name));
-			this.playerTwo.setName(intent
-					.getStringExtra(NewGameActivity.player2Name));
+		if (intent.hasExtra(Constants.PLAYER1NAME) && intent.hasExtra(Constants.PLAYER2NAME)) {
+			this.playerOne.setName(intent.getStringExtra(Constants.PLAYER1NAME));
+			this.playerTwo.setName(intent.getStringExtra(Constants.PLAYER2NAME));
 		}
 	}
 

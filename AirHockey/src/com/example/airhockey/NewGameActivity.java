@@ -30,9 +30,6 @@ public class NewGameActivity extends Activity implements OnClickListener,
 	private SeekBar goalSeekBar;
 	private SharedPreferences preferences;
 
-	public static final String player1Name = "player1Name",
-			player2Name = "player2Name", goalsToWin = "goalsToWin";
-
 	@Override
 	public void onCreate(final Bundle bundle) {
 		super.onCreate(bundle);
@@ -46,18 +43,14 @@ public class NewGameActivity extends Activity implements OnClickListener,
 		// TODO Auto-generated method stub
 		this.player1NameInput = (EditText) this
 				.findViewById(R.id.player1NameInput);
-		this.player1NameInput.setText(this.preferences.getString(
-				NewGameActivity.player1Name, ""));
+		this.player1NameInput.setText(this.preferences.getString(Constants.PLAYER1NAME, ""));
 		this.player1NameInput.addTextChangedListener(this);
-		this.player2NameInput = (EditText) this
-				.findViewById(R.id.player2NameInput);
-		this.player2NameInput.setText(this.preferences.getString(
-				NewGameActivity.player2Name, ""));
+		this.player2NameInput = (EditText) this.findViewById(R.id.player2NameInput);
+		this.player2NameInput.setText(this.preferences.getString(Constants.PLAYER2NAME, ""));
 		this.player2NameInput.addTextChangedListener(this);
 		this.goalTextView = (TextView) this.findViewById(R.id.goalTextView);
 		this.goalSeekBar = (SeekBar) this.findViewById(R.id.goalSeekBar);
-		this.goalSeekBar.setProgress(Integer.parseInt(this.preferences
-				.getString(NewGameActivity.goalsToWin, "5")) - 5);
+		this.goalSeekBar.setProgress(Integer.parseInt(this.preferences.getString(Constants.GOALSTOWIN, "5")) - 5);
 		this.goalTextView.setText("" + (this.goalSeekBar.getProgress() + 5));
 		this.goalSeekBar.setOnSeekBarChangeListener(this);
 		((Button) this.findViewById(R.id.startButton)).setOnClickListener(this);
@@ -93,8 +86,8 @@ public class NewGameActivity extends Activity implements OnClickListener,
 		switch (v.getId()) {
 		case R.id.startButton:
 			final Intent intent = new Intent(this, GameActivity.class);
-			intent.putExtra(NewGameActivity.player1Name, this.getPlayer1Name());
-			intent.putExtra(NewGameActivity.player2Name, this.getPlayer2Name());
+			intent.putExtra(Constants.PLAYER1NAME, this.getPlayer1Name());
+			intent.putExtra(Constants.PLAYER2NAME, this.getPlayer2Name());
 			this.startActivity(intent);
 			this.finish();
 			break;
@@ -106,7 +99,7 @@ public class NewGameActivity extends Activity implements OnClickListener,
 			final boolean fromUser) {
 		// TODO Auto-generated method stub
 		this.goalTextView.setText("" + (progress + 5));
-		this.writePreference(NewGameActivity.goalsToWin, "" + (progress + 5));
+		this.writePreference(Constants.GOALSTOWIN, "" + (progress + 5));
 	}
 
 	@Override
@@ -123,8 +116,8 @@ public class NewGameActivity extends Activity implements OnClickListener,
 
 	@Override
 	public void afterTextChanged(final Editable s) {
-		this.writePreference(NewGameActivity.player1Name, this.getPlayer1Name());
-		this.writePreference(NewGameActivity.player2Name, this.getPlayer2Name());
+		this.writePreference(Constants.PLAYER1NAME, this.getPlayer1Name());
+		this.writePreference(Constants.PLAYER2NAME, this.getPlayer2Name());
 	}
 
 	private String getPlayer1Name() {
