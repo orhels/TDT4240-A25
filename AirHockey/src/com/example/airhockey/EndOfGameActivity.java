@@ -28,8 +28,6 @@ public class EndOfGameActivity extends Activity implements OnClickListener
 		configureActionBar();
 	}
 
-
-
 	private void initializeUI() {
 		winnerTextView = (TextView) findViewById(R.id.winnerTextView);
 		winnerTextView.setText(winnerName + " won!" + "\nScore: " + score);
