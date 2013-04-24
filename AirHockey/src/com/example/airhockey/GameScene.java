@@ -1,6 +1,7 @@
 package com.example.airhockey;
 
 import org.andengine.engine.camera.Camera;
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
@@ -16,6 +17,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PointF;
 import android.preference.PreferenceManager;
+
 
 /**
  * @author G25
@@ -44,8 +46,12 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	/* The container for the game preferences */
 	private final SharedPreferences preference;
 
-	/* Preference keys */
-
+	/*Goal graphic items*/
+	Rectangle goaltem1;
+	Rectangle goaltem2;
+	Rectangle goaltem3;
+	Rectangle goaltem4;
+	
 	/**
 	 * Constructor
 	 */
@@ -95,7 +101,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		this.attachChild(this.playerTwoGoalsText);
 		this.attachChild(this.playerOneGoalsText);
 		
-		/* Adding goal graphic */
+
 		
 
 	}
@@ -103,6 +109,20 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	private void initializeGoals() {
 		this.playerOneGoal = new Goal(100, this.mCamera.getWidth() - 100);
 		this.playerTwoGoal = new Goal(100, this.mCamera.getWidth() - 100);
+		
+		/*Goal graphics*/
+		goaltem1 = new Rectangle(0, 0, 110, 5, instance.getVertexBufferObjectManager());
+		goaltem2 = new Rectangle(this.mCamera.getWidth()-110, 0, 110, 5, instance.getVertexBufferObjectManager());
+		goaltem3 = new Rectangle(0, this.mCamera.getHeight()-5, 110, 5, instance.getVertexBufferObjectManager());
+		goaltem4 = new Rectangle(this.mCamera.getWidth()-110, this.mCamera.getHeight()-5, 110, 5, instance.getVertexBufferObjectManager());
+		goaltem1.setColor(Color.BLACK);
+		goaltem2.setColor(Color.BLACK);
+		goaltem3.setColor(Color.BLACK);
+		goaltem4.setColor(Color.BLACK);
+		this.attachChild(goaltem1);
+		this.attachChild(goaltem2);
+		this.attachChild(goaltem3);
+		this.attachChild(goaltem4);
 	}
 
 	/**
