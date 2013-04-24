@@ -100,10 +100,6 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 						- (this.playerOneGoalsText.getWidth() / 2));
 		this.attachChild(this.playerTwoGoalsText);
 		this.attachChild(this.playerOneGoalsText);
-		
-
-		
-
 	}
 
 	private void initializeGoals() {
