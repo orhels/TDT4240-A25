@@ -152,8 +152,11 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 	 * Method for moving the puck. Called on every update
 	 */
 	public void update() {
+		if(quitBoxIsUp){
+			return;
+		}
 		this.puck.updatePuck();
-		this.checkScore();
+		this.checkScore();			
 	}
 
 	/**
@@ -258,6 +261,9 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene,
 			final TouchEvent pSceneTouchEvent) {
+		if(quitBoxIsUp){
+			return false;
+		}
 		final float yPos = pSceneTouchEvent.getY();
 		if (yPos < (this.mCamera.getHeight() / 2)) {
 			if (pSceneTouchEvent.isActionMove()) {
