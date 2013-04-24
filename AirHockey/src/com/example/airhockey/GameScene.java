@@ -2,7 +2,9 @@ package com.example.airhockey;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.scene.IOnAreaTouchListener;
 import org.andengine.entity.scene.IOnSceneTouchListener;
+import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
@@ -23,7 +25,7 @@ import android.preference.PreferenceManager;
  * @author G25
  * @version 1.0
  */
-public class GameScene extends Scene implements IOnSceneTouchListener {
+public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTouchListener{
 
 	private final Camera mCamera;
 	private final GameActivity instance;
@@ -52,6 +54,11 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 	Rectangle goaltem3;
 	Rectangle goaltem4;
 	
+	Text yesQuitText;
+	Text noQuitText;
+	Boolean quitBoxIsUp;
+	Rectangle quitBox;
+	
 	/**
 	 * Constructor
 	 */
@@ -78,6 +85,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 
 		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne
 				.getMallet(), this.playerTwo.getMallet(), this.puck));
+		quitBoxIsUp = false;
 	}
 
 	/**
@@ -298,6 +306,10 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 		this.playerTwo.getMallet().getSprite().detachSelf();
 		this.puck.getSprite().detachSelf();
 		this.backgroundSprite.detachSelf();
+		this.goaltem1.detachSelf();
+		this.goaltem2.detachSelf();
+		this.goaltem3.detachSelf();
+		this.goaltem4.detachSelf();
 	}
 
 	public Goal getPlayerOneGoal() {
@@ -306,5 +318,39 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 
 	public Goal getPlayerTwoGoal() {
 		return this.playerTwoGoal;
+	}
+	
+	public void showQuitBox(){
+		// TODO: Add "Do you want to quit?" graphics
+		quitBoxIsUp = true;
+		quitBox = new Rectangle(0, 0, 300, 200, instance.getVertexBufferObjectManager());
+		quitBox.setPosition(mCamera.getWidth()/2 - quitBox.getWidth()/2, mCamera.getHeight()/2 - quitBox.getHeight()/2);
+		Text quitText= new Text(0, 0, instance.mFont, "Quit?", instance.getVertexBufferObjectManager());
+		yesQuitText = new Text(0, 0, instance.mFont, "Yes", instance.getVertexBufferObjectManager());
+		noQuitText = new Text(0, 0, instance.mFont, "No", instance.getVertexBufferObjectManager());
+		quitBox.attachChild(quitText);
+		quitBox.attachChild(yesQuitText);
+		quitBox.attachChild(noQuitText);
+		setOnAreaTouchListener(this);
+		registerTouchArea(yesQuitText);
+		registerTouchArea(noQuitText);
+		quitText.setPosition(quitBox.getWidth()/2-quitText.getWidth()/2, 0);
+		yesQuitText.setPosition(10,quitBox.getHeight()-yesQuitText.getHeight()-10);
+		noQuitText.setPosition(quitBox.getWidth()-noQuitText.getWidth()-10, quitBox.getHeight()-noQuitText.getHeight()-10);
+		attachChild(quitBox);
+	}
+
+	@Override
+	public boolean onAreaTouched(TouchEvent pSceneTouchEvent,
+			ITouchArea pTouchArea, float pTouchAreaLocalX,
+			float pTouchAreaLocalY) {
+		if(pSceneTouchEvent.getX()<mCamera.getWidth()/2){
+			destroySprites();
+			instance.finish();
+		}else{
+			quitBoxIsUp = false;
+			detachChild(quitBox);
+		}
+		return false;
 	}
 }
