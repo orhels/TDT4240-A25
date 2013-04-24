@@ -94,7 +94,7 @@ public class SettingsActivity extends Activity implements
 		this.mBallSpeed.setOnSeekBarChangeListener(this);
 		this.mBallSpeed.setProgress(Integer.parseInt(this.preferences
 				.getString(Constants.BALLSPEED, "0")));
-		this.mBallSpeed.setMax(9);
+		this.mBallSpeed.setMax(7);
 		this.updateHeader();
 	}
 
@@ -157,7 +157,7 @@ public class SettingsActivity extends Activity implements
 			final boolean fromUser) {
 		if (fromUser) {
 			this.writePreference(Constants.BALLSPEED,
-					String.valueOf(progress + 1));
+					String.valueOf(progress + 3));
 			this.updateHeader();
 		}
 	}

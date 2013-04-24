@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 /**
@@ -36,9 +37,9 @@ public class EndOfGameActivity extends Activity implements OnClickListener {
 		this.winnerTextView = (TextView) this.findViewById(R.id.winnerTextView);
 		this.winnerTextView.setText(this.winnerName + " won!" + "\nScore: "
 				+ this.score);
-		((Button) this.findViewById(R.id.rematchButton))
+		((ImageButton) this.findViewById(R.id.rematchButton))
 				.setOnClickListener(this);
-		((Button) this.findViewById(R.id.mainMenuButton))
+		((ImageButton) this.findViewById(R.id.mainMenuButton))
 				.setOnClickListener(this);
 	}
 

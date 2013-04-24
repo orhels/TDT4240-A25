@@ -1,6 +1,6 @@
 package com.example.airhockey;
 
-import android.app.ActionBar;
+import android.app.ActionBar; 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +11,7 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -53,7 +53,7 @@ public class NewGameActivity extends Activity implements OnClickListener,
 		this.goalSeekBar.setProgress(Integer.parseInt(this.preferences.getString(Constants.GOALSTOWIN, "5")) - 5);
 		this.goalTextView.setText("" + (this.goalSeekBar.getProgress() + 5));
 		this.goalSeekBar.setOnSeekBarChangeListener(this);
-		((Button) this.findViewById(R.id.startButton)).setOnClickListener(this);
+		((ImageButton) this.findViewById(R.id.startButton)).setOnClickListener(this);
 	}
 
 	private void fetchPreferences() {

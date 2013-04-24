@@ -58,7 +58,8 @@
 	    android:layout_height="wrap_content"
 	    android:max="25" />
 
-	<Button
+	<ImageButton
+	    android:background="@drawable/selector_start"
 	    android:id="@+id/startButton"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"

@@ -9,16 +9,19 @@
         android:layout_below="@+id/winnerTextView"
         android:layout_marginTop="58dp" >
 
-        <Button
+        <ImageButton
+            android:background="@drawable/selector_rematch"
             android:id="@+id/rematchButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_weight="1"
             android:text="@string/rematch_button" />
 
-        <Button
+        <ImageButton
+            android:background="@drawable/selector_mainmenu"
             android:id="@+id/mainMenuButton"
-            android:layout_width="fill_parent"
+            android:layout_toRightOf="@+id/rematchButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/main_menu_button" />
