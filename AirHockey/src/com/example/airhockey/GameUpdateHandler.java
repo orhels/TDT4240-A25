@@ -46,7 +46,7 @@ public class GameUpdateHandler implements IUpdateHandler {
 		if (distance <= minDistance){
 			handleCollision(mallet2, distance);
 		}
-
+		
 		GameActivity.getInstance().getCurrentScene().update();
 
 	}

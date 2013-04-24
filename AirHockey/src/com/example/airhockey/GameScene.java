@@ -92,9 +92,11 @@ public class GameScene extends Scene implements IOnSceneTouchListener {
 				this.mCamera.getWidth() - 75,
 				((this.mCamera.getHeight() * 3) / 4)
 						- (this.playerOneGoalsText.getWidth() / 2));
-		// TODO: Add "WIN" text n stuff
 		this.attachChild(this.playerTwoGoalsText);
 		this.attachChild(this.playerOneGoalsText);
+		
+		/* Adding goal graphic */
+		
 
 	}
 
