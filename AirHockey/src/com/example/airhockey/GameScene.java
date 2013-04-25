@@ -49,15 +49,15 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 	private final SharedPreferences preference;
 
 	/*Goal graphic items*/
-	Rectangle goaltem1;
-	Rectangle goaltem2;
-	Rectangle goaltem3;
-	Rectangle goaltem4;
+	private Rectangle goaltem1;
+	private Rectangle goaltem2;
+	private Rectangle goaltem3;
+	private Rectangle goaltem4;
 	
-	Text yesQuitText;
-	Text noQuitText;
-	Boolean quitBoxIsUp;
-	Rectangle quitBox;
+	private Text yesQuitText;
+	private Text noQuitText;
+	private Boolean quitBoxIsUp;
+	private Rectangle quitBox;
 	
 	/**
 	 * Constructor
@@ -65,13 +65,10 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 	public GameScene() {
 		this.instance = GameActivity.getInstance();
 		this.mCamera = this.instance.mCamera;
-		this.preference = PreferenceManager
-				.getDefaultSharedPreferences(this.instance);
+		this.preference = PreferenceManager.getDefaultSharedPreferences(this.instance);
 		try {
-			this.goalsToWin = Integer.parseInt(this.preference.getString(
-					"goalsToWin", "5"));
-			this.puck.setSpeedMultiplier(Float.parseFloat(this.preference
-					.getString(Constants.BALLSPEED, "1")));
+			this.goalsToWin = Integer.parseInt(this.preference.getString( "goalsToWin", "5"));
+			this.puck.setSpeedMultiplier(Float.parseFloat(this.preference.getString(Constants.BALLSPEED, "5")));
 		} catch (final Exception e) {
 			// Catches formatting errors
 			this.goalsToWin = 5;
@@ -83,9 +80,8 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 		this.addGoalText();
 		this.initializePlayers();
 
-		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne
-				.getMallet(), this.playerTwo.getMallet(), this.puck));
-		quitBoxIsUp = false;
+		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne.getMallet(), this.playerTwo.getMallet(), this.puck));
+		this.quitBoxIsUp = false;
 	}
 
 	/**
@@ -115,18 +111,18 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 		this.playerTwoGoal = new Goal(100, this.mCamera.getWidth() - 100);
 		
 		/*Goal graphics*/
-		goaltem1 = new Rectangle(0, 0, 110, 5, instance.getVertexBufferObjectManager());
-		goaltem2 = new Rectangle(this.mCamera.getWidth()-110, 0, 110, 5, instance.getVertexBufferObjectManager());
-		goaltem3 = new Rectangle(0, this.mCamera.getHeight()-5, 110, 5, instance.getVertexBufferObjectManager());
-		goaltem4 = new Rectangle(this.mCamera.getWidth()-110, this.mCamera.getHeight()-5, 110, 5, instance.getVertexBufferObjectManager());
-		goaltem1.setColor(Color.BLACK);
-		goaltem2.setColor(Color.BLACK);
-		goaltem3.setColor(Color.BLACK);
-		goaltem4.setColor(Color.BLACK);
-		this.attachChild(goaltem1);
-		this.attachChild(goaltem2);
-		this.attachChild(goaltem3);
-		this.attachChild(goaltem4);
+		this.goaltem1 = new Rectangle(0, 0, 110, 5, instance.getVertexBufferObjectManager());
+		this.goaltem2 = new Rectangle(this.mCamera.getWidth()-110, 0, 110, 5, instance.getVertexBufferObjectManager());
+		this.goaltem3 = new Rectangle(0, this.mCamera.getHeight()-5, 110, 5, instance.getVertexBufferObjectManager());
+		this.goaltem4 = new Rectangle(this.mCamera.getWidth()-110, this.mCamera.getHeight()-5, 110, 5, instance.getVertexBufferObjectManager());
+		this.goaltem1.setColor(Color.BLACK);
+		this.goaltem2.setColor(Color.BLACK);
+		this.goaltem3.setColor(Color.BLACK);
+		this.goaltem4.setColor(Color.BLACK);
+		this.attachChild(this.goaltem1);
+		this.attachChild(this.goaltem2);
+		this.attachChild(this.goaltem3);
+		this.attachChild(this.goaltem4);
 	}
 
 	/**
