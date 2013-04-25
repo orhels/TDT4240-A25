@@ -56,8 +56,9 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 	
 	private Text yesQuitText;
 	private Text noQuitText;
-	private PlayState playState;
 	private Rectangle quitBox;
+	private PlayState playState;
+	private PlayState winState;
 	
 	/**
 	 * Constructor
@@ -83,6 +84,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne.getMallet(), this.playerTwo.getMallet(), this.puck));
 
 		this.playState = PlayState.PLAYING;
+		this.winState = PlayState.PLAYING;
 	}
 
 	/**
@@ -325,7 +327,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 	
 	public void showQuitBox(){
 		// TODO: Add "Do you want to quit?" graphics
-		playState = PlayState.PAUSED;
+		this.playState = PlayState.PAUSED;
 		quitBox = new Rectangle(0, 0, 300, 200, instance.getVertexBufferObjectManager());
 		quitBox.setPosition(mCamera.getWidth()/2 - quitBox.getWidth()/2, mCamera.getHeight()/2 - quitBox.getHeight()/2);
 		Text quitText= new Text(0, 0, instance.mFont, "Quit?", instance.getVertexBufferObjectManager());
