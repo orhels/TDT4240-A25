@@ -56,9 +56,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 	
 	private Text yesQuitText;
 	private Text noQuitText;
-
 	private PlayState playState;
-
 	private Rectangle quitBox;
 	
 	/**
@@ -83,6 +81,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 		this.initializePlayers();
 
 		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne.getMallet(), this.playerTwo.getMallet(), this.puck));
+
 		this.playState = PlayState.PLAYING;
 	}
 
