@@ -36,17 +36,17 @@ public class GameUpdateHandler implements IUpdateHandler {
 		this.mallet2.updateSpeed();
 		double distance = this.mallet1.getDistanceFromPoint(
 				this.puck.getOrigoX(), this.puck.getOrigoY());
-		double minDistance = this.mallet1.getRadius()
-				+ this.puck.getRadius();
+		double minDistance = this.mallet1.getRadius() + this.puck.getRadius();
 		if (distance <= minDistance) {
 			this.handleCollision(this.mallet1, distance);
 		}
-		distance = mallet2.getDistanceFromPoint(puck.getOrigoX(), puck.getOrigoY());
-		minDistance = mallet2.getRadius() + puck.getRadius();
-		if (distance <= minDistance){
-			handleCollision(mallet2, distance);
+		distance = this.mallet2.getDistanceFromPoint(this.puck.getOrigoX(),
+				this.puck.getOrigoY());
+		minDistance = this.mallet2.getRadius() + this.puck.getRadius();
+		if (distance <= minDistance) {
+			this.handleCollision(this.mallet2, distance);
 		}
-		
+
 		GameActivity.getInstance().getCurrentScene().update();
 
 	}

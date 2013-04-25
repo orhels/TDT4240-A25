@@ -14,7 +14,7 @@ public class Constants {
 	public static final String WINNER = "winner";
 	public static final String LOSER = "loser";
 	public static final String SCORE = "scoreWin";
-	
+
 	public static final String PLAYER1NAME = "player1Name";
 	public static final String PLAYER2NAME = "player2Name";
 	public static final String GOALSTOWIN = "goalsToWin";

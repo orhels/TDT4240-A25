@@ -6,8 +6,8 @@ package com.example.airhockey;
  */
 public class Match {
 
-	private String player1name, player2name, date;
-	private int player1score, player2score;
+	private final String player1name, player2name, date;
+	private final int player1score, player2score;
 
 	public Match(final String player1name, final String player2name,
 			final int player1score, final int player2score, final String date) {

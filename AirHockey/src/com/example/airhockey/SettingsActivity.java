@@ -34,16 +34,19 @@ public class SettingsActivity extends Activity implements
 	}
 
 	private void initializeUI() {
-		this.speedHeader = (TextView) this.findViewById(R.id.settings_ball_speed_header);
+		this.speedHeader = (TextView) this
+				.findViewById(R.id.settings_ball_speed_header);
 		this.initializeRadioGroups();
 		this.initializeSeekBar();
 	}
 
 	private void initializeRadioGroups() {
-		this.mMalletSize = (RadioGroup) this.findViewById(R.id.settings_mallet_radio_group);
+		this.mMalletSize = (RadioGroup) this
+				.findViewById(R.id.settings_mallet_radio_group);
 		this.checkMalletSize();
 		this.mMalletSize.setOnCheckedChangeListener(this);
-		this.mBallSize = (RadioGroup) this.findViewById(R.id.settings_ball_radio_group);
+		this.mBallSize = (RadioGroup) this
+				.findViewById(R.id.settings_ball_radio_group);
 		this.checkBallSize();
 		this.mBallSize.setOnCheckedChangeListener(this);
 	}
@@ -63,7 +66,8 @@ public class SettingsActivity extends Activity implements
 	}
 
 	private void checkMalletSize() {
-		final String checked = this.preferences.getString(Constants.MALLETSIZE, Constants.MEDIUM);
+		final String checked = this.preferences.getString(Constants.MALLETSIZE,
+				Constants.MEDIUM);
 		if (checked.equals(Constants.SMALL)) {
 			this.mMalletSize.check(R.id.settings_mallet_small);
 		} else if (checked.equals(Constants.MEDIUM)) {
@@ -74,7 +78,8 @@ public class SettingsActivity extends Activity implements
 	}
 
 	private void checkBallSize() {
-		final String checked = this.preferences.getString(Constants.PUCKSIZE, Constants.MEDIUM);
+		final String checked = this.preferences.getString(Constants.PUCKSIZE,
+				Constants.MEDIUM);
 		if (checked.equals(Constants.SMALL)) {
 			this.mBallSize.check(R.id.settings_ball_small);
 		} else if (checked.equals(Constants.MEDIUM)) {
@@ -87,7 +92,8 @@ public class SettingsActivity extends Activity implements
 	private void initializeSeekBar() {
 		this.mBallSpeed = (SeekBar) this.findViewById(R.id.settings_ball_speed);
 		this.mBallSpeed.setOnSeekBarChangeListener(this);
-		this.mBallSpeed.setProgress(Integer.parseInt(this.preferences.getString(Constants.BALLSPEED, "4")));
+		this.mBallSpeed.setProgress(Integer.parseInt(this.preferences
+				.getString(Constants.BALLSPEED, "4")));
 		this.mBallSpeed.setMax(9);
 		this.updateHeader();
 	}
@@ -147,7 +153,8 @@ public class SettingsActivity extends Activity implements
 	}
 
 	@Override
-	public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
+	public void onProgressChanged(final SeekBar seekBar, final int progress,
+			final boolean fromUser) {
 		if (fromUser) {
 			this.writePreference(Constants.BALLSPEED, String.valueOf(progress));
 			this.updateHeader();

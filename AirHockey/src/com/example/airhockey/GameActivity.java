@@ -4,9 +4,7 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.text.Text;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
@@ -69,8 +67,8 @@ public class GameActivity extends SimpleBaseGameActivity {
 
 	@Override
 	public void onBackPressed() {
-		scene.showQuitBox();
-		
+		this.scene.showQuitBox();
+
 	}
 
 	@Override

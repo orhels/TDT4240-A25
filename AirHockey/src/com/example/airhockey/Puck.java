@@ -28,7 +28,7 @@ public enum Puck {
 	/* The total velocity of the puck, a vector of speed and direction */
 	private PointF velocity;
 	/* The size of the puck */
-	private int imageSize = 40, offSet = 10;
+	private int imageSize = 40;
 	private String imagePath = "game/puck_";
 	/* The max allowed velocity of the puck */
 	private float maxVelocity;
@@ -56,10 +56,11 @@ public enum Puck {
 				this.instance).getString("Puck", "Medium");
 		this.setSize(size);
 		this.puckAtlas = new BitmapTextureAtlas(
-				this.instance.getTextureManager(), imageSize, imageSize);
+				this.instance.getTextureManager(), this.imageSize,
+				this.imageSize);
 		this.puckTexture = BitmapTextureAtlasTextureRegionFactory
-				.createFromAsset(this.puckAtlas, this.instance,
-						imagePath, 0, 0);
+				.createFromAsset(this.puckAtlas, this.instance, this.imagePath,
+						0, 0);
 		this.sprite = new Sprite(this.mCamera.getCenterX()
 				- (this.puckTexture.getHeight() / 2), this.mCamera.getCenterY()
 				- (this.puckTexture.getWidth() / 2), this.puckTexture,
@@ -80,15 +81,12 @@ public enum Puck {
 
 		if (size.equals("Small")) {
 			this.imageSize = 40;
-			this.offSet = 10;
 			this.imagePath = "game/puck_small.png";
 		} else if (size.equals("Medium")) {
 			this.imageSize = 76;
-			this.offSet = 20;
 			this.imagePath = "game/puck_medium.png";
 		} else if (size.equals("Large")) {
 			this.imageSize = 112;
-			this.offSet = 30;
 			this.imagePath = "game/puck_big.png";
 		}
 	}
@@ -226,8 +224,7 @@ public enum Puck {
 	 */
 
 	public float getOrigoX() {
-		final float origoX = this.sprite.getX()
-				+ (this.sprite.getWidth() / 2);
+		final float origoX = this.sprite.getX() + (this.sprite.getWidth() / 2);
 		return origoX;
 	}
 
@@ -237,8 +234,7 @@ public enum Puck {
 	 * @return
 	 */
 	public float getOrigoY() {
-		final float origoY = this.sprite.getY()
-				+ (this.sprite.getHeight() / 2);
+		final float origoY = this.sprite.getY() + (this.sprite.getHeight() / 2);
 		return origoY;
 	}
 
@@ -270,7 +266,7 @@ public enum Puck {
 	}
 
 	public float getRadius() {
-		return imageSize / 2;
+		return this.imageSize / 2;
 	}
 
 	/**
