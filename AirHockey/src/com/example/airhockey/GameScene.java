@@ -83,16 +83,8 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 		this.initializeGoals();
 		this.addGoalText();
 		this.initializePlayers();
-
-
-		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne
-				.getMallet(), this.playerTwo.getMallet(), this.puck));
+		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne.getMallet(), this.playerTwo.getMallet(), this.puck));
 		this.playState = PlayState.PLAYING;
-		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne.getMallet(), this.playerTwo.getMallet(), this.puck));
-		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne.getMallet(), this.playerTwo.getMallet(), this.puck));
-
-		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne.getMallet(), this.playerTwo.getMallet(), this.puck));
-		this.quitBoxIsUp = false;
 
 	}
 
