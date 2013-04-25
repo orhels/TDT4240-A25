@@ -56,23 +56,9 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 	
 	private Text yesQuitText;
 	private Text noQuitText;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 	private PlayState playState;
 
-	private Boolean quitBoxIsUp;
-
-=======
-	private Boolean quitBoxIsUp;
->>>>>>> f6f7caefbc6c75339b754482e9661aaa5861aba7
-=======
-	private Boolean quitBoxIsUp;
->>>>>>> f6f7caefbc6c75339b754482e9661aaa5861aba7
-=======
-	private Boolean quitBoxIsUp;
->>>>>>> f6f7caefbc6c75339b754482e9661aaa5861aba7
 	private Rectangle quitBox;
 	
 	/**
@@ -95,26 +81,9 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 		this.initializeGoals();
 		this.addGoalText();
 		this.initializePlayers();
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne.getMallet(), this.playerTwo.getMallet(), this.puck));
 		this.playState = PlayState.PLAYING;
-
-<<<<<<< HEAD
-=======
-		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne.getMallet(), this.playerTwo.getMallet(), this.puck));
-		this.quitBoxIsUp = false;
->>>>>>> f6f7caefbc6c75339b754482e9661aaa5861aba7
-=======
-
-		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne.getMallet(), this.playerTwo.getMallet(), this.puck));
-		this.quitBoxIsUp = false;
->>>>>>> f6f7caefbc6c75339b754482e9661aaa5861aba7
-=======
-
-		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne.getMallet(), this.playerTwo.getMallet(), this.puck));
-		this.quitBoxIsUp = false;
->>>>>>> f6f7caefbc6c75339b754482e9661aaa5861aba7
 	}
 
 	/**
