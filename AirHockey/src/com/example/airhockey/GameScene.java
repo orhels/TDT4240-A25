@@ -56,7 +56,11 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 	
 	private Text yesQuitText;
 	private Text noQuitText;
+
 	private PlayState playState;
+
+	private Boolean quitBoxIsUp;
+
 	private Rectangle quitBox;
 	
 	/**
@@ -80,11 +84,16 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 		this.addGoalText();
 		this.initializePlayers();
 
+
 		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne
 				.getMallet(), this.playerTwo.getMallet(), this.puck));
 		this.playState = PlayState.PLAYING;
 		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne.getMallet(), this.playerTwo.getMallet(), this.puck));
 		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne.getMallet(), this.playerTwo.getMallet(), this.puck));
+
+		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne.getMallet(), this.playerTwo.getMallet(), this.puck));
+		this.quitBoxIsUp = false;
+
 	}
 
 	/**
