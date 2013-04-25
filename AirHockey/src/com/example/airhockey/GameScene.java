@@ -49,15 +49,15 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 	private final SharedPreferences preference;
 
 	/*Goal graphic items*/
-	Rectangle goaltem1;
-	Rectangle goaltem2;
-	Rectangle goaltem3;
-	Rectangle goaltem4;
+	private Rectangle goaltem1;
+	private Rectangle goaltem2;
+	private Rectangle goaltem3;
+	private Rectangle goaltem4;
 	
-	Text yesQuitText;
-	Text noQuitText;
-	Boolean quitBoxIsUp;
-	Rectangle quitBox;
+	private Text yesQuitText;
+	private Text noQuitText;
+	private PlayState playState;
+	private Rectangle quitBox;
 	
 	/**
 	 * Constructor
@@ -85,7 +85,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 
 		this.registerUpdateHandler(new GameUpdateHandler(this.playerOne
 				.getMallet(), this.playerTwo.getMallet(), this.puck));
-		quitBoxIsUp = false;
+		playState = PlayState.PLAYING;
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 	 * Method for moving the puck. Called on every update
 	 */
 	public void update() {
-		if(quitBoxIsUp){
+		if(playState==playState.PAUSED){
 			return;
 		}
 		this.puck.updatePuck();
@@ -261,7 +261,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene,
 			final TouchEvent pSceneTouchEvent) {
-		if(quitBoxIsUp){
+		if(playState==PlayState.PAUSED){
 			return false;
 		}
 		final float yPos = pSceneTouchEvent.getY();
@@ -328,7 +328,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 	
 	public void showQuitBox(){
 		// TODO: Add "Do you want to quit?" graphics
-		quitBoxIsUp = true;
+		playState = PlayState.PAUSED;
 		quitBox = new Rectangle(0, 0, 300, 200, instance.getVertexBufferObjectManager());
 		quitBox.setPosition(mCamera.getWidth()/2 - quitBox.getWidth()/2, mCamera.getHeight()/2 - quitBox.getHeight()/2);
 		Text quitText= new Text(0, 0, instance.mFont, "Quit?", instance.getVertexBufferObjectManager());
@@ -354,7 +354,7 @@ public class GameScene extends Scene implements IOnSceneTouchListener, IOnAreaTo
 			destroySprites();
 			instance.finish();
 		}else{
-			quitBoxIsUp = false;
+			playState = PlayState.PLAYING;
 			detachChild(quitBox);
 		}
 		return false;
