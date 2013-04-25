@@ -72,7 +72,11 @@ public class Mallet {
 				this.instance.getVertexBufferObjectManager());
 		this.malletAtlas.load();
 	}
-
+	
+	/**
+	 * 
+	 * @param size
+	 */
 	private void setSize(final String size) {
 
 		if (size.equals(Constants.SMALL)) 
@@ -128,7 +132,13 @@ public class Mallet {
 			this.setPosition(this.sprite.getX() + x, this.sprite.getY() + y);
 		}
 	}
-
+	
+	/**
+	* Returns the mallet distance from the given point
+	* @param posX The x position of the point as a float.
+	* @param posY The y position of the point as a float.
+	* @return
+	*/
 	public double getDistanceFromPoint(float posX, float posY) {
 		//float radius = getRadius();
 		//float x = posX - (sprite.getX() + radius);

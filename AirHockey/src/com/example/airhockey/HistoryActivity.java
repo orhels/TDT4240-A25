@@ -49,7 +49,6 @@ public class HistoryActivity extends Activity implements
 		if (matches.size() < 1) {
 			this.debug("No matches in DB");
 		}
-		matches.add(new Match("Tor Kristian", "Christian", 1, 239, "Dafq?"));
 		return matches;
 	}
 
